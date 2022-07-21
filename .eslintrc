@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "plugin:prettier/recommended",
+    "react-app",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": ["react", "@typescript-eslint"],
+  "rules": {}
+}
