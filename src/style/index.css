@@ -3,8 +3,11 @@
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
 
-body {
-  font-family: 'Noto Sans KR', sans-serif;
-  background-color: #223144;
-  color: white;
+
+@layer base {
+  body {
+    @apply bg-primary;
+    @apply text-white;
+    @apply font-sans;
+  }
 }
