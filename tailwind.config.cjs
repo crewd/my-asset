@@ -19,7 +19,7 @@ module.exports = {
         xxs: "12px"
       },
       fontFamily: {
-        sans: ["Noto Sans", 'sans-serif']
+        sans: ["Noto Sans KR", 'sans-serif']
       }
     },
   },
