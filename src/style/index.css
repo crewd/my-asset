@@ -9,5 +9,6 @@
     @apply bg-primary;
     @apply text-white;
     @apply font-sans;
+    @apply text-regular;
   }
 }
