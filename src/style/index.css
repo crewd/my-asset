@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
+
+
+@layer base {
+  body {
+    @apply bg-primary;
+    @apply text-white;
+    @apply font-sans;
+    @apply text-regular;
+  }
+}
