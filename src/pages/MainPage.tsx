@@ -17,7 +17,7 @@ const MainPage = () => {
           <Link to="/favorites">
             <Box classname="w-[100%] h-[135px] rounded-xl">
               관심종목
-            </Box>`
+            </Box>
           </Link>
           <Link to="/search">
             <Box classname="w-[100%] h-[135px] rounded-xl">
