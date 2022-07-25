@@ -1,7 +1,7 @@
-import { Route, Routes, BrowserRouter } from "react-router-dom";
-import AppLayout from "./components/layout/AppLayout"
-import Box from "./components/layout/box/Box"
-import MainPage from "./pages/MainPage";
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import AppLayout from './components/layout/AppLayout';
+import Box from './components/layout/box/Box';
+import MainPage from './pages/MainPage';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         </Routes>
       </AppLayout>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;
