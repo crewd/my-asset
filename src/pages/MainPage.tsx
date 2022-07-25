@@ -19,12 +19,12 @@ const MainPage = () => {
           </Box>
         </div>
       </div>
-      <div className="mt-[40px]">
+      <div className="my-[40px]">
         <p className="p-[5px] text-center">거래량 TOP 10</p>
         <div className="mt-[15px]">
-          <Box classname="p-[15px] rounded-t-lg border-b-2 border-primary">first</Box>
+          <Box classname="p-[15px] rounded-t-xl border-b-2 border-primary">first</Box>
           <Box classname="p-[15px] border-b-2 border-primary">2</Box>
-          <Box classname="p-[15px] rounded-b-lg">last</Box>
+          <Box classname="p-[15px] rounded-b-xl">last</Box>
         </div>
       </div>
     </div>
