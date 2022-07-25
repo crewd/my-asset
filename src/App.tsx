@@ -4,7 +4,7 @@ import Box from "./components/layout/box/Box"
 function App() {
   return (
     <AppLayout>
-      <Box classname="w-[100px]">마이에셋</Box>
+      <Box classname="w-[500px] h-[500px]">마이에셋</Box>
     </AppLayout>
   )
 }
