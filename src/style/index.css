@@ -8,5 +8,6 @@
     @apply text-white;
     @apply font-sans;
     @apply text-regular;
+    -webkit-tap-highlight-color : transparent;
   }
 }
