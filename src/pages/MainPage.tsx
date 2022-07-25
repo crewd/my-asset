@@ -21,11 +21,11 @@ const MainPage = () => {
       </div>
       <div className="mt-[40px]">
         <p className="p-[5px] text-center">거래량 TOP 10</p>
-        <Box classname="mt-[15px]">
-          <div className="p-[10px]">1</div>
-          <div className="p-[10px]">2</div>
-          <div className="p-[10px]">3</div>
-        </Box>
+        <div className="mt-[15px]">
+          <Box classname="p-[15px] rounded-none rounded-t-lg border-b-2 border-primary">first</Box>
+          <Box classname="p-[15px] rounded-none border-b-2 border-primary">2</Box>
+          <Box classname="p-[15px] rounded-none rounded-b-lg">last</Box>
+        </div>
       </div>
     </div>
   )
