@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faX } from '@fortawesome/free-solid-svg-icons';
 
-const AppLayout = ({ children }: { children: React.ReactNode }) => {
+function AppLayout({ children }: { children: React.ReactNode }) {
   const [isOpened, setIsOpened] = useState(false);
 
   const menuToggle = () => {
     setIsOpened(!isOpened);
-  }
+  };
 
   return (
     <div className="m-auto">
@@ -17,24 +17,29 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
           <Link className="w-[90%] px-[20px]" to="/">
             <h2 className="text-xl">마이에셋</h2>
           </Link>
-          <div className="sm:hidden absolute top-[5px] right-[20px]" onClick={menuToggle} >
-            {isOpened ? <FontAwesomeIcon icon={faX} size="2x" /> : <FontAwesomeIcon icon={faBars} size="2x" />}
+          <div
+            className="sm:hidden absolute top-[5px] right-[20px]"
+            onClick={menuToggle}
+          >
+            {isOpened ? (
+              <FontAwesomeIcon icon={faX} size="2x" />
+            ) : (
+              <FontAwesomeIcon icon={faBars} size="2x" />
+            )}
           </div>
-          <ul className={`sm:flex ${isOpened ? "flex" : "hidden"} sm:flex-row text-center flex-col sm:justify-end items-center w-[100%]`}>
+          <ul
+            className={`sm:flex ${
+              isOpened ? 'flex' : 'hidden'
+            } sm:flex-row text-center flex-col sm:justify-end items-center w-[100%]`}
+          >
             <li className="mx-[10px] px-[10px] sm:w-auto w-[100%]">
-              <Link to="/search">
-                종목 검색
-              </Link>
+              <Link to="/search">종목 검색</Link>
             </li>
             <li className="mx-[10px] px-[10px] sm:w-auto w-[100%]">
-              <Link to="/favorites">
-                관심종목
-              </Link>
+              <Link to="/favorites">관심종목</Link>
             </li>
             <li className="mx-[10px] px-[10px] sm:w-auto w-[100%]">
-              <Link to="/portfolio">
-                포트폴리오
-              </Link>
+              <Link to="/portfolio">포트폴리오</Link>
             </li>
           </ul>
         </nav>
@@ -43,7 +48,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
         {children}
       </div>
     </div>
-  )
+  );
 }
 
 export default AppLayout;
