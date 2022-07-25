@@ -24,9 +24,9 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
           </ul>
         </nav>
       </header>
-      <main className="max-w-[1024px] w-[100%] m-auto pt-[40px] lg:px-0 px-[20px]">
+      <div className="max-w-[1024px] w-[100%] m-auto pt-[40px] lg:px-0 px-[20px]">
         {children}
-      </main>
+      </div>
     </div>
   )
 }
