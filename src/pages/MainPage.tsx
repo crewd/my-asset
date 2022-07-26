@@ -1,3 +1,9 @@
+import {
+  faHeart,
+  faMagnifyingGlass,
+  faMagnifyingGlassChart,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQueries } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { getStockData } from '../api';
@@ -62,6 +68,8 @@ function MainPage() {
     queries: [...query],
   });
 
+  console.log(results);
+
   return (
     <div>
       <div className="grid sm:grid-cols-2 gap-[10px]">
@@ -86,10 +94,28 @@ function MainPage() {
             포트폴리오 바로가기
           </Box>
           <Link to="/favorites">
-            <Box classname="w-[100%] h-[110px] rounded-xl">관심종목</Box>
+            <Box classname="w-[100%] h-[110px] rounded-xl text-md flex justify-center items-center">
+              <div>
+                <FontAwesomeIcon
+                  className="mr-3 text-red-500"
+                  icon={faHeart}
+                  size="lg"
+                />
+                관심종목
+              </div>
+            </Box>
           </Link>
           <Link to="/search">
-            <Box classname="w-[100%] h-[110px] rounded-xl">종목 검색</Box>
+            <Box classname="w-[100%] h-[110px] rounded-xl text-md flex justify-center items-center">
+              <div>
+                <FontAwesomeIcon
+                  className="mr-3"
+                  icon={faMagnifyingGlass}
+                  size="lg"
+                />
+                종목 검색
+              </div>
+            </Box>
           </Link>
         </div>
       </div>
