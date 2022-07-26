@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Box from '../components/layout/box/Box';
 
@@ -36,24 +35,22 @@ const myData = [
 ];
 
 function MainPage() {
-  const [totalAsset, setTotalAsset] = useState(0);
-
   const myStockNames: string[] = [];
   const myStockPrice: number[] = [];
 
-  useEffect(() => {
-    if (!myData) {
-      return;
-    }
-    myData.map((portfolio) =>
-      portfolio.stock.map(
-        (stock) => (
-          myStockNames.push(stock.stockName),
-          myStockPrice.push(Number(stock.price))
-        ),
+  myData.map((portfolio) =>
+    portfolio.stock.map(
+      (stock) => (
+        myStockNames.push(stock.stockName),
+        myStockPrice.push(Number(stock.price))
       ),
-    );
-  }, [myData]);
+    ),
+  );
+
+  const totalPrice = myStockPrice.reduce(
+    (previousValue, currentValue) => previousValue + currentValue,
+    0,
+  );
 
   return (
     <div>
@@ -61,8 +58,16 @@ function MainPage() {
         <Link to="/portfolio">
           <Box classname="w-[100%] h-[300px] rounded-xl p-[30px]">
             <div>
-              <p>총 자산</p>
-              <p></p>
+              <p className="text-lg">총 보유 자산</p>
+              <p className="text-xxl">{totalPrice}원</p>
+            </div>
+            <div className="mt-[20px] text-lg flex justify-between">
+              <p>수익률</p>
+              <p>99%</p>
+            </div>
+            <div className="mt-[10px] text-lg flex justify-between">
+              <p>평가 손익</p>
+              <p>99999원</p>
             </div>
           </Box>
         </Link>
