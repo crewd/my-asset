@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Box from '../components/layout/box/Box';
 
@@ -8,12 +9,12 @@ const myData = [
       {
         stockName: '삼성전자',
         count: 50,
-        price: '90,000',
+        price: '90000',
       },
       {
         stockName: 'lg생활건강',
         count: 50,
-        price: '760,000',
+        price: '760000',
       },
     ],
   },
@@ -23,28 +24,47 @@ const myData = [
       {
         stockName: '아시아나항공',
         count: 20,
-        price: '13,000',
+        price: '13000',
       },
       {
         stockName: '대한항공',
         count: 30,
-        price: '28,000',
+        price: '28000',
       },
     ],
   },
 ];
 
 function MainPage() {
-  const myStockArray: string[] = [];
-  const myStockName = myData.map((stock) =>
-    stock.stock.map((stock) => myStockArray.push(stock.stockName)),
-  );
-  console.log(myStockArray);
+  const [totalAsset, setTotalAsset] = useState(0);
+
+  const myStockNames: string[] = [];
+  const myStockPrice: number[] = [];
+
+  useEffect(() => {
+    if (!myData) {
+      return;
+    }
+    myData.map((portfolio) =>
+      portfolio.stock.map(
+        (stock) => (
+          myStockNames.push(stock.stockName),
+          myStockPrice.push(Number(stock.price))
+        ),
+      ),
+    );
+  }, [myData]);
+
   return (
     <div>
       <div className="grid sm:grid-cols-2 gap-[10px]">
         <Link to="/portfolio">
-          <Box classname="w-[100%] h-[300px] rounded-xl">총 자산</Box>
+          <Box classname="w-[100%] h-[300px] rounded-xl p-[30px]">
+            <div>
+              <p>총 자산</p>
+              <p></p>
+            </div>
+          </Box>
         </Link>
         <div className="grid grid-cols-2 gap-[10px]">
           <Box classname="w-[100%] h-[180px] rounded-xl col-span-2">
