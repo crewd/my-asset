@@ -81,13 +81,13 @@ function MainPage() {
                 {totalPrice.toLocaleString()}원
               </p>
             </div>
-            <div className="mt-[20px] text-lg flex justify-between">
-              <p>수익률</p>
-              <p className="font-bold">99%</p>
+            <div className="mt-[20px] flex justify-between">
+              <p className="text-md">수익률</p>
+              <p className="font-bold text-lg">99%</p>
             </div>
-            <div className="mt-[10px] text-lg flex justify-between">
-              <p>평가 손익</p>
-              <p className="font-bold">99999원</p>
+            <div className="mt-[10px] flex justify-between">
+              <p className="text-md">평가 손익</p>
+              <p className="font-bold text-lg">99999원</p>
             </div>
           </Box>
         </Link>
