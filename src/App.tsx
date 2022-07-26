@@ -2,6 +2,7 @@ import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AppLayout from './components/layout/AppLayout';
 import MainPage from './pages/MainPage';
+import SearchPage from './pages/SearchPage';
 
 function App() {
   const queryClient = new QueryClient({
@@ -22,7 +23,7 @@ function App() {
             <Route path="/favorites" />
             <Route path="/portfolio" />
             <Route path="/portfolio/:id" />
-            <Route path="/search" />
+            <Route path="/search" element={<SearchPage />} />
           </Routes>
         </AppLayout>
       </BrowserRouter>
