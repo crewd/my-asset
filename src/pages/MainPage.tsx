@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQueries } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { getStockData } from '../api';
-import Box from '../components/layout/box/Box';
+import Box from '../components/box/Box';
 
 const myData = [
   {
