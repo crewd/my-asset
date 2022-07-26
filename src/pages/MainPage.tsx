@@ -59,7 +59,7 @@ function MainPage() {
           <Box classname="w-[100%] h-[300px] rounded-xl p-[30px]">
             <div>
               <p className="text-lg">총 보유 자산</p>
-              <p className="text-xxl">{totalPrice}원</p>
+              <p className="text-xxl">{totalPrice.toLocaleString()}원</p>
             </div>
             <div className="mt-[20px] text-lg flex justify-between">
               <p>수익률</p>
