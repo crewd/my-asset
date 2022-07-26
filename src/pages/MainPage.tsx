@@ -77,20 +77,22 @@ function MainPage() {
           <Box classname="w-[100%] h-[300px] rounded-xl p-[30px]">
             <div>
               <p className="text-lg">총 보유 자산</p>
-              <p className="text-xxl">{totalPrice.toLocaleString()}원</p>
+              <p className="text-xxl font-bold">
+                {totalPrice.toLocaleString()}원
+              </p>
             </div>
             <div className="mt-[20px] text-lg flex justify-between">
               <p>수익률</p>
-              <p>99%</p>
+              <p className="font-bold">99%</p>
             </div>
             <div className="mt-[10px] text-lg flex justify-between">
               <p>평가 손익</p>
-              <p>99999원</p>
+              <p className="font-bold">99999원</p>
             </div>
           </Box>
         </Link>
         <div className="grid grid-cols-2 gap-[10px]">
-          <Box classname="w-[100%] h-[180px] rounded-xl col-span-2">
+          <Box classname="w-[100%] h-[180px] rounded-xl col-span-2 p-[20px] text-center text-md">
             포트폴리오 바로가기
           </Box>
           <Link to="/favorites">
