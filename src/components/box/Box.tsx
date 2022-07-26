@@ -5,7 +5,7 @@ function Box({
   children: React.ReactNode;
   classname: string;
 }) {
-  const styles = `bg-secondary p-[10px] shadow-xl ${classname}`;
+  const styles = `bg-secondary shadow-xl ${classname}`;
 
   return <div className={styles}>{children}</div>;
 }
