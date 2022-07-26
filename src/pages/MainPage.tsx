@@ -1,4 +1,6 @@
+import { useQueries } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
+import { getStockData } from '../api';
 import Box from '../components/layout/box/Box';
 
 const myData = [
@@ -51,6 +53,14 @@ function MainPage() {
     (previousValue, currentValue) => previousValue + currentValue,
     0,
   );
+
+  const query = myStockNames.map((stock) => {
+    return { queryKey: ['stock', stock], queryFn: () => getStockData(stock) };
+  });
+
+  const results = useQueries({
+    queries: [...query],
+  });
 
   return (
     <div>
