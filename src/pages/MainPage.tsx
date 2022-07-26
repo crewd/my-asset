@@ -40,14 +40,14 @@ function MainPage() {
           <Box classname="w-[100%] h-[300px] rounded-xl">총 자산</Box>
         </Link>
         <div className="grid grid-cols-2 gap-[10px]">
-          <Box classname="w-[100%] h-[150px] rounded-xl col-span-2">
+          <Box classname="w-[100%] h-[180px] rounded-xl col-span-2">
             포트폴리오 바로가기
           </Box>
           <Link to="/favorites">
-            <Box classname="w-[100%] h-[135px] rounded-xl">관심종목</Box>
+            <Box classname="w-[100%] h-[110px] rounded-xl">관심종목</Box>
           </Link>
           <Link to="/search">
-            <Box classname="w-[100%] h-[135px] rounded-xl">종목 검색</Box>
+            <Box classname="w-[100%] h-[110px] rounded-xl">종목 검색</Box>
           </Link>
         </div>
       </div>
