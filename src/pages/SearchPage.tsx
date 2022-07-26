@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import Box from '../components/layout/box/Box';
+import Box from '../components/box/Box';
 
 function SearchPage() {
   return (
