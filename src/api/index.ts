@@ -5,7 +5,7 @@ const baseURL =
 
 const serviceKey = `gIgWSDzCeTDpTHNna3UfLVrfBmHbLPDu8IRh%2FvJuoHy5Sp1OFCc9r6uWHIqcEpCF8pWmul9zZMDQLafiKcrx3Q%3D%3D`;
 
-export const getData = async (stockName: string) => {
+export const getStockData = async (stockName: string) => {
   const data = axios.get(
     `${baseURL}&likeItmsNm=${stockName}&serviceKey=${serviceKey}`,
   );
