@@ -18,11 +18,13 @@ function AppLayout({ children }: { children: React.ReactNode }) {
             <h2 className="text-xl">마이에셋</h2>
           </Link>
           <div
-            className="sm:hidden absolute top-[5px] right-[20px]"
+            className={`sm:hidden ${
+              !isOpened ? `top-[5px]` : `top-0`
+            } absolute right-[20px]`}
             onClick={menuToggle}
           >
             {isOpened ? (
-              <FontAwesomeIcon icon={faX} size="2x" />
+              <FontAwesomeIcon icon={faX} size="lg" />
             ) : (
               <FontAwesomeIcon icon={faBars} size="2x" />
             )}
