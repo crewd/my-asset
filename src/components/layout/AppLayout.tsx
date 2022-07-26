@@ -3,37 +3,6 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faX } from '@fortawesome/free-solid-svg-icons';
 
-const myData = {
-  portfolio: [
-    {
-      name: 'a',
-      stock1: {
-        stockName: '삼성전자',
-        count: 50,
-        price: '90,000',
-      },
-      stock2: {
-        stockName: 'lg생활건강',
-        count: 50,
-        price: '760,000',
-      },
-    },
-    {
-      name: 'b',
-      stock1: {
-        stockName: '아시아나항공',
-        count: 20,
-        price: '13,000',
-      },
-      stock2: {
-        stockName: '대한항공',
-        count: 30,
-        price: '28,000',
-      },
-    },
-  ],
-};
-
 function AppLayout({ children }: { children: React.ReactNode }) {
   const [isOpened, setIsOpened] = useState(false);
 
