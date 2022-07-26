@@ -38,14 +38,12 @@ const myData = [
 
 function MainPage() {
   const myStockNames: string[] = [];
-  const myStockPrice: number[] = [];
   const myStockTotalPrice: number[] = [];
 
   myData.map((portfolio) =>
     portfolio.stock.map(
       (stock) => (
         myStockNames.push(stock.stockName),
-        myStockPrice.push(Number(stock.price)),
         myStockTotalPrice.push(Number(stock.price) * stock.count)
       ),
     ),
