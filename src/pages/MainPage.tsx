@@ -1,38 +1,45 @@
 import { Link } from 'react-router-dom';
 import Box from '../components/layout/box/Box';
 
-const myData = {
-  portfolio: [
-    {
-      name: 'a',
-      stock1: {
+const myData = [
+  {
+    name: 'a',
+    stock: [
+      {
         stockName: '삼성전자',
         count: 50,
         price: '90,000',
       },
-      stock2: {
+      {
         stockName: 'lg생활건강',
         count: 50,
         price: '760,000',
       },
-    },
-    {
-      name: 'b',
-      stock1: {
+    ],
+  },
+  {
+    name: 'b',
+    stock: [
+      {
         stockName: '아시아나항공',
         count: 20,
         price: '13,000',
       },
-      stock2: {
+      {
         stockName: '대한항공',
         count: 30,
         price: '28,000',
       },
-    },
-  ],
-};
+    ],
+  },
+];
 
 function MainPage() {
+  const myStockArray: string[] = [];
+  const myStockName = myData.map((stock) =>
+    stock.stock.map((stock) => myStockArray.push(stock.stockName)),
+  );
+  console.log(myStockArray);
   return (
     <div>
       <div className="grid sm:grid-cols-2 gap-[10px]">
