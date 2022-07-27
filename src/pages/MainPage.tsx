@@ -134,7 +134,9 @@ function MainPage() {
         </div>
       </div>
       <div className="my-[40px]">
-        <p className="p-[5px] text-center">거래량 TOP 10</p>
+        <p className="p-[5px] text-center text-xl font-semibold">
+          거래량 TOP 10
+        </p>
         <div className="mt-[15px]">
           <List data={['코드', '주식명', '종가', '등락률']} />
           <List data={['1', '2', '3', '4']} />
