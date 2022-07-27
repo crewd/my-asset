@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import Box from '../components/box/Box';
-import Button from '../components/button/Button';
+import Box from '../../components/box/Box';
+import Button from '../../components/button/Button';
 
 function FavoritesPage() {
   return (
