@@ -7,7 +7,7 @@ import List from '../../components/box/List';
 function FavoritesPage() {
   return (
     <div>
-      <h2 className="mb-[32px] text-md font-semibold">
+      <h2 className="mb-[32px] text-xl font-semibold">
         <FontAwesomeIcon
           icon={faHeart}
           size="lg"

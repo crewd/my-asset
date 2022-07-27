@@ -5,8 +5,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQueries } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getStockData } from '../api';
+import { getStockData, stockCodeSearch } from '../api';
 import Box from '../components/box/Box';
 import List from '../components/box/List';
 
@@ -18,11 +19,15 @@ const myData = [
         stockName: '삼성전자',
         count: 50,
         price: '90000',
+        code: '051900',
+        purchasePrice: '30000',
       },
       {
         stockName: 'lg생활건강',
         count: 50,
         price: '760000',
+        code: '051900',
+        purchasePrice: '30000',
       },
     ],
   },
@@ -33,24 +38,28 @@ const myData = [
         stockName: '아시아나항공',
         count: 20,
         price: '13000',
+        code: '051900',
+        purchasePrice: '30000',
       },
       {
         stockName: '대한항공',
         count: 30,
         price: '28000',
+        code: '051900',
+        purchasePrice: '30000',
       },
     ],
   },
 ];
 
 function MainPage() {
-  const myStockNames: string[] = [];
+  const myStockCodes: string[] = [];
   const myStockTotalPrice: number[] = [];
 
   myData.map((portfolio) =>
     portfolio.stock.map(
       (stock) => (
-        myStockNames.push(stock.stockName),
+        myStockCodes.push(stock.code),
         myStockTotalPrice.push(Number(stock.price) * stock.count)
       ),
     ),
@@ -61,15 +70,17 @@ function MainPage() {
     0,
   );
 
-  const query = myStockNames.map((stock) => {
-    return { queryKey: ['stock', stock], queryFn: () => getStockData(stock) };
+  const query = myStockCodes.map((code) => {
+    return { queryKey: ['code', code], queryFn: () => stockCodeSearch(code) };
   });
 
   const results = useQueries({
     queries: [...query],
   });
 
-  console.log(results);
+  useEffect(() => {
+    console.log(results);
+  }, [results]);
 
   return (
     <div>
@@ -123,7 +134,9 @@ function MainPage() {
         </div>
       </div>
       <div className="my-[40px]">
-        <p className="p-[5px] text-center">거래량 TOP 10</p>
+        <p className="p-[5px] text-center text-xl font-semibold">
+          거래량 TOP 10
+        </p>
         <div className="mt-[15px]">
           <List data={['코드', '주식명', '종가', '등락률']} />
           <List data={['1', '2', '3', '4']} />
