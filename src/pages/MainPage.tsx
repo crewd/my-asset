@@ -8,6 +8,7 @@ import { useQueries } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { getStockData } from '../api';
 import Box from '../components/box/Box';
+import List from '../components/box/List';
 
 const myData = [
   {
@@ -124,11 +125,9 @@ function MainPage() {
       <div className="my-[40px]">
         <p className="p-[5px] text-center">거래량 TOP 10</p>
         <div className="mt-[15px]">
-          <Box classname="p-[15px] rounded-t-xl border-b-2 border-primary">
-            first
-          </Box>
-          <Box classname="p-[15px] border-b-2 border-primary">2</Box>
-          <Box classname="p-[15px] rounded-b-xl">last</Box>
+          <List data={['코드', '주식명', '종가', '등락률']} />
+          <List data={['1', '2', '3', '4']} />
+          <List data={[5, 6, 7, 8]} />
         </div>
       </div>
     </div>
