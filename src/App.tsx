@@ -1,10 +1,6 @@
 import { useEffect } from 'react';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQueries,
-} from '@tanstack/react-query';
+import { useQueries } from '@tanstack/react-query';
 import AppLayout from './components/layout/AppLayout';
 import MainPage from './pages/MainPage';
 import SearchPage from './pages/search/SearchPage';
@@ -14,7 +10,7 @@ import { stockCodeSearch } from './api';
 const myData = [
   {
     name: 'a',
-    stock: [
+    holdingStock: [
       {
         stockName: '삼성전자',
         count: 50,
@@ -33,7 +29,7 @@ const myData = [
   },
   {
     name: 'b',
-    stock: [
+    holdingStock: [
       {
         stockName: '아시아나항공',
         count: 20,
@@ -57,7 +53,7 @@ function App() {
   const myStockTotalPrice: number[] = [];
 
   myData.map((portfolio) =>
-    portfolio.stock.map(
+    portfolio.holdingStock.map(
       (stock) => (
         myStockCodes.push(stock.code),
         myStockTotalPrice.push(Number(stock.price) * stock.count)
