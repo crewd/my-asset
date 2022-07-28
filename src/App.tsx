@@ -6,6 +6,9 @@ import MainPage from './pages/MainPage';
 import SearchPage from './pages/search/SearchPage';
 import FavoritesPage from './pages/favorites/FavoritesPage';
 import { stockCodeSearch } from './api';
+import { useRecoilState } from 'recoil';
+import { stockState } from './recoils/stock';
+import { Stock } from './types/apiType';
 
 const myData = [
   {
@@ -15,7 +18,7 @@ const myData = [
         stockName: '삼성전자',
         count: 50,
         price: '90000',
-        code: '051900',
+        code: '005930',
         purchasePrice: '30000',
       },
       {
@@ -34,14 +37,14 @@ const myData = [
         stockName: '아시아나항공',
         count: 20,
         price: '13000',
-        code: '051900',
+        code: '020560',
         purchasePrice: '30000',
       },
       {
         stockName: '대한항공',
         count: 30,
         price: '28000',
-        code: '051900',
+        code: '003490',
         purchasePrice: '30000',
       },
     ],
@@ -49,6 +52,8 @@ const myData = [
 ];
 
 function App() {
+  const [stockData, setStockData] = useRecoilState(stockState);
+
   const myStockCodes: string[] = [];
   const myStockTotalPrice: number[] = [];
 
@@ -67,16 +72,16 @@ function App() {
   );
 
   const query = myStockCodes.map((code) => {
-    return { queryKey: ['code', code], queryFn: () => stockCodeSearch(code) };
+    return {
+      queryKey: ['code', code],
+      queryFn: () => stockCodeSearch(code),
+      onSuccess: (data: Stock) => setStockData([...stockData, data]),
+    };
   });
 
   const results = useQueries({
     queries: [...query],
   });
-
-  useEffect(() => {
-    console.log(results);
-  }, [results]);
 
   return (
     <BrowserRouter>
