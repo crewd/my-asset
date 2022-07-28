@@ -11,77 +11,7 @@ import { getStockData, stockCodeSearch } from '../api';
 import Box from '../components/box/Box';
 import List from '../components/box/List';
 
-const myData = [
-  {
-    name: 'a',
-    stock: [
-      {
-        stockName: '삼성전자',
-        count: 50,
-        price: '90000',
-        code: '051900',
-        purchasePrice: '30000',
-      },
-      {
-        stockName: 'lg생활건강',
-        count: 50,
-        price: '760000',
-        code: '051900',
-        purchasePrice: '30000',
-      },
-    ],
-  },
-  {
-    name: 'b',
-    stock: [
-      {
-        stockName: '아시아나항공',
-        count: 20,
-        price: '13000',
-        code: '051900',
-        purchasePrice: '30000',
-      },
-      {
-        stockName: '대한항공',
-        count: 30,
-        price: '28000',
-        code: '051900',
-        purchasePrice: '30000',
-      },
-    ],
-  },
-];
-
 function MainPage() {
-  const myStockCodes: string[] = [];
-  const myStockTotalPrice: number[] = [];
-
-  myData.map((portfolio) =>
-    portfolio.stock.map(
-      (stock) => (
-        myStockCodes.push(stock.code),
-        myStockTotalPrice.push(Number(stock.price) * stock.count)
-      ),
-    ),
-  );
-
-  const totalPrice = myStockTotalPrice.reduce(
-    (previousValue, currentValue) => previousValue + currentValue,
-    0,
-  );
-
-  const query = myStockCodes.map((code) => {
-    return { queryKey: ['code', code], queryFn: () => stockCodeSearch(code) };
-  });
-
-  const results = useQueries({
-    queries: [...query],
-  });
-
-  useEffect(() => {
-    console.log(results);
-  }, [results]);
-
   return (
     <div>
       <div className="grid sm:grid-cols-2 gap-[10px]">
@@ -89,9 +19,7 @@ function MainPage() {
           <Box classname="w-[100%] h-[300px] rounded-xl p-[30px]">
             <div>
               <p className="text-lg">총 보유 자산</p>
-              <p className="text-xxl font-bold">
-                {totalPrice.toLocaleString()}원
-              </p>
+              <p className="text-xxl font-bold">1원</p>
             </div>
             <div className="mt-[20px] flex justify-between">
               <p className="text-md">수익률</p>
