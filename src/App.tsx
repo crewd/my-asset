@@ -7,7 +7,7 @@ import SearchPage from './pages/search/SearchPage';
 import FavoritesPage from './pages/favorites/FavoritesPage';
 import { stockCodeSearch } from './api';
 import { useRecoilState } from 'recoil';
-import { stockState } from './recoils/stock';
+import { myStockState, stockState } from './recoils/stock';
 import { Stock } from './types/apiType';
 
 const myData = [
@@ -53,6 +53,7 @@ const myData = [
 
 function App() {
   const [stockData, setStockData] = useRecoilState(stockState);
+  const [myStockData, setMyStockData] = useRecoilState(myStockState);
 
   const myStockCodes: string[] = [];
   const myStockTotalPrice: number[] = [];
@@ -82,6 +83,13 @@ function App() {
   const results = useQueries({
     queries: [...query],
   });
+
+  useEffect(() => {
+    if (!myData) {
+      return;
+    }
+    setMyStockData(myData);
+  }, []);
 
   return (
     <BrowserRouter>

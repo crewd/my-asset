@@ -1,17 +1,24 @@
-import {
-  faHeart,
-  faMagnifyingGlass,
-  faMagnifyingGlassChart,
-} from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useQueries } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getStockData, stockCodeSearch } from '../api';
+import { useRecoilState } from 'recoil';
 import Box from '../components/box/Box';
 import List from '../components/box/List';
+import { myStockState, stockState } from '../recoils/stock';
 
 function MainPage() {
+  const [totalPrice, setTotlaPrice] = useState();
+
+  const [stockData, setStockData] = useRecoilState(stockState);
+  const [myStockData, setMyStockData] = useRecoilState(myStockState);
+
+  useEffect(() => {
+    if (!stockData || !myStockData) {
+      return;
+    }
+  }, [stockData, myStockData]);
+
   return (
     <div>
       <div className="grid sm:grid-cols-2 gap-[10px]">
