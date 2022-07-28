@@ -18,5 +18,5 @@ export const stockCodeSearch = async (code: number | string) => {
     `${baseURL}&likeSrtnCd=${code}&serviceKey=${serviceKey}`,
   );
 
-  return data.data.response.body.items.item;
+  return data.data.response.body.items.item[0];
 };
