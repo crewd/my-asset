@@ -14,7 +14,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     <div className="m-auto">
       <header className="sm:h-[60px] leading-[60px] border-b-2 border-secondary">
         <nav className="max-w-[1400px] m-auto w-[100%] flex justify-between sm:flex-row flex-col items-start">
-          <Link className="w-[90%] px-[20px]" to="/">
+          <Link className="px-[20px]" to="/">
             <h2 className="text-xl">마이에셋</h2>
           </Link>
           <div
@@ -32,7 +32,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
           <ul
             className={`sm:flex ${
               isOpened ? 'flex' : 'hidden'
-            } sm:flex-row text-center flex-col sm:justify-end items-center w-[100%]`}
+            } sm:flex-row text-center flex-col sm:justify-end items-center w-[100%] sm:w-fit`}
           >
             <li className="mx-[10px] px-[10px] sm:w-auto w-[100%]">
               <Link to="/search">종목 검색</Link>
