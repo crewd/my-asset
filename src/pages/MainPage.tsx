@@ -52,48 +52,62 @@ function MainPage() {
     if (stockData.length !== holdingsLengthSum) {
       return;
     }
+    let priceSum = 0;
     stockData.map((stock) => {
       myStockData.map((mStock) => {
         mStock.holdingStock.map((hStock) => {
           if (hStock.stockName !== stock.itmsNm) {
             return;
           }
-          setTotlaPrice(
-            (totalPrice) => totalPrice + hStock.count * Number(stock.clpr),
-          );
+          priceSum += hStock.count * Number(stock.clpr);
         });
       });
     });
+    setTotlaPrice(priceSum);
   }, [stockData]);
 
-  useEffect(() => {
-    if (stockData.length !== holdingsLengthSum) {
-      return;
-    }
-    let stockPriceSum = 0;
-    stockData.map((stock) => (stockPriceSum += Number(stock.clpr)));
-    setStockTotalPrice(stockPriceSum / holdingsLengthSum);
-  }, [totalPrice]);
+  // useEffect(() => {
+  //   if (stockData.length !== holdingsLengthSum) {
+  //     return;
+  //   }
+  //   let stockPriceSum = 0;
+  //   stockData.map((stock) => (stockPriceSum += Number(stock.clpr)));
+  //   setStockTotalPrice(stockPriceSum / holdingsLengthSum);
+  // }, [totalPrice]);
 
   useEffect(() => {
-    if (!stockTotalPrice) {
+    if (!totalPrice) {
       return;
     }
-    let myStockPriceSum = 0;
+    let purchasePriceSum = 0;
     myStockData.map((data) =>
       data.holdingStock.map(
-        (stock) => (myStockPriceSum += Number(stock.purchasePrice)),
+        (stock) =>
+          (purchasePriceSum += Number(stock.purchasePrice) * stock.count),
       ),
     );
+    setAveragePrice(purchasePriceSum);
+  }, [totalPrice]);
 
-    setAveragePrice(myStockPriceSum / holdingsLengthSum);
-  }, [stockTotalPrice]);
+  // useEffect(() => {
+  //   if (!stockTotalPrice) {
+  //     return;
+  //   }
+  //   let myStockPriceSum = 0;
+  //   myStockData.map((data) =>
+  //     data.holdingStock.map(
+  //       (stock) => (myStockPriceSum += Number(stock.purchasePrice)),
+  //     ),
+  //   );
+
+  //   setAveragePrice(myStockPriceSum);
+  // }, [stockTotalPrice]);
 
   useEffect(() => {
     if (!averagePrice) {
       return;
     }
-    setStockRate(((stockTotalPrice - averagePrice) / averagePrice) * 100);
+    setStockRate(((totalPrice - averagePrice) / averagePrice) * 100);
   }, [averagePrice]);
 
   useEffect(() => {
@@ -107,13 +121,22 @@ function MainPage() {
     setStockCount(totalCount / holdingsLengthSum);
   }, [stockRate]);
 
+  // useEffect(() => {
+  //   if (!stockRate) {
+  //     return;
+  //   }
+  //   myStockData.map((data) =>
+  //     data.holdingStock.map((stock) =>
+  //       setStockCount((stockCount) => (stockCount += stock.count)),
+  //     ),
+  //   );
+  // }, [stockRate]);
+
   useEffect(() => {
     if (!stockCount) {
       return;
     }
-    setProfit(
-      ((averagePrice * Number(stockRate.toFixed(2))) / 100) * stockCount,
-    );
+    setProfit(totalPrice - averagePrice);
   }, [stockCount]);
 
   return (
