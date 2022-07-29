@@ -17,16 +17,14 @@ const myData = [
       {
         stockName: '삼성전자',
         count: 50,
-        price: '90000',
         code: '005930',
-        purchasePrice: '30000',
+        purchasePrice: '90000',
       },
       {
         stockName: 'LG생활건강',
         count: 50,
-        price: '760000',
         code: '051900',
-        purchasePrice: '30000',
+        purchasePrice: '900000',
       },
     ],
   },
@@ -36,14 +34,12 @@ const myData = [
       {
         stockName: '아시아나항공',
         count: 20,
-        price: '13000',
         code: '020560',
-        purchasePrice: '30000',
+        purchasePrice: '20000',
       },
       {
         stockName: '대한항공',
         count: 30,
-        price: '28000',
         code: '003490',
         purchasePrice: '30000',
       },
@@ -56,20 +52,9 @@ function App() {
   const [myStockData, setMyStockData] = useRecoilState(myStockState);
 
   const myStockCodes: string[] = [];
-  const myStockTotalPrice: number[] = [];
 
   myData.map((portfolio) =>
-    portfolio.holdingStock.map(
-      (stock) => (
-        myStockCodes.push(stock.code),
-        myStockTotalPrice.push(Number(stock.price) * stock.count)
-      ),
-    ),
-  );
-
-  const totalPrice = myStockTotalPrice.reduce(
-    (previousValue, currentValue) => previousValue + currentValue,
-    0,
+    portfolio.holdingStock.map((stock) => myStockCodes.push(stock.code)),
   );
 
   const query = myStockCodes.map((code) => {

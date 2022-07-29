@@ -8,10 +8,21 @@ import List from '../components/box/List';
 import { myStockState, stockState } from '../recoils/stock';
 
 function MainPage() {
+  // 총 보유 자산
   const [totalPrice, setTotlaPrice] = useState(0);
+  // 현재 주식 가격 총합
+  const [stockTotalPrice, setStockTotalPrice] = useState(0);
+  // 평단가
+  const [averagePrice, setAveragePrice] = useState(0);
+  //수익률
+  const [stockRate, setStockRate] = useState(0);
 
+  // api 주식 데이터
   const [stockData, setStockData] = useRecoilState(stockState);
+  // 보유 주식
   const [myStockData, setMyStockData] = useRecoilState(myStockState);
+
+  const minusRegex = /-/g;
 
   const holdings = myStockData.map((v) => {
     return v.holdingStock.map((value) => {
@@ -19,17 +30,25 @@ function MainPage() {
     });
   });
 
+  const holdingsLength = holdings.map((v) => v.length);
+
+  let holdingsLengthSum = 0;
+
+  holdingsLength.forEach((length) => {
+    holdingsLengthSum += length;
+  });
+
   useEffect(() => {
-    if (stockData.length !== 4) {
+    if (stockData.length !== holdingsLengthSum) {
       return;
     }
     stockData.map((stock) => {
-      return myStockData.map((mStock) => {
-        return mStock.holdingStock.map((hStock) => {
+      myStockData.map((mStock) => {
+        mStock.holdingStock.map((hStock) => {
           if (hStock.stockName !== stock.itmsNm) {
             return;
           }
-          return setTotlaPrice(
+          setTotlaPrice(
             (totalPrice) => totalPrice + hStock.count * Number(stock.clpr),
           );
         });
@@ -38,8 +57,34 @@ function MainPage() {
   }, [stockData]);
 
   useEffect(() => {
-    console.log(totalPrice.toLocaleString());
+    if (stockData.length !== holdingsLengthSum) {
+      return;
+    }
+    let stockPriceSum = 0;
+    stockData.map((stock) => (stockPriceSum += Number(stock.clpr)));
+    setStockTotalPrice(stockPriceSum / holdingsLengthSum);
   }, [totalPrice]);
+
+  useEffect(() => {
+    if (!stockTotalPrice) {
+      return;
+    }
+    let myStockPriceSum = 0;
+    myStockData.map((data) =>
+      data.holdingStock.map(
+        (stock) => (myStockPriceSum += Number(stock.purchasePrice)),
+      ),
+    );
+
+    setAveragePrice(myStockPriceSum / holdingsLengthSum);
+  }, [stockTotalPrice]);
+
+  useEffect(() => {
+    if (!averagePrice) {
+      return;
+    }
+    setStockRate(((stockTotalPrice - averagePrice) / averagePrice) * 100);
+  }, [averagePrice]);
 
   return (
     <div>
@@ -54,7 +99,17 @@ function MainPage() {
             </div>
             <div className="mt-[20px] flex justify-between">
               <p className="text-md">수익률</p>
-              <p className="font-bold text-lg">99%</p>
+              <p
+                className={`font-bold text-lg ${
+                  stockRate < 0
+                    ? 'text-minus'
+                    : stockRate < 0
+                    ? 'text-plus'
+                    : 'text-white'
+                }`}
+              >
+                {stockRate.toFixed(1)}%
+              </p>
             </div>
             <div className="mt-[10px] flex justify-between">
               <p className="text-md">평가 손익</p>
