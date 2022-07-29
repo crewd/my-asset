@@ -4,7 +4,7 @@ import { getStockData } from '../../api';
 import { useState, useRef, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useRecoilState } from 'recoil';
-import { searchValueState as valueAtom } from '../../recoils/stock';
+import { searchValueState as valueAtom } from '../../recoils/search';
 import { Stock } from '../../types/apiType';
 
 function SearchBar() {
@@ -30,8 +30,13 @@ function SearchBar() {
       return;
     }
     mutate();
-    setSearchValue(dedupArr);
   }, [searchWord]);
+
+  useEffect(() => {
+    if (data) {
+      setSearchValue(dedupArr);
+    }
+  }, [data]);
 
   const searchEnterKeyHandler = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
