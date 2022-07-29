@@ -9,7 +9,7 @@ const List = ({ data }: { data: (string | number)[] }) => {
             ? 'text-white'
             : data.toString().charAt(0) === '-'
             ? 'text-minus'
-            : data.toString().length > 3
+            : data.toString().length > 4
             ? 'text-plus'
             : 'text-white'
         }`;
