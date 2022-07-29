@@ -19,8 +19,16 @@ function MainPage() {
     });
   });
 
+  const holdingsLength = holdings.map((v) => v.length);
+
+  let holdingsLengthSum = 0;
+
+  holdingsLength.forEach((length) => {
+    holdingsLengthSum += length;
+  });
+
   useEffect(() => {
-    if (stockData.length !== 4) {
+    if (stockData.length !== holdingsLengthSum) {
       return;
     }
     stockData.map((stock) => {
@@ -36,10 +44,6 @@ function MainPage() {
       });
     });
   }, [stockData]);
-
-  useEffect(() => {
-    console.log(totalPrice.toLocaleString());
-  }, [totalPrice]);
 
   return (
     <div>
