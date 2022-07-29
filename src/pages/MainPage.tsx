@@ -43,6 +43,13 @@ function MainPage() {
   });
 
   useEffect(() => {
+    setTotlaPrice(0);
+    setAveragePrice(0);
+    setStockTotalPrice(0);
+    setStockRate(0);
+  }, []);
+
+  useEffect(() => {
     if (stockData.length !== holdingsLengthSum) {
       return;
     }
