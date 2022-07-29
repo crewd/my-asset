@@ -112,7 +112,7 @@ function MainPage() {
       return;
     }
     setProfit(
-      ((averagePrice * Number(stockRate.toFixed(2))) / 10) * stockCount,
+      ((averagePrice * Number(stockRate.toFixed(2))) / 100) * stockCount,
     );
   }, [stockCount]);
 
@@ -138,7 +138,7 @@ function MainPage() {
                     : 'text-white'
                 }`}
               >
-                {stockRate.toFixed(1)}%
+                {stockRate.toFixed(2)}%
               </p>
             </div>
             <div className="mt-[10px] flex justify-between">
