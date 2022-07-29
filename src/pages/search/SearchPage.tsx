@@ -1,7 +1,7 @@
 import List from '../../components/box/List';
 import SearchBar from '../../components/search/SearchBar';
 import { useRecoilValue } from 'recoil';
-import { searchValueState as valueAtom } from '../../recoils/stock';
+import { searchValueState as valueAtom } from '../../recoils/search';
 
 function SearchPage() {
   const searchValue = useRecoilValue(valueAtom);
@@ -19,8 +19,8 @@ function SearchPage() {
                 data={[
                   e.srtnCd,
                   e.itmsNm,
-                  '₩ ' + Number(e.clpr).toLocaleString(),
-                  Number(e.fltRt).toLocaleString() + ' %',
+                  `₩ ${Number(e.clpr).toLocaleString()}`,
+                  `${Number(e.fltRt).toLocaleString()}  %`,
                 ]}
               />
             );
