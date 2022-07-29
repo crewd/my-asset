@@ -44,10 +44,7 @@ function MainPage() {
 
   useEffect(() => {
     setTotlaPrice(0);
-    setAveragePrice(0);
-    setStockTotalPrice(0);
     setStockRate(0);
-    setStockCount(0);
     setProfit(0);
   }, []);
 
@@ -100,6 +97,9 @@ function MainPage() {
   }, [averagePrice]);
 
   useEffect(() => {
+    if (!stockRate) {
+      return;
+    }
     let totalCount = 0;
     myStockData.map((data) =>
       data.holdingStock.map((stock) => (totalCount += stock.count)),
@@ -108,12 +108,13 @@ function MainPage() {
   }, [stockRate]);
 
   useEffect(() => {
+    if (!stockCount) {
+      return;
+    }
     setProfit(
       ((averagePrice * Number(stockRate.toFixed(2))) / 10) * stockCount,
     );
   }, [stockCount]);
-
-  console.log(Number(stockRate.toFixed(1)) * 100);
 
   return (
     <div>
@@ -151,7 +152,7 @@ function MainPage() {
                     : 'text-white'
                 }`}
               >
-                {profit && profit != NaN ? profit.toLocaleString() : 0}원
+                {profit != NaN ? profit.toLocaleString() : 0}원
               </p>
             </div>
           </Box>
