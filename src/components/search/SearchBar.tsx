@@ -6,8 +6,10 @@ import { useMutation } from '@tanstack/react-query';
 import { useRecoilState } from 'recoil';
 import { searchValueState as valueAtom } from '../../recoils/search';
 import { Stock } from '../../types/apiType';
+import { useNavigate } from 'react-router-dom';
 
 function SearchBar() {
+  const nav = useNavigate();
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchWord, setSearchWord] = useState<string>('');
   const [searchValue, setSearchValue] = useRecoilState(valueAtom);
@@ -22,6 +24,7 @@ function SearchBar() {
     if (!searchInputRef.current?.value) {
       return;
     }
+    nav(`?${searchInputRef.current.value}`);
     setSearchWord(searchInputRef.current.value);
   };
 
