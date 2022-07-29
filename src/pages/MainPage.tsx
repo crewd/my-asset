@@ -17,8 +17,12 @@ function MainPage() {
   //수익률
   const [stockRate, setStockRate] = useState(0);
 
+  // api 주식 데이터
   const [stockData, setStockData] = useRecoilState(stockState);
+  // 보유 주식
   const [myStockData, setMyStockData] = useRecoilState(myStockState);
+
+  const minusRegex = /-/g;
 
   const holdings = myStockData.map((v) => {
     return v.holdingStock.map((value) => {
@@ -82,8 +86,6 @@ function MainPage() {
     setStockRate(((stockTotalPrice - averagePrice) / averagePrice) * 100);
   }, [averagePrice]);
 
-  console.log(stockRate.toFixed(1));
-
   return (
     <div>
       <div className="grid sm:grid-cols-2 gap-[10px]">
@@ -97,7 +99,17 @@ function MainPage() {
             </div>
             <div className="mt-[20px] flex justify-between">
               <p className="text-md">수익률</p>
-              <p className="font-bold text-lg">{stockRate.toFixed(1)}%</p>
+              <p
+                className={`font-bold text-lg ${
+                  stockRate < 0
+                    ? 'text-minus'
+                    : stockRate < 0
+                    ? 'text-plus'
+                    : 'text-white'
+                }`}
+              >
+                {stockRate.toFixed(1)}%
+              </p>
             </div>
             <div className="mt-[10px] flex justify-between">
               <p className="text-md">평가 손익</p>
