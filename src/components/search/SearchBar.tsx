@@ -30,8 +30,13 @@ function SearchBar() {
       return;
     }
     mutate();
-    setSearchValue(dedupArr);
   }, [searchWord]);
+
+  useEffect(() => {
+    if (data) {
+      setSearchValue(dedupArr);
+    }
+  }, [data]);
 
   const searchEnterKeyHandler = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {

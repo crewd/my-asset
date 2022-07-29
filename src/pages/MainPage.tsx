@@ -16,6 +16,10 @@ function MainPage() {
   const [averagePrice, setAveragePrice] = useState(0);
   //수익률
   const [stockRate, setStockRate] = useState(0);
+  // 구매수량
+  const [purchaseCount, setPurchaseCount] = useState(0);
+  // 실현손익
+  const [profit, setProfit] = useState(0);
 
   // api 주식 데이터
   const [stockData, setStockData] = useRecoilState(stockState);
