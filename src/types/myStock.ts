@@ -1,7 +1,6 @@
 type stock = {
   stockName: string;
   count: number;
-  price: string | number;
   code: string;
   purchasePrice: string | number;
 };
