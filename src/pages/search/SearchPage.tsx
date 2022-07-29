@@ -1,10 +1,14 @@
 import List from '../../components/box/List';
 import SearchBar from '../../components/search/SearchBar';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { searchValueState as valueAtom } from '../../recoils/search';
+import { useEffect } from 'react';
 
 function SearchPage() {
-  const searchValue = useRecoilValue(valueAtom);
+  const [searchValue, setSearchValue] = useRecoilState(valueAtom);
+  useEffect(() => {
+    setSearchValue(null);
+  }, []);
 
   return (
     <div>
