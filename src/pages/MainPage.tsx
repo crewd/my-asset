@@ -1,17 +1,46 @@
-import {
-  faHeart,
-  faMagnifyingGlass,
-  faMagnifyingGlassChart,
-} from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useQueries } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getStockData, stockCodeSearch } from '../api';
+import { useRecoilState } from 'recoil';
 import Box from '../components/box/Box';
 import List from '../components/box/List';
+import { myStockState, stockState } from '../recoils/stock';
 
 function MainPage() {
+  const [totalPrice, setTotlaPrice] = useState(0);
+
+  const [stockData, setStockData] = useRecoilState(stockState);
+  const [myStockData, setMyStockData] = useRecoilState(myStockState);
+
+  const holdings = myStockData.map((v) => {
+    return v.holdingStock.map((value) => {
+      return value;
+    });
+  });
+
+  useEffect(() => {
+    if (stockData.length !== 4) {
+      return;
+    }
+    stockData.map((stock) => {
+      return myStockData.map((mStock) => {
+        return mStock.holdingStock.map((hStock) => {
+          if (hStock.stockName !== stock.itmsNm) {
+            return;
+          }
+          return setTotlaPrice(
+            (totalPrice) => totalPrice + hStock.count * Number(stock.clpr),
+          );
+        });
+      });
+    });
+  }, [stockData]);
+
+  useEffect(() => {
+    console.log(totalPrice.toLocaleString());
+  }, [totalPrice]);
+
   return (
     <div>
       <div className="grid sm:grid-cols-2 gap-[10px]">
@@ -19,7 +48,9 @@ function MainPage() {
           <Box classname="w-[100%] h-[300px] rounded-xl p-[30px]">
             <div>
               <p className="text-lg">총 보유 자산</p>
-              <p className="text-xxl font-bold">1원</p>
+              <p className="text-xxl font-bold">
+                {totalPrice.toLocaleString()}원
+              </p>
             </div>
             <div className="mt-[20px] flex justify-between">
               <p className="text-md">수익률</p>

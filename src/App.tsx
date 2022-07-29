@@ -7,7 +7,7 @@ import SearchPage from './pages/search/SearchPage';
 import FavoritesPage from './pages/favorites/FavoritesPage';
 import { stockCodeSearch } from './api';
 import { useRecoilState } from 'recoil';
-import { stockState } from './recoils/stock';
+import { myStockState, stockState } from './recoils/stock';
 import { Stock } from './types/apiType';
 
 const myData = [
@@ -22,7 +22,7 @@ const myData = [
         purchasePrice: '30000',
       },
       {
-        stockName: 'lg생활건강',
+        stockName: 'LG생활건강',
         count: 50,
         price: '760000',
         code: '051900',
@@ -53,6 +53,7 @@ const myData = [
 
 function App() {
   const [stockData, setStockData] = useRecoilState(stockState);
+  const [myStockData, setMyStockData] = useRecoilState(myStockState);
 
   const myStockCodes: string[] = [];
   const myStockTotalPrice: number[] = [];
@@ -75,13 +76,30 @@ function App() {
     return {
       queryKey: ['code', code],
       queryFn: () => stockCodeSearch(code),
-      onSuccess: (data: Stock) => setStockData([...stockData, data]),
+      // onSuccess: (data: Stock) => setStockData([...stockData, data]),
     };
   });
 
   const results = useQueries({
     queries: [...query],
   });
+
+  const allSuccess = results.every((num) => num.isSuccess === true);
+
+  useEffect(() => {
+    if (allSuccess) {
+      results.map((data) =>
+        setStockData((stockData) => [...stockData, data.data]),
+      );
+    }
+  }, [allSuccess]);
+
+  useEffect(() => {
+    if (!myData) {
+      return;
+    }
+    setMyStockData(myData);
+  }, []);
 
   return (
     <BrowserRouter>
