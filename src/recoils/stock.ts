@@ -11,3 +11,8 @@ export const myStockState = atom<MyStock[]>({
   key: 'myStockState',
   default: [],
 });
+
+export const searchValueState = atom<Stock[]>({
+  key: 'searchValueState',
+  default: [],
+});
