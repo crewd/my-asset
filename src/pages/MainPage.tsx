@@ -8,16 +8,38 @@ import List from '../components/box/List';
 import { myStockState, stockState } from '../recoils/stock';
 
 function MainPage() {
-  const [totalPrice, setTotlaPrice] = useState();
+  const [totalPrice, setTotlaPrice] = useState(0);
 
   const [stockData, setStockData] = useRecoilState(stockState);
   const [myStockData, setMyStockData] = useRecoilState(myStockState);
 
+  const holdings = myStockData.map((v) => {
+    return v.holdingStock.map((value) => {
+      return value;
+    });
+  });
+
   useEffect(() => {
-    if (!stockData || !myStockData) {
+    if (stockData.length !== 4) {
       return;
     }
-  }, [stockData, myStockData]);
+    stockData.map((stock) => {
+      return myStockData.map((mStock) => {
+        return mStock.holdingStock.map((hStock) => {
+          if (hStock.stockName !== stock.itmsNm) {
+            return;
+          }
+          return setTotlaPrice(
+            (totalPrice) => totalPrice + hStock.count * Number(stock.clpr),
+          );
+        });
+      });
+    });
+  }, [stockData]);
+
+  useEffect(() => {
+    console.log(totalPrice.toLocaleString());
+  }, [totalPrice]);
 
   return (
     <div>
@@ -26,7 +48,9 @@ function MainPage() {
           <Box classname="w-[100%] h-[300px] rounded-xl p-[30px]">
             <div>
               <p className="text-lg">총 보유 자산</p>
-              <p className="text-xxl font-bold">1원</p>
+              <p className="text-xxl font-bold">
+                {totalPrice.toLocaleString()}원
+              </p>
             </div>
             <div className="mt-[20px] flex justify-between">
               <p className="text-md">수익률</p>

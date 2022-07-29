@@ -22,7 +22,7 @@ const myData = [
         purchasePrice: '30000',
       },
       {
-        stockName: 'lg생활건강',
+        stockName: 'LG생활건강',
         count: 50,
         price: '760000',
         code: '051900',
@@ -76,13 +76,23 @@ function App() {
     return {
       queryKey: ['code', code],
       queryFn: () => stockCodeSearch(code),
-      onSuccess: (data: Stock) => setStockData([...stockData, data]),
+      // onSuccess: (data: Stock) => setStockData([...stockData, data]),
     };
   });
 
   const results = useQueries({
     queries: [...query],
   });
+
+  const allSuccess = results.every((num) => num.isSuccess === true);
+
+  useEffect(() => {
+    if (allSuccess) {
+      results.map((data) =>
+        setStockData((stockData) => [...stockData, data.data]),
+      );
+    }
+  }, [allSuccess]);
 
   useEffect(() => {
     if (!myData) {
