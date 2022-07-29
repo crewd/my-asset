@@ -16,10 +16,10 @@ function MainPage() {
   const [averagePrice, setAveragePrice] = useState(0);
   //수익률
   const [stockRate, setStockRate] = useState(0);
-  // 구매수량
-  const [purchaseCount, setPurchaseCount] = useState(0);
   // 실현손익
   const [profit, setProfit] = useState(0);
+  // 구매 수량
+  const [stockCount, setStockCount] = useState(0);
 
   // api 주식 데이터
   const [stockData, setStockData] = useRecoilState(stockState);
@@ -41,6 +41,12 @@ function MainPage() {
   holdingsLength.forEach((length) => {
     holdingsLengthSum += length;
   });
+
+  useEffect(() => {
+    setTotlaPrice(0);
+    setStockRate(0);
+    setProfit(0);
+  }, []);
 
   useEffect(() => {
     if (stockData.length !== holdingsLengthSum) {
@@ -90,6 +96,26 @@ function MainPage() {
     setStockRate(((stockTotalPrice - averagePrice) / averagePrice) * 100);
   }, [averagePrice]);
 
+  useEffect(() => {
+    if (!stockRate) {
+      return;
+    }
+    let totalCount = 0;
+    myStockData.map((data) =>
+      data.holdingStock.map((stock) => (totalCount += stock.count)),
+    );
+    setStockCount(totalCount / holdingsLengthSum);
+  }, [stockRate]);
+
+  useEffect(() => {
+    if (!stockCount) {
+      return;
+    }
+    setProfit(
+      ((averagePrice * Number(stockRate.toFixed(2))) / 10) * stockCount,
+    );
+  }, [stockCount]);
+
   return (
     <div>
       <div className="grid sm:grid-cols-2 gap-[10px]">
@@ -107,7 +133,7 @@ function MainPage() {
                 className={`font-bold text-lg ${
                   stockRate < 0
                     ? 'text-minus'
-                    : stockRate < 0
+                    : stockRate > 0
                     ? 'text-plus'
                     : 'text-white'
                 }`}
@@ -117,7 +143,17 @@ function MainPage() {
             </div>
             <div className="mt-[10px] flex justify-between">
               <p className="text-md">평가 손익</p>
-              <p className="font-bold text-lg">99999원</p>
+              <p
+                className={`font-bold text-lg ${
+                  profit < 0
+                    ? 'text-minus'
+                    : profit > 0
+                    ? 'text-plus'
+                    : 'text-white'
+                }`}
+              >
+                {profit != NaN ? profit.toLocaleString() : 0}원
+              </p>
             </div>
           </Box>
         </Link>
