@@ -19,7 +19,7 @@ function FavoritesPage() {
         <List data={['005930', '삼성전자dndndn', '1,600,500', '-40.66%']} />
         <List data={['005930', '삼성전자', '60,500 ', '-0.66%']} />
       </div>
-      <Button classname="">검색</Button>
+      <Button>검색</Button>
     </div>
   );
 }
