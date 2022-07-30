@@ -7,6 +7,7 @@ import Box from '../components/box/Box';
 import List from '../components/box/List';
 import PortfolioCard from '../components/portfolio/portfolioCard';
 import usePurchasePrice from '../hooks/usePurchasePrice';
+import useReturn from '../hooks/useReturn';
 import useTotalPrice from '../hooks/useTotalPrice';
 import { myStockState, stockState } from '../recoils/stock';
 
@@ -31,6 +32,7 @@ function MainPage() {
 
   const [totalAmount] = useTotalPrice(myStockData, stockData);
   const [purchasePrice] = usePurchasePrice(myStockData);
+  const [returnRate] = useReturn(Number(purchasePrice), Number(totalAmount));
 
   const minusRegex = /-/g;
 
@@ -149,7 +151,7 @@ function MainPage() {
                     : 'text-white'
                 }`}
               >
-                {stockRate.toFixed(2)}%
+                {Number(returnRate).toFixed(2)}%
               </p>
             </div>
             <div className="mt-[10px] flex justify-between">

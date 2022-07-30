@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Stock } from '../types/apiType';
 import { MyStock } from '../types/myStock';
 
 const usePurchasePrice = (myStockData: MyStock[]) => {
