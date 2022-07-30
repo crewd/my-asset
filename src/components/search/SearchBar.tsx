@@ -1,36 +1,44 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getStockData } from '../../api';
 import { searchValueState as valueAtom } from '../../recoils/search';
 import { Stock } from '../../types/apiType';
 
 function SearchBar() {
+  const nav = useNavigate();
+  const { search } = useLocation();
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const [searchWord, setSearchWord] = useState<string>('');
   const setSearchValue = useSetRecoilState(valueAtom);
-  const { data, mutate } = useMutation<Stock[]>(['search', searchWord], () =>
-    getStockData(searchWord),
+  const { data, mutate } = useMutation<Stock[]>(['search', search], () =>
+    getStockData(search.slice(7)),
   );
   const dedupArr = [
     ...new Map(data?.map((item) => [item.srtnCd, item])).values(),
   ];
 
   const searchHandler = () => {
-    if (!searchInputRef.current?.value) {
+    // 검색어가 없거나 검색어와 쿼리스트링이 같을경우 리턴
+    if (
+      !searchInputRef.current?.value ||
+      encodeURI(searchInputRef.current.value) === search.slice(7)
+    ) {
       return;
     }
-    setSearchWord(searchInputRef.current.value);
+    nav({ search: `query=${searchInputRef.current.value}` });
   };
 
   useEffect(() => {
-    if (!searchWord) {
+    if (search.length < 8 || search.slice(0, 7) !== '?query=') {
+      nav('/search');
       return;
     }
+    // searchInputRef.current!.value = decodeURI(search.slice(7));
     mutate();
-  }, [searchWord]);
+  }, [search]);
 
   useEffect(() => {
     if (data) {
