@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 import Box from '../components/box/Box';
 import List from '../components/box/List';
 import PortfolioCard from '../components/portfolio/portfolioCard';
+import usePurchasePrice from '../hooks/usePurchasePrice';
 import useTotalPrice from '../hooks/useTotalPrice';
 import { myStockState, stockState } from '../recoils/stock';
 
@@ -28,7 +29,8 @@ function MainPage() {
   // 보유 주식
   const [myStockData, setMyStockData] = useRecoilState(myStockState);
 
-  const [totalAmount, getTotalAmount] = useTotalPrice(myStockData, stockData);
+  const [totalAmount] = useTotalPrice(myStockData, stockData);
+  const [purchasePrice] = usePurchasePrice(myStockData);
 
   const minusRegex = /-/g;
 
