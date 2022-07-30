@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import Box from '../components/box/Box';
 import List from '../components/box/List';
+import PortfolioCard from '../components/portfolio/portfolioCard';
+import useTotalPrice from '../hooks/totalPrice';
 import { myStockState, stockState } from '../recoils/stock';
 
 function MainPage() {
@@ -25,6 +27,8 @@ function MainPage() {
   const [stockData, setStockData] = useRecoilState(stockState);
   // 보유 주식
   const [myStockData, setMyStockData] = useRecoilState(myStockState);
+
+  const [totalAmount, getTotalAmount] = useTotalPrice(myStockData, stockData);
 
   const minusRegex = /-/g;
 
@@ -48,24 +52,6 @@ function MainPage() {
     setProfit(0);
   }, []);
 
-  useEffect(() => {
-    if (stockData.length !== holdingsLengthSum) {
-      return;
-    }
-    let priceSum = 0;
-    stockData.map((stock) => {
-      myStockData.map((mStock) => {
-        mStock.holdingStock.map((hStock) => {
-          if (hStock.stockName !== stock.itmsNm) {
-            return;
-          }
-          priceSum += hStock.count * Number(stock.clpr);
-        });
-      });
-    });
-    setTotlaPrice(priceSum);
-  }, [stockData]);
-
   // useEffect(() => {
   //   if (stockData.length !== holdingsLengthSum) {
   //     return;
@@ -87,7 +73,7 @@ function MainPage() {
       ),
     );
     setAveragePrice(purchasePriceSum);
-  }, [totalPrice]);
+  }, [totalAmount]);
 
   // useEffect(() => {
   //   if (!stockTotalPrice) {
@@ -147,7 +133,7 @@ function MainPage() {
             <div>
               <p className="text-lg">총 보유 자산</p>
               <p className="text-xxl font-bold">
-                {totalPrice.toLocaleString()}원
+                {totalAmount.toLocaleString()}원
               </p>
             </div>
             <div className="mt-[20px] flex justify-between">
@@ -182,7 +168,12 @@ function MainPage() {
         </Link>
         <div className="grid grid-cols-2 gap-[10px]">
           <Box classname="w-[100%] h-[180px] rounded-xl col-span-2 p-[20px] text-center text-md">
-            포트폴리오 바로가기
+            <p> 포트폴리오 바로가기</p>
+            <div className="p-[20px]">
+              {myStockData.map((data) => (
+                <PortfolioCard name={data.name} stock={data.holdingStock} />
+              ))}
+            </div>
           </Box>
           <Link to="/favorites">
             <Box classname="w-[100%] h-[110px] rounded-xl text-md flex justify-center items-center">

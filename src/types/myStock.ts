@@ -1,4 +1,4 @@
-type stock = {
+export type stock = {
   stockName: string;
   count: number;
   code: string;
