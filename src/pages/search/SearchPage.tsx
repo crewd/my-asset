@@ -24,7 +24,7 @@ const SearchPage: React.FC = () => {
                 e.srtnCd,
                 e.itmsNm,
                 `₩ ${Number(e.clpr).toLocaleString()}`,
-                `${Number(e.fltRt).toLocaleString()}  %`,
+                `${Number(e.fltRt).toLocaleString()} %`,
               ]}
             />
           ))}
