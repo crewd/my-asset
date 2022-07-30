@@ -175,7 +175,7 @@ function MainPage() {
                     : 'text-white'
                 }`}
               >
-                {profit != NaN ? profit.toLocaleString() : 0}원
+                {profit ? profit.toLocaleString() : 0}원
               </p>
             </div>
           </Box>
