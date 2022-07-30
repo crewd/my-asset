@@ -6,25 +6,13 @@ import { useRecoilState } from 'recoil';
 import Box from '../components/box/Box';
 import List from '../components/box/List';
 import PortfolioCard from '../components/portfolio/portfolioCard';
+import useProfit from '../hooks/useProfit';
 import usePurchasePrice from '../hooks/usePurchasePrice';
 import useReturn from '../hooks/useReturn';
 import useTotalPrice from '../hooks/useTotalPrice';
 import { myStockState, stockState } from '../recoils/stock';
 
 function MainPage() {
-  // 총 보유 자산
-  const [totalPrice, setTotlaPrice] = useState(0);
-  // 현재 주식 가격 총합
-  const [stockTotalPrice, setStockTotalPrice] = useState(0);
-  // 평단가
-  const [averagePrice, setAveragePrice] = useState(0);
-  //수익률
-  const [stockRate, setStockRate] = useState(0);
-  // 실현손익
-  const [profit, setProfit] = useState(0);
-  // 구매 수량
-  const [stockCount, setStockCount] = useState(0);
-
   // api 주식 데이터
   const [stockData, setStockData] = useRecoilState(stockState);
   // 보유 주식
@@ -33,101 +21,9 @@ function MainPage() {
   const [totalAmount] = useTotalPrice(myStockData, stockData);
   const [purchasePrice] = usePurchasePrice(myStockData);
   const [returnRate] = useReturn(Number(purchasePrice), Number(totalAmount));
+  const [profit] = useProfit(Number(purchasePrice), Number(totalAmount));
 
   const minusRegex = /-/g;
-
-  const holdings = myStockData.map((v) => {
-    return v.holdingStock.map((value) => {
-      return value;
-    });
-  });
-
-  const holdingsLength = holdings.map((v) => v.length);
-
-  let holdingsLengthSum = 0;
-
-  holdingsLength.forEach((length) => {
-    holdingsLengthSum += length;
-  });
-
-  useEffect(() => {
-    setTotlaPrice(0);
-    setStockRate(0);
-    setProfit(0);
-  }, []);
-
-  // useEffect(() => {
-  //   if (stockData.length !== holdingsLengthSum) {
-  //     return;
-  //   }
-  //   let stockPriceSum = 0;
-  //   stockData.map((stock) => (stockPriceSum += Number(stock.clpr)));
-  //   setStockTotalPrice(stockPriceSum / holdingsLengthSum);
-  // }, [totalPrice]);
-
-  useEffect(() => {
-    if (!totalPrice) {
-      return;
-    }
-    let purchasePriceSum = 0;
-    myStockData.map((data) =>
-      data.holdingStock.map(
-        (stock) =>
-          (purchasePriceSum += Number(stock.purchasePrice) * stock.count),
-      ),
-    );
-    setAveragePrice(purchasePriceSum);
-  }, [totalAmount]);
-
-  // useEffect(() => {
-  //   if (!stockTotalPrice) {
-  //     return;
-  //   }
-  //   let myStockPriceSum = 0;
-  //   myStockData.map((data) =>
-  //     data.holdingStock.map(
-  //       (stock) => (myStockPriceSum += Number(stock.purchasePrice)),
-  //     ),
-  //   );
-
-  //   setAveragePrice(myStockPriceSum);
-  // }, [stockTotalPrice]);
-
-  useEffect(() => {
-    if (!averagePrice) {
-      return;
-    }
-    setStockRate(((totalPrice - averagePrice) / averagePrice) * 100);
-  }, [averagePrice]);
-
-  useEffect(() => {
-    if (!stockRate) {
-      return;
-    }
-    let totalCount = 0;
-    myStockData.map((data) =>
-      data.holdingStock.map((stock) => (totalCount += stock.count)),
-    );
-    setStockCount(totalCount / holdingsLengthSum);
-  }, [stockRate]);
-
-  // useEffect(() => {
-  //   if (!stockRate) {
-  //     return;
-  //   }
-  //   myStockData.map((data) =>
-  //     data.holdingStock.map((stock) =>
-  //       setStockCount((stockCount) => (stockCount += stock.count)),
-  //     ),
-  //   );
-  // }, [stockRate]);
-
-  useEffect(() => {
-    if (!stockCount) {
-      return;
-    }
-    setProfit(totalPrice - averagePrice);
-  }, [stockCount]);
 
   return (
     <div>
@@ -144,9 +40,9 @@ function MainPage() {
               <p className="text-md">수익률</p>
               <p
                 className={`font-bold text-lg ${
-                  stockRate < 0
+                  returnRate < 0
                     ? 'text-minus'
-                    : stockRate > 0
+                    : returnRate > 0
                     ? 'text-plus'
                     : 'text-white'
                 }`}
