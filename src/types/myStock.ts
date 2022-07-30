@@ -1,4 +1,4 @@
-export type stock = {
+export type Stock = {
   stockName: string;
   count: number;
   code: string;
@@ -7,5 +7,5 @@ export type stock = {
 
 export type MyStock = {
   name: string;
-  holdingStock: stock[];
+  holdingStock: Stock[];
 };

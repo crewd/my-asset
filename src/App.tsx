@@ -1,14 +1,13 @@
 import { useEffect } from 'react';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import { useQueries } from '@tanstack/react-query';
+import { useSetRecoilState } from 'recoil';
 import AppLayout from './components/layout/AppLayout';
 import MainPage from './pages/MainPage';
 import SearchPage from './pages/search/SearchPage';
 import FavoritesPage from './pages/favorites/FavoritesPage';
 import { stockCodeSearch } from './api';
-import { useRecoilState } from 'recoil';
 import { myStockState, stockState } from './recoils/stock';
-import { Stock } from './types/apiType';
 
 const myData = [
   {
@@ -48,8 +47,8 @@ const myData = [
 ];
 
 function App() {
-  const [stockData, setStockData] = useRecoilState(stockState);
-  const [myStockData, setMyStockData] = useRecoilState(myStockState);
+  const setStockData = useSetRecoilState(stockState);
+  const setMyStockData = useSetRecoilState(myStockState);
 
   const myStockCodes: string[] = [];
 
@@ -57,13 +56,11 @@ function App() {
     portfolio.holdingStock.map((stock) => myStockCodes.push(stock.code)),
   );
 
-  const query = myStockCodes.map((code) => {
-    return {
-      queryKey: ['code', code],
-      queryFn: () => stockCodeSearch(code),
-      // onSuccess: (data: Stock) => setStockData([...stockData, data]),
-    };
-  });
+  const query = myStockCodes.map((code) => ({
+    queryKey: ['code', code],
+    queryFn: () => stockCodeSearch(code),
+    // onSuccess: (data: Stock) => setStockData([...stockData, data]),
+  }));
 
   const results = useQueries({
     queries: [...query],

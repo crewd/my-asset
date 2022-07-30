@@ -10,12 +10,11 @@ const usePurchasePrice = (myStockData: MyStock[]) => {
     }
     let purchasePriceSum = 0;
     myStockData.map((data) =>
-      data.holdingStock.map(
-        (stock) =>
-          (purchasePriceSum += Number(stock.purchasePrice) * stock.count),
-      ),
+      data.holdingStock.map((stock) => {
+        purchasePriceSum += Number(stock.purchasePrice) * stock.count;
+        return setValue(purchasePriceSum);
+      }),
     );
-    setValue(purchasePriceSum);
   }, [myStockData]);
 
   return [value, setValue];

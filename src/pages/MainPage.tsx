@@ -1,8 +1,7 @@
 import { faHeart, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import Box from '../components/box/Box';
 import List from '../components/box/List';
 import PortfolioCard from '../components/portfolio/portfolioCard';
@@ -12,11 +11,11 @@ import useReturn from '../hooks/useReturn';
 import useTotalPrice from '../hooks/useTotalPrice';
 import { myStockState, stockState } from '../recoils/stock';
 
-function MainPage() {
+const MainPage: React.FC = () => {
   // api 주식 데이터
-  const [stockData, setStockData] = useRecoilState(stockState);
+  const stockData = useRecoilValue(stockState);
   // 보유 주식
-  const [myStockData, setMyStockData] = useRecoilState(myStockState);
+  const myStockData = useRecoilValue(myStockState);
 
   // 총 보유 자산
   const [totalAmount] = useTotalPrice(myStockData, stockData);
@@ -115,6 +114,6 @@ function MainPage() {
       </div>
     </div>
   );
-}
+};
 
 export default MainPage;

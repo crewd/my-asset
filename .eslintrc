@@ -6,7 +6,8 @@
     "plugin:@typescript-eslint/recommended",
     "airbnb",
     "airbnb/hooks",
-    "airbnb-typescript"
+    "airbnb-typescript",
+    "prettier"
   ],
   "plugins": [
     "react",
@@ -15,5 +16,13 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "rules": {}
+  
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "no-nested-ternary": "off",
+    "no-unused-vars": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "import/prefer-default-export": "off"
+  }
 }
