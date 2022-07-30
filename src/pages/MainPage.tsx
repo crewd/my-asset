@@ -18,12 +18,14 @@ function MainPage() {
   // 보유 주식
   const [myStockData, setMyStockData] = useRecoilState(myStockState);
 
+  // 총 보유 자산
   const [totalAmount] = useTotalPrice(myStockData, stockData);
+  // 구매가격 총합
   const [purchasePrice] = usePurchasePrice(myStockData);
+  // 수익률
   const [returnRate] = useReturn(Number(purchasePrice), Number(totalAmount));
+  // 평가 손익
   const [profit] = useProfit(Number(purchasePrice), Number(totalAmount));
-
-  const minusRegex = /-/g;
 
   return (
     <div>
