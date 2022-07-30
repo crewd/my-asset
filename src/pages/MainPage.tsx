@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 import Box from '../components/box/Box';
 import List from '../components/box/List';
 import PortfolioCard from '../components/portfolio/portfolioCard';
-import useTotalPrice from '../hooks/totalPrice';
+import useTotalPrice from '../hooks/useTotalPrice';
 import { myStockState, stockState } from '../recoils/stock';
 
 function MainPage() {
