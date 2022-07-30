@@ -19,9 +19,11 @@ function AppLayout({ children }: { children: React.ReactNode }) {
           </Link>
           <div
             className={`sm:hidden ${
-              !isOpened ? `top-[5px]` : `top-0`
+              !isOpened ? 'top-[5px]' : 'top-0'
             } absolute right-[20px]`}
             onClick={menuToggle}
+            onKeyDown={menuToggle}
+            role="presentation"
           >
             {isOpened ? (
               <FontAwesomeIcon icon={faX} size="lg" />

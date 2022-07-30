@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import Box from '../../components/box/Box';
 import Button from '../../components/button/Button';
 import List from '../../components/box/List';
 
@@ -20,7 +19,7 @@ function FavoritesPage() {
         <List data={['005930', '삼성전자dndndn', '1,600,500', '-40.66%']} />
         <List data={['005930', '삼성전자', '60,500 ', '-0.66%']} />
       </div>
-      <Button>검색</Button>
+      <Button classname="">검색</Button>
     </div>
   );
 }

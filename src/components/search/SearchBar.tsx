@@ -1,16 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { getStockData } from '../../api';
 import { useState, useRef, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
+import { getStockData } from '../../api';
 import { searchValueState as valueAtom } from '../../recoils/search';
 import { Stock } from '../../types/apiType';
 
 function SearchBar() {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchWord, setSearchWord] = useState<string>('');
-  const [searchValue, setSearchValue] = useRecoilState(valueAtom);
+  const setSearchValue = useSetRecoilState(valueAtom);
   const { data, mutate } = useMutation<Stock[]>(['search', searchWord], () =>
     getStockData(searchWord),
   );
@@ -46,7 +46,7 @@ function SearchBar() {
 
   return (
     <div className="flex mb-[32px] p-[10px] border-b">
-      <button className="w-fit" onClick={searchHandler}>
+      <button className="w-fit" type="button" onClick={searchHandler}>
         <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" />
       </button>
       <input

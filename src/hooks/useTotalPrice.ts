@@ -13,12 +13,14 @@ const useTotalPrice = (myStockData: MyStock[], stockData: Stock[]) => {
     stockData.map((stock) => {
       myStockData.map((mStock) => {
         mStock.holdingStock.map((hStock) => {
-          if (hStock.stockName !== stock.itmsNm) {
-            return;
+          if (hStock.stockName === stock.itmsNm) {
+            priceSum += hStock.count * Number(stock.clpr);
           }
-          priceSum += hStock.count * Number(stock.clpr);
+          return false;
         });
+        return false;
       });
+      return false;
     });
     setValue(priceSum);
   }, [myStockData, stockData]);
