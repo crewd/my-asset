@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const useReturn = (purchasePrice: number, totalPrice: number) => {
+const useReturnOfRate = (purchasePrice: number, totalPrice: number) => {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
@@ -13,4 +13,4 @@ const useReturn = (purchasePrice: number, totalPrice: number) => {
   return [value, setValue];
 };
 
-export default useReturn;
+export default useReturnOfRate;

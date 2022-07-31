@@ -7,7 +7,7 @@ import List from '../components/box/List';
 import PortfolioCard from '../components/portfolio/portfolioCard';
 import useProfit from '../hooks/useProfit';
 import usePurchasePrice from '../hooks/usePurchasePrice';
-import useReturn from '../hooks/useReturn';
+import useReturnOfRate from '../hooks/useReturnOfRate';
 import useTotalPrice from '../hooks/useTotalPrice';
 import { myStockState, stockState } from '../recoils/stock';
 
@@ -22,7 +22,10 @@ const MainPage: React.FC = () => {
   // 구매가격 총합
   const [purchasePrice] = usePurchasePrice(myStockData);
   // 수익률
-  const [returnRate] = useReturn(Number(purchasePrice), Number(totalAmount));
+  const [returnRate] = useReturnOfRate(
+    Number(purchasePrice),
+    Number(totalAmount),
+  );
   // 평가 손익
   const [profit] = useProfit(Number(purchasePrice), Number(totalAmount));
 
