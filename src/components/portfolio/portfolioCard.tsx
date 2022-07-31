@@ -42,7 +42,7 @@ function PortfolioCard({ name, stock }: { name: string; stock: Stock[] }) {
   }, [totalPrice]);
 
   return (
-    <div className="flex justify-between sm:p-[15px] p-[10px] bg-primary">
+    <div className="flex justify-between sm:p-[15px] p-[10px] bg-primary shadow-inner  cursor-pointer">
       <p>{name}</p>
       <p className="text-regular leading-[27px]">
         ₩ {totalPrice} (

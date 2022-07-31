@@ -78,11 +78,11 @@ const MainPage: React.FC = () => {
           </Box>
         </Link>
         <div className="grid grid-cols-2 gap-[10px]">
-          <Box classname="w-[100%] h-[175px] rounded-xl col-span-2 text-center text-md flex flex-col justify-center items-center">
+          <Box classname="h-[175px] px-[20px] rounded-xl col-span-2 text-center text-md flex flex-col justify-center items-center">
             <p className="mb-[20px]"> 포트폴리오 바로가기</p>
             {myStockData.length > 0 ? (
               <Slider
-                className="sm:w-[90%] w-[85%]"
+                className="w-full"
                 infinite
                 arrows={false}
                 autoplay
