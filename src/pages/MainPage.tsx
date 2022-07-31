@@ -1,4 +1,8 @@
-import { faHeart, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHeart,
+  faMagnifyingGlass,
+  faPlus,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
@@ -76,23 +80,38 @@ const MainPage: React.FC = () => {
         <div className="grid grid-cols-2 gap-[10px]">
           <Box classname="w-[100%] h-[180px] rounded-xl col-span-2 p-[10px] text-center text-md flex flex-col justify-center items-center">
             <p className="mb-[20px]"> 포트폴리오 바로가기</p>
-            <Slider
-              className="sm:w-[90%] w-[85%]"
-              dots
-              infinite
-              autoplay
-              speed={500}
-              slidesToShow={1}
-              slidesToScroll={1}
-            >
-              {myStockData.map((data) => (
-                <PortfolioCard
-                  key={data.name}
-                  name={data.name}
-                  stock={data.holdingStock}
-                />
-              ))}
-            </Slider>
+            {myStockData.length > 0 ? (
+              <Slider
+                className="sm:w-[90%] w-[85%]"
+                dots
+                infinite
+                autoplay
+                speed={500}
+                slidesToShow={1}
+                slidesToScroll={1}
+              >
+                {myStockData.map((data) => (
+                  <PortfolioCard
+                    key={data.name}
+                    name={data.name}
+                    stock={data.holdingStock}
+                  />
+                ))}
+              </Slider>
+            ) : (
+              <div>
+                <button
+                  className="bg-slate-500 w-[70px] h-[70px] rounded-full shadow-lg"
+                  type="button"
+                >
+                  <FontAwesomeIcon
+                    className="text-secondary shadow-inner"
+                    icon={faPlus}
+                    size="2x"
+                  />
+                </button>
+              </div>
+            )}
           </Box>
           <Link to="/favorites">
             <Box classname="w-[100%] h-[110px] rounded-xl text-md flex justify-center items-center">
