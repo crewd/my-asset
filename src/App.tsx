@@ -11,40 +11,40 @@ import { myStockState, stockState } from './recoils/stock';
 import { MyStock } from './types/myStock';
 
 const myData: MyStock[] = [
-  // {
-  //   name: 'A 포트폴리오',
-  //   holdingStock: [
-  //     {
-  //       stockName: '삼성전자',
-  //       count: 50,
-  //       code: '005930',
-  //       purchasePrice: '90000',
-  //     },
-  //     {
-  //       stockName: 'LG생활건강',
-  //       count: 50,
-  //       code: '051900',
-  //       purchasePrice: '900000',
-  //     },
-  //   ],
-  // },
-  // {
-  //   name: 'b 포트폴리오',
-  //   holdingStock: [
-  //     {
-  //       stockName: '아시아나항공',
-  //       count: 20,
-  //       code: '020560',
-  //       purchasePrice: '20000',
-  //     },
-  //     {
-  //       stockName: '대한항공',
-  //       count: 30,
-  //       code: '003490',
-  //       purchasePrice: '30000',
-  //     },
-  //   ],
-  // },
+  {
+    name: 'A 포트폴리오',
+    holdingStock: [
+      {
+        stockName: '삼성전자',
+        count: 50,
+        code: '005930',
+        purchasePrice: '90000',
+      },
+      {
+        stockName: 'LG생활건강',
+        count: 50,
+        code: '051900',
+        purchasePrice: '900000',
+      },
+    ],
+  },
+  {
+    name: 'b 포트폴리오',
+    holdingStock: [
+      {
+        stockName: '아시아나항공',
+        count: 20,
+        code: '020560',
+        purchasePrice: '20000',
+      },
+      {
+        stockName: '대한항공',
+        count: 30,
+        code: '003490',
+        purchasePrice: '30000',
+      },
+    ],
+  },
 ];
 
 function App() {

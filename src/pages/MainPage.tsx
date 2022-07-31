@@ -40,7 +40,7 @@ const MainPage: React.FC = () => {
     <div>
       <div className="grid sm:grid-cols-2 gap-[10px]">
         <Link to="/portfolio">
-          <Box classname="w-[100%] h-[300px] rounded-xl p-[30px]">
+          <Box classname="w-[100%] h-[250px] rounded-xl p-[30px]">
             <div>
               <p className="text-lg">총 보유 자산</p>
               <p className="text-xxl font-bold">
@@ -78,13 +78,13 @@ const MainPage: React.FC = () => {
           </Box>
         </Link>
         <div className="grid grid-cols-2 gap-[10px]">
-          <Box classname="w-[100%] h-[180px] rounded-xl col-span-2 p-[10px] text-center text-md flex flex-col justify-center items-center">
+          <Box classname="w-[100%] h-[155px] rounded-xl col-span-2 p-[10px] text-center text-md flex flex-col justify-center items-center">
             <p className="mb-[20px]"> 포트폴리오 바로가기</p>
             {myStockData.length > 0 ? (
               <Slider
                 className="sm:w-[90%] w-[85%]"
-                dots
                 infinite
+                arrows={false}
                 autoplay
                 speed={500}
                 slidesToShow={1}
@@ -114,7 +114,7 @@ const MainPage: React.FC = () => {
             )}
           </Box>
           <Link to="/favorites">
-            <Box classname="w-[100%] h-[110px] rounded-xl text-md flex justify-center items-center">
+            <Box classname="w-[100%] h-[85px] rounded-xl text-md flex justify-center items-center">
               <div>
                 <FontAwesomeIcon
                   className="mr-3 text-red-500"
@@ -126,7 +126,7 @@ const MainPage: React.FC = () => {
             </Box>
           </Link>
           <Link to="/search">
-            <Box classname="w-[100%] h-[110px] rounded-xl text-md flex justify-center items-center">
+            <Box classname="w-[100%] h-[85px] rounded-xl text-md flex justify-center items-center">
               <div>
                 <FontAwesomeIcon
                   className="mr-3"
