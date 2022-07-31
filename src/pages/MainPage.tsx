@@ -80,6 +80,7 @@ const MainPage: React.FC = () => {
               className="sm:w-[90%] w-[85%]"
               dots
               infinite
+              autoplay
               speed={500}
               slidesToShow={1}
               slidesToScroll={1}

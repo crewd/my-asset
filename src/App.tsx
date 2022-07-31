@@ -11,7 +11,7 @@ import { myStockState, stockState } from './recoils/stock';
 
 const myData = [
   {
-    name: 'a',
+    name: 'A 포트폴리오',
     holdingStock: [
       {
         stockName: '삼성전자',
@@ -28,7 +28,7 @@ const myData = [
     ],
   },
   {
-    name: 'b',
+    name: 'B 포트폴리오',
     holdingStock: [
       {
         stockName: '아시아나항공',
