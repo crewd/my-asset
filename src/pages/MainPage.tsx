@@ -74,10 +74,10 @@ const MainPage: React.FC = () => {
           </Box>
         </Link>
         <div className="grid grid-cols-2 gap-[10px]">
-          <Box classname="w-[100%] h-[180px] rounded-xl col-span-2 p-[20px] text-center text-md flex flex-col justify-center items-center">
-            <p className="mb-[25px]"> 포트폴리오 바로가기</p>
+          <Box classname="w-[100%] h-[180px] rounded-xl col-span-2 p-[10px] text-center text-md flex flex-col justify-center items-center">
+            <p className="mb-[20px]"> 포트폴리오 바로가기</p>
             <Slider
-              className="w-[90%]"
+              className="sm:w-[90%] w-[85%]"
               dots
               infinite
               speed={500}
