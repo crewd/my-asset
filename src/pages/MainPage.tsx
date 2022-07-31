@@ -75,7 +75,11 @@ const MainPage: React.FC = () => {
             <p> 포트폴리오 바로가기</p>
             <div className="p-[20px]">
               {myStockData.map((data) => (
-                <PortfolioCard name={data.name} stock={data.holdingStock} />
+                <PortfolioCard
+                  key={data.name}
+                  name={data.name}
+                  stock={data.holdingStock}
+                />
               ))}
             </div>
           </Box>

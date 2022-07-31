@@ -22,6 +22,7 @@
     "react/jsx-one-expression-per-line": "off",
     "no-nested-ternary": "off",
     "no-unused-vars": "off",
+    "no-useless-return": "off",
     "react-hooks/exhaustive-deps": "off",
     "import/prefer-default-export": "off",
     "prettier/prettier": [

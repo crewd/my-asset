@@ -16,11 +16,11 @@ const useTotalPrice = (myStockData: MyStock[], stockData: Stock[]) => {
           if (hStock.stockName === stock.itmsNm) {
             priceSum += hStock.count * Number(stock.clpr);
           }
-          return false;
+          return;
         });
-        return false;
+        return;
       });
-      return false;
+      return;
     });
     setValue(priceSum);
   }, [myStockData, stockData]);
