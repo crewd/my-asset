@@ -1,26 +1,65 @@
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import useReturnOfRate from '../../hooks/useReturnOfRate';
+import { stockState } from '../../recoils/stock';
 import { Stock } from '../../types/myStock';
-import Box from '../box/Box';
 
 function PortfolioCard({ name, stock }: { name: string; stock: Stock[] }) {
-  const [totalPercahsePrice, setTotalPerChasePrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [purchasePrice, setPurchasePrice] = useState(0);
+
+  const stockData = useRecoilValue(stockState);
+
+  const [returnOfRate] = useReturnOfRate(purchasePrice, totalPrice);
 
   useEffect(() => {
+    if (!stockData || !stock) {
+      return;
+    }
     let priceSum = 0;
-    if (stock) {
-      stock.map((data) => {
-        priceSum += Number(data.purchasePrice) * data.count;
+    stockData.map((data) => {
+      stock.map((myStock) => {
+        if (data.itmsNm === myStock.stockName) {
+          priceSum += myStock.count * Number(data.clpr);
+        }
         return;
       });
+      return;
+    });
+    setTotalPrice(priceSum);
+  });
+
+  useEffect(() => {
+    if (!totalPrice) {
+      return;
     }
-    setTotalPerChasePrice(priceSum);
-  }, [stock]);
+    let purchasePriceSum = 0;
+    stock.map((data) => {
+      purchasePriceSum += Number(data.purchasePrice) * data.count;
+      return;
+    });
+    setPurchasePrice(purchasePriceSum);
+  }, [totalPrice]);
 
   return (
-    <Box classname="flex justify-between sm:p-[15px] p-[10px] bg-primary border-1 rounded-lg">
+    <div className="flex justify-between sm:p-[15px] p-[10px] bg-primary border-2 border-primary rounded-xl">
       <p>{name}</p>
-      <p>{totalPercahsePrice}</p>
-    </Box>
+      <p className="text-regular leading-[27px]">
+        ₩ {totalPrice} (
+        <span
+          className={`${
+            returnOfRate < 0
+              ? 'text-minus'
+              : returnOfRate > 0
+              ? 'text-plus'
+              : 'text-white'
+          }`}
+        >
+          {returnOfRate.toLocaleString()}%
+        </span>
+        )
+      </p>
+    </div>
   );
 }
 

@@ -2,6 +2,9 @@ import { faHeart, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import Box from '../components/box/Box';
 import List from '../components/box/List';
 import PortfolioCard from '../components/portfolio/portfolioCard';
@@ -71,9 +74,16 @@ const MainPage: React.FC = () => {
           </Box>
         </Link>
         <div className="grid grid-cols-2 gap-[10px]">
-          <Box classname="w-[100%] h-[180px] rounded-xl col-span-2 p-[20px] text-center text-md">
+          <Box classname="w-[100%] h-[180px] rounded-xl col-span-2 p-[20px] text-center text-md flex flex-col justify-center items-center">
             <p> 포트폴리오 바로가기</p>
-            <div className="p-[20px]">
+            <Slider
+              className="pt-[20px] w-[90%]"
+              dots
+              infinite
+              speed={500}
+              slidesToShow={1}
+              slidesToScroll={1}
+            >
               {myStockData.map((data) => (
                 <PortfolioCard
                   key={data.name}
@@ -81,7 +91,7 @@ const MainPage: React.FC = () => {
                   stock={data.holdingStock}
                 />
               ))}
-            </div>
+            </Slider>
           </Box>
           <Link to="/favorites">
             <Box classname="w-[100%] h-[110px] rounded-xl text-md flex justify-center items-center">
