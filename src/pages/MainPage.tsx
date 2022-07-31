@@ -2,12 +2,15 @@ import { faHeart, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import Box from '../components/box/Box';
 import List from '../components/box/List';
 import PortfolioCard from '../components/portfolio/portfolioCard';
 import useProfit from '../hooks/useProfit';
 import usePurchasePrice from '../hooks/usePurchasePrice';
-import useReturn from '../hooks/useReturn';
+import useReturnOfRate from '../hooks/useReturnOfRate';
 import useTotalPrice from '../hooks/useTotalPrice';
 import { myStockState, stockState } from '../recoils/stock';
 
@@ -22,7 +25,10 @@ const MainPage: React.FC = () => {
   // 구매가격 총합
   const [purchasePrice] = usePurchasePrice(myStockData);
   // 수익률
-  const [returnRate] = useReturn(Number(purchasePrice), Number(totalAmount));
+  const [returnRate] = useReturnOfRate(
+    Number(purchasePrice),
+    Number(totalAmount),
+  );
   // 평가 손익
   const [profit] = useProfit(Number(purchasePrice), Number(totalAmount));
 
@@ -68,13 +74,24 @@ const MainPage: React.FC = () => {
           </Box>
         </Link>
         <div className="grid grid-cols-2 gap-[10px]">
-          <Box classname="w-[100%] h-[180px] rounded-xl col-span-2 p-[20px] text-center text-md">
-            <p> 포트폴리오 바로가기</p>
-            <div className="p-[20px]">
+          <Box classname="w-[100%] h-[180px] rounded-xl col-span-2 p-[10px] text-center text-md flex flex-col justify-center items-center">
+            <p className="mb-[20px]"> 포트폴리오 바로가기</p>
+            <Slider
+              className="sm:w-[90%] w-[85%]"
+              dots
+              infinite
+              speed={500}
+              slidesToShow={1}
+              slidesToScroll={1}
+            >
               {myStockData.map((data) => (
-                <PortfolioCard name={data.name} stock={data.holdingStock} />
+                <PortfolioCard
+                  key={data.name}
+                  name={data.name}
+                  stock={data.holdingStock}
+                />
               ))}
-            </div>
+            </Slider>
           </Box>
           <Link to="/favorites">
             <Box classname="w-[100%] h-[110px] rounded-xl text-md flex justify-center items-center">

@@ -1,6 +1,6 @@
 function Button({
   children,
-  classname,
+  classname = '',
 }: {
   children: React.ReactNode;
   classname?: string;
