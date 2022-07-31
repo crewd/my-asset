@@ -8,10 +8,11 @@ import SearchPage from './pages/search/SearchPage';
 import FavoritesPage from './pages/favorites/FavoritesPage';
 import { stockCodeSearch } from './api';
 import { myStockState, stockState } from './recoils/stock';
+import { MyStock } from './types/myStock';
 
-const myData = [
+const myData: MyStock[] = [
   {
-    name: 'a',
+    name: 'A 포트폴리오',
     holdingStock: [
       {
         stockName: '삼성전자',
@@ -28,7 +29,7 @@ const myData = [
     ],
   },
   {
-    name: 'b',
+    name: 'b 포트폴리오',
     holdingStock: [
       {
         stockName: '아시아나항공',
@@ -52,9 +53,11 @@ function App() {
 
   const myStockCodes: string[] = [];
 
-  myData.map((portfolio) =>
-    portfolio.holdingStock.map((stock) => myStockCodes.push(stock.code)),
-  );
+  if (myData) {
+    myData.map((portfolio) =>
+      portfolio.holdingStock.map((stock) => myStockCodes.push(stock.code)),
+    );
+  }
 
   const query = myStockCodes.map((code) => ({
     queryKey: ['code', code],

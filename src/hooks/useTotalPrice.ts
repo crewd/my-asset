@@ -3,7 +3,7 @@ import { Stock } from '../types/apiType';
 import { MyStock } from '../types/myStock';
 
 const useTotalPrice = (myStockData: MyStock[], stockData: Stock[]) => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState<number>(0);
 
   useEffect(() => {
     if (!stockData || !myStockData) {
