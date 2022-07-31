@@ -40,14 +40,14 @@ const MainPage: React.FC = () => {
     <div>
       <div className="grid sm:grid-cols-2 gap-[10px]">
         <Link to="/portfolio">
-          <Box classname="w-[100%] h-[250px] rounded-xl p-[30px]">
+          <Box classname="w-[100%] h-[250px] rounded-xl sm:p-[30px] p-[25px]">
             <div>
               <p className="text-lg">총 보유 자산</p>
-              <p className="text-xxl font-bold">
+              <p className="sm:text-xxl text-[32px] font-bold">
                 {totalAmount.toLocaleString()}원
               </p>
             </div>
-            <div className="mt-[20px] flex justify-between">
+            <div className="mt-8 flex justify-between">
               <p className="text-md">수익률</p>
               <p
                 className={`font-bold text-lg ${
@@ -78,7 +78,7 @@ const MainPage: React.FC = () => {
           </Box>
         </Link>
         <div className="grid grid-cols-2 gap-[10px]">
-          <Box classname="w-[100%] h-[175px] rounded-xl col-span-2 p-[10px] text-center text-md flex flex-col justify-center items-center">
+          <Box classname="w-[100%] h-[175px] rounded-xl col-span-2 text-center text-md flex flex-col justify-center items-center">
             <p className="mb-[20px]"> 포트폴리오 바로가기</p>
             {myStockData.length > 0 ? (
               <Slider
