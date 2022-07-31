@@ -75,9 +75,9 @@ const MainPage: React.FC = () => {
         </Link>
         <div className="grid grid-cols-2 gap-[10px]">
           <Box classname="w-[100%] h-[180px] rounded-xl col-span-2 p-[20px] text-center text-md flex flex-col justify-center items-center">
-            <p> 포트폴리오 바로가기</p>
+            <p className="mb-[25px]"> 포트폴리오 바로가기</p>
             <Slider
-              className="pt-[20px] w-[90%]"
+              className="w-[90%]"
               dots
               infinite
               speed={500}
