@@ -16,9 +16,41 @@ function SearchBar() {
   const { data, mutate } = useMutation<Stock[]>(['search', search], () =>
     getStockData(search.slice(7)),
   );
+
+  // 날짜 오름차순 정렬
+  const compareDate = (a: Stock, b: Stock) => {
+    if (a.basDt < b.basDt) {
+      return -1;
+    }
+    if (a.basDt > b.basDt) {
+      return 1;
+    }
+    return 0;
+  };
+
   const dedupArr = [
-    ...new Map(data?.map((item) => [item.srtnCd, item])).values(),
+    ...new Map(
+      data?.sort(compareDate).map((item) => [item.isinCd, item]),
+    ).values(),
   ];
+
+  useEffect(() => {
+    if (search.length < 8 || search.slice(0, 7) !== '?query=') {
+      nav('/search');
+      return;
+    }
+    if (searchInputRef.current != null) {
+      searchInputRef.current.value = decodeURI(search.slice(7));
+    }
+
+    mutate();
+  }, [search]);
+
+  useEffect(() => {
+    if (data) {
+      setSearchValue(dedupArr);
+    }
+  }, [data]);
 
   const searchHandler = () => {
     // 검색어가 없거나 검색어와 쿼리스트링이 같을경우 리턴
@@ -30,21 +62,6 @@ function SearchBar() {
     }
     nav({ search: `query=${searchInputRef.current.value}` });
   };
-
-  useEffect(() => {
-    if (search.length < 8 || search.slice(0, 7) !== '?query=') {
-      nav('/search');
-      return;
-    }
-    // searchInputRef.current!.value = decodeURI(search.slice(7));
-    mutate();
-  }, [search]);
-
-  useEffect(() => {
-    if (data) {
-      setSearchValue(dedupArr);
-    }
-  }, [data]);
 
   const searchEnterKeyHandler = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
