@@ -31,3 +31,11 @@ export const stockCodeSearch = async (code: number | string) => {
 
   return data.data.response.body.items.item[0];
 };
+
+export const getStockTrdVol = async () => {
+  const data = await axios.get(
+    `${baseURL}&serviceKey=${serviceKey}&beginBasDt=${calcDate()}&beginTrqu=6000000&numOfRows=300`,
+  );
+
+  return data.data.response.body.items.item;
+};

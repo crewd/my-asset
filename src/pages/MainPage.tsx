@@ -9,6 +9,7 @@ import { useRecoilValue } from 'recoil';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { useQuery } from '@tanstack/react-query';
 import Box from '../components/box/Box';
 import List from '../components/box/List';
 import PortfolioCard from '../components/portfolio/portfolioCard';
@@ -17,6 +18,8 @@ import usePurchasePrice from '../hooks/usePurchasePrice';
 import useReturnOfRate from '../hooks/useReturnOfRate';
 import useTotalPrice from '../hooks/useTotalPrice';
 import { myStockState, stockState } from '../recoils/stock';
+import { Stock } from '../types/apiType';
+import { getStockTrdVol } from '../api';
 
 const MainPage: React.FC = () => {
   // api 주식 데이터
@@ -35,6 +38,31 @@ const MainPage: React.FC = () => {
   );
   // 평가 손익
   const [profit] = useProfit(Number(purchasePrice), Number(totalAmount));
+
+  const { data } = useQuery<Stock[]>(['bestTrdVol', getStockTrdVol], () =>
+    getStockTrdVol(),
+  );
+
+  const compareTrdVol = (a: Stock, b: Stock) => {
+    if (Number(a.trqu) > Number(b.trqu)) {
+      return -1;
+    }
+    if (Number(a.trqu) < Number(b.trqu)) {
+      return 1;
+    }
+    return 0;
+  };
+
+  const latestDate = Math.max(
+    ...(data?.map((e) => Number(e.basDt)) || []),
+  ).toString();
+  const bestTrdVol = data
+    ?.filter((f) => f.basDt === latestDate)
+    .sort(compareTrdVol);
+
+  if (bestTrdVol) {
+    bestTrdVol.length = 10;
+  }
 
   return (
     <div>
@@ -90,11 +118,11 @@ const MainPage: React.FC = () => {
                 slidesToShow={1}
                 slidesToScroll={1}
               >
-                {myStockData.map((data) => (
+                {myStockData.map((element) => (
                   <PortfolioCard
-                    key={data.name}
-                    name={data.name}
-                    stock={data.holdingStock}
+                    key={element.name}
+                    name={element.name}
+                    stock={element.holdingStock}
                   />
                 ))}
               </Slider>
@@ -145,8 +173,18 @@ const MainPage: React.FC = () => {
         </p>
         <div className="mt-[15px]">
           <List data={['코드', '주식명', '종가', '등락률']} />
-          <List data={['1', '2', '3', '4']} />
-          <List data={[5, 6, 7, 8]} />
+          {bestTrdVol &&
+            bestTrdVol.map((e) => (
+              <List
+                key={e.itmsNm}
+                data={[
+                  e.srtnCd,
+                  e.itmsNm,
+                  `₩ ${Number(e.clpr).toLocaleString()}`,
+                  `${Number(e.fltRt).toLocaleString()} %`,
+                ]}
+              />
+            ))}
         </div>
       </div>
     </div>
