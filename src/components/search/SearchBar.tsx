@@ -17,24 +17,15 @@ function SearchBar() {
     getStockData(search.slice(7)),
   );
 
-  // 날짜 오름차순 정렬
-  const compareDate = (a: Stock, b: Stock) => {
-    if (a.basDt < b.basDt) {
-      return -1;
-    }
-    if (a.basDt > b.basDt) {
-      return 1;
-    }
-    return 0;
-  };
+  // 최근 업데이트 날짜 찾기
+  const latestDate = Math.max(
+    ...(data?.map((e) => Number(e.basDt)) || []),
+  ).toString();
 
-  const dedupArr = [
-    ...new Map(
-      data?.sort(compareDate).map((item) => [item.isinCd, item]),
-    ).values(),
-  ];
+  const searchValue = data?.filter((f) => f.basDt === latestDate);
 
   useEffect(() => {
+    // 리다이렉트
     if (search.length < 8 || search.slice(0, 7) !== '?query=') {
       nav('/search');
       return;
@@ -48,7 +39,7 @@ function SearchBar() {
 
   useEffect(() => {
     if (data) {
-      setSearchValue(dedupArr);
+      setSearchValue(searchValue);
     }
   }, [data]);
 
