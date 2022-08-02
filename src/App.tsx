@@ -10,6 +10,7 @@ import { stockCodeSearch } from './api';
 import { myStockState, stockState } from './recoils/stock';
 import { MyStock } from './types/myStock';
 import Portfolios from './pages/portfolio/portfolios';
+import { stockStore } from './util/stock';
 
 const myData: MyStock[] = [
   {
@@ -30,7 +31,7 @@ const myData: MyStock[] = [
     ],
   },
   {
-    name: 'b 포트폴리오',
+    name: 'B 포트폴리오',
     holdingStock: [
       {
         stockName: '아시아나항공',
@@ -51,6 +52,8 @@ const myData: MyStock[] = [
 function App() {
   const setStockData = useSetRecoilState(stockState);
   const setMyStockData = useSetRecoilState(myStockState);
+
+  const portfolioStore = stockStore;
 
   const myStockCodes: string[] = [];
 
@@ -81,11 +84,23 @@ function App() {
   }, [allSuccess]);
 
   useEffect(() => {
-    if (!myData) {
+    if (!portfolioStore.allStock) {
       return;
     }
-    setMyStockData(myData);
-  }, []);
+    const myStockArray: MyStock[] = [];
+    for (let i = 0; i < portfolioStore.allStock.length; i++) {
+      const key = portfolioStore.allStock.key(i);
+      if (!key || !portfolioStore.get(key)) {
+        return;
+      }
+      myStockArray.push(JSON.parse(portfolioStore.get(key)));
+    }
+    setMyStockData(
+      myStockArray.filter(
+        (name, index) => myStockArray.indexOf(name) === index,
+      ),
+    );
+  }, [portfolioStore.allStock]);
 
   return (
     <BrowserRouter>
