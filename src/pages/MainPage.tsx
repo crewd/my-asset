@@ -59,11 +59,8 @@ const MainPage: React.FC = () => {
 
   const bestTrdVol = data
     ?.filter((f) => f.basDt === latestDate)
-    .sort(compareTrdVol);
-
-  if (bestTrdVol) {
-    bestTrdVol.length = 10;
-  }
+    .sort(compareTrdVol)
+    .slice(0, 10);
 
   return (
     <div>
