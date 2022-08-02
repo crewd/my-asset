@@ -8,7 +8,7 @@ const SearchPage: React.FC = () => {
   const [searchValue, setSearchValue] = useRecoilState(valueAtom);
 
   useEffect(() => {
-    setSearchValue(null);
+    setSearchValue(undefined);
   }, []);
 
   return (

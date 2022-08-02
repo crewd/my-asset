@@ -16,9 +16,32 @@ function SearchBar() {
   const { data, mutate } = useMutation<Stock[]>(['search', search], () =>
     getStockData(search.slice(7)),
   );
-  const dedupArr = [
-    ...new Map(data?.map((item) => [item.srtnCd, item])).values(),
-  ];
+
+  // 최근 업데이트 날짜 찾기
+  const latestDate = Math.max(
+    ...(data?.map((e) => Number(e.basDt)) || []),
+  ).toString();
+
+  const searchValue = data?.filter((f) => f.basDt === latestDate);
+
+  useEffect(() => {
+    // 리다이렉트
+    if (search.length < 8 || search.slice(0, 7) !== '?query=') {
+      nav('/search');
+      return;
+    }
+    if (searchInputRef.current != null) {
+      searchInputRef.current.value = decodeURI(search.slice(7));
+    }
+
+    mutate();
+  }, [search]);
+
+  useEffect(() => {
+    if (data) {
+      setSearchValue(searchValue);
+    }
+  }, [data]);
 
   const searchHandler = () => {
     // 검색어가 없거나 검색어와 쿼리스트링이 같을경우 리턴
@@ -30,21 +53,6 @@ function SearchBar() {
     }
     nav({ search: `query=${searchInputRef.current.value}` });
   };
-
-  useEffect(() => {
-    if (search.length < 8 || search.slice(0, 7) !== '?query=') {
-      nav('/search');
-      return;
-    }
-    // searchInputRef.current!.value = decodeURI(search.slice(7));
-    mutate();
-  }, [search]);
-
-  useEffect(() => {
-    if (data) {
-      setSearchValue(dedupArr);
-    }
-  }, [data]);
 
   const searchEnterKeyHandler = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {

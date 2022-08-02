@@ -1,7 +1,7 @@
-import { MyStock } from '../types/myStock';
+import { Stock } from '../types/myStock';
 
 export const stockStore = {
-  set: (name: string, portfolio: MyStock) => {
+  set: (name: string, portfolio: Stock[]) => {
     if (!portfolio) {
       return;
     }
