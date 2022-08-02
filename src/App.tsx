@@ -9,6 +9,7 @@ import FavoritesPage from './pages/favorites/FavoritesPage';
 import { stockCodeSearch } from './api';
 import { myStockState, stockState } from './recoils/stock';
 import { MyStock } from './types/myStock';
+import Portfolios from './pages/portfolio/portfolios';
 
 const myData: MyStock[] = [
   {
@@ -92,7 +93,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
-          <Route path="/portfolio" />
+          <Route path="/portfolios" element={<Portfolios />} />
           <Route path="/portfolio/:id" />
           <Route path="/search" element={<SearchPage />} />
         </Routes>

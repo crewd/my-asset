@@ -56,6 +56,7 @@ const MainPage: React.FC = () => {
   const latestDate = Math.max(
     ...(data?.map((e) => Number(e.basDt)) || []),
   ).toString();
+
   const bestTrdVol = data
     ?.filter((f) => f.basDt === latestDate)
     .sort(compareTrdVol);
@@ -67,7 +68,7 @@ const MainPage: React.FC = () => {
   return (
     <div>
       <div className="grid sm:grid-cols-2 gap-[10px]">
-        <Link to="/portfolio">
+        <Link to="/portfolios">
           <Box classname="w-[100%] h-[250px] rounded-xl sm:p-[30px] p-[25px]">
             <div>
               <p className="text-lg">총 보유 자산</p>
