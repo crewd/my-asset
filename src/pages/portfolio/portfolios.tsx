@@ -64,7 +64,9 @@ const Portfolios = () => {
             </div>
             <ul className="w-[30%] list-disc">
               {myStockData.map((portfolio) => (
-                <li className="p-[5px]">{portfolio.name}</li>
+                <li key={portfolio.name} className="p-[5px]">
+                  {portfolio.name}
+                </li>
               ))}
             </ul>
           </Box>
