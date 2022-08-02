@@ -1,14 +1,14 @@
+import { Link } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import {
   faHeart,
   faMagnifyingGlass,
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import { useQuery } from '@tanstack/react-query';
 import Box from '../components/box/Box';
 import List from '../components/box/List';
@@ -56,18 +56,16 @@ const MainPage: React.FC = () => {
   const latestDate = Math.max(
     ...(data?.map((e) => Number(e.basDt)) || []),
   ).toString();
+
   const bestTrdVol = data
     ?.filter((f) => f.basDt === latestDate)
-    .sort(compareTrdVol);
-
-  if (bestTrdVol) {
-    bestTrdVol.length = 10;
-  }
+    .sort(compareTrdVol)
+    .slice(0, 10);
 
   return (
     <div>
       <div className="grid sm:grid-cols-2 gap-[10px]">
-        <Link to="/portfolio">
+        <Link to="/portfolios">
           <Box classname="w-[100%] h-[250px] rounded-xl sm:p-[30px] p-[25px]">
             <div>
               <p className="text-lg">총 보유 자산</p>

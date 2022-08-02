@@ -9,6 +9,8 @@ import FavoritesPage from './pages/favorites/FavoritesPage';
 import { stockCodeSearch } from './api';
 import { myStockState, stockState } from './recoils/stock';
 import { MyStock } from './types/myStock';
+import Portfolios from './pages/portfolio/portfolios';
+import { stockStore } from './util/stock';
 
 const myData: MyStock[] = [
   {
@@ -29,7 +31,7 @@ const myData: MyStock[] = [
     ],
   },
   {
-    name: 'b 포트폴리오',
+    name: 'B 포트폴리오',
     holdingStock: [
       {
         stockName: '아시아나항공',
@@ -51,12 +53,22 @@ function App() {
   const setStockData = useSetRecoilState(stockState);
   const setMyStockData = useSetRecoilState(myStockState);
 
+  const portfolioStore = stockStore;
+
   const myStockCodes: string[] = [];
 
   if (myData) {
-    myData.map((portfolio) =>
-      portfolio.holdingStock.map((stock) => myStockCodes.push(stock.code)),
-    );
+    myData.map((portfolio) => {
+      portfolio.holdingStock.map((stock) => myStockCodes.push(stock.code));
+      // 나중에 제거 예정
+      if (portfolioStore.allStock) {
+        portfolioStore.set(portfolio.name, {
+          name: portfolio.name,
+          holdingStock: portfolio.holdingStock,
+        });
+      }
+      return;
+    });
   }
 
   const query = myStockCodes.map((code) => ({
@@ -80,11 +92,23 @@ function App() {
   }, [allSuccess]);
 
   useEffect(() => {
-    if (!myData) {
+    if (!portfolioStore.allStock) {
       return;
     }
-    setMyStockData(myData);
-  }, []);
+    const myStockArray: MyStock[] = [];
+    for (let i = 0; i < portfolioStore.allStock.length; i++) {
+      const key = portfolioStore.allStock.key(i);
+      if (!key || !portfolioStore.get(key)) {
+        return;
+      }
+      myStockArray.push(JSON.parse(portfolioStore.get(key)));
+    }
+    setMyStockData(
+      myStockArray.filter(
+        (name, index) => myStockArray.indexOf(name) === index,
+      ),
+    );
+  }, [portfolioStore.allStock]);
 
   return (
     <BrowserRouter>
@@ -92,7 +116,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
-          <Route path="/portfolio" />
+          <Route path="/portfolios" element={<Portfolios />} />
           <Route path="/portfolio/:id" />
           <Route path="/search" element={<SearchPage />} />
         </Routes>
