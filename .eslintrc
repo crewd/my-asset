@@ -23,6 +23,7 @@
     "no-nested-ternary": "off",
     "no-unused-vars": "off",
     "no-useless-return": "off",
+    "no-plusplus": "off",
     "react-hooks/exhaustive-deps": "off",
     "import/prefer-default-export": "off",
     "prettier/prettier": [
