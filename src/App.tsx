@@ -58,9 +58,17 @@ function App() {
   const myStockCodes: string[] = [];
 
   if (myData) {
-    myData.map((portfolio) =>
-      portfolio.holdingStock.map((stock) => myStockCodes.push(stock.code)),
-    );
+    myData.map((portfolio) => {
+      portfolio.holdingStock.map((stock) => myStockCodes.push(stock.code));
+      // 나중에 제거 예정
+      if (portfolioStore.allStock) {
+        portfolioStore.set(portfolio.name, {
+          name: portfolio.name,
+          holdingStock: portfolio.holdingStock,
+        });
+      }
+      return;
+    });
   }
 
   const query = myStockCodes.map((code) => ({
