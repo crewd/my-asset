@@ -14,6 +14,7 @@ import { stockStore } from './util/stock';
 
 const myData: MyStock[] = [
   {
+    id: 1,
     name: 'A 포트폴리오',
     holdingStock: [
       {
@@ -31,6 +32,7 @@ const myData: MyStock[] = [
     ],
   },
   {
+    id: 2,
     name: 'B 포트폴리오',
     holdingStock: [
       {
@@ -63,6 +65,7 @@ function App() {
       // 나중에 제거 예정
       if (portfolioStore.allStock) {
         portfolioStore.set(portfolio.name, {
+          id: portfolio.id,
           name: portfolio.name,
           holdingStock: portfolio.holdingStock,
         });
@@ -116,7 +119,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
-          <Route path="/portfolios" element={<Portfolios />} />
+          <Route path="/portfolio" element={<Portfolios />} />
           <Route path="/portfolio/:id" />
           <Route path="/search" element={<SearchPage />} />
         </Routes>

@@ -4,13 +4,25 @@ import useReturnOfRate from '../../hooks/useReturnOfRate';
 import { stockState } from '../../recoils/stock';
 import { Stock } from '../../types/myStock';
 
-function PortfolioCard({ name, stock }: { name: string; stock: Stock[] }) {
+function PortfolioCard({
+  name,
+  stock,
+  classname,
+  navigate,
+}: {
+  name: string;
+  stock: Stock[];
+  classname: string;
+  navigate: () => void;
+}) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [purchasePrice, setPurchasePrice] = useState(0);
 
   const stockData = useRecoilValue(stockState);
 
   const [returnOfRate] = useReturnOfRate(purchasePrice, totalPrice);
+
+  const styles = `flex justify-between sm:p-[15px] p-[10px] cursor-pointer ${classname}`;
 
   useEffect(() => {
     if (!stockData || !stock) {
@@ -42,7 +54,7 @@ function PortfolioCard({ name, stock }: { name: string; stock: Stock[] }) {
   }, [totalPrice]);
 
   return (
-    <div className="flex justify-between sm:p-[15px] p-[10px] bg-primary shadow-inner  cursor-pointer">
+    <div className={styles} onClick={navigate} role="presentation">
       <p>{name}</p>
       <p className="text-regular leading-[27px]">
         ₩ {totalPrice} (

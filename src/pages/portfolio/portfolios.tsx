@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import Box from '../../components/box/Box';
+import PortfolioCard from '../../components/portfolio/portfolioCard';
 import useProfit from '../../hooks/useProfit';
 import usePurchasePrice from '../../hooks/usePurchasePrice';
 import useReturnOfRate from '../../hooks/useReturnOfRate';
@@ -13,6 +14,8 @@ const Portfolios = () => {
   // 보유 주식
   const myStockData = useRecoilValue(myStockState);
 
+  const navigate = useNavigate();
+
   const [totalAmount] = useTotalPrice(myStockData, stockData);
   const [purchasePrice] = usePurchasePrice(myStockData);
   const [returnRate] = useReturnOfRate(
@@ -21,10 +24,14 @@ const Portfolios = () => {
   );
   const [profit] = useProfit(Number(purchasePrice), Number(totalAmount));
 
+  const navigateHandler = (id: number) => {
+    navigate(`/portfolio/${id}`);
+  };
+
   return (
     <div>
-      <div className="">
-        <Link to="/portfolios">
+      <div className="grid grid-cols-1 gap-[20px]">
+        <div>
           <Box classname="w-[100%] h-[250px] rounded-xl sm:p-[30px] p-[25px] flex justify-between">
             <div className="w-[40%]">
               <div>
@@ -70,7 +77,21 @@ const Portfolios = () => {
               ))}
             </ul>
           </Box>
-        </Link>
+        </div>
+        <div>
+          <p className="py-[10px] text-md">내 포트폴리오</p>
+          <div>
+            {myStockData.map((element) => (
+              <PortfolioCard
+                classname="bg-secondary first:rounded-t-xl last:rounded-b-xl last:border-none border-b-2 border-primary"
+                key={element.name}
+                name={element.name}
+                stock={element.holdingStock}
+                navigate={() => navigateHandler(element.id)}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

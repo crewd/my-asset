@@ -6,6 +6,7 @@ export type Stock = {
 };
 
 export type MyStock = {
+  id: number;
   name: string;
   holdingStock: Stock[];
 };

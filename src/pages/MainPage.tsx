@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -43,6 +43,12 @@ const MainPage: React.FC = () => {
     getStockTrdVol(),
   );
 
+  const navigate = useNavigate();
+
+  const navigateHandler = (id: number) => {
+    navigate(`/portfolio/${id}`);
+  };
+
   const compareTrdVol = (a: Stock, b: Stock) => {
     if (Number(a.trqu) > Number(b.trqu)) {
       return -1;
@@ -65,7 +71,7 @@ const MainPage: React.FC = () => {
   return (
     <div>
       <div className="grid sm:grid-cols-2 gap-[10px]">
-        <Link to="/portfolios">
+        <Link to="/portfolio">
           <Box classname="w-[100%] h-[250px] rounded-xl sm:p-[30px] p-[25px]">
             <div>
               <p className="text-lg">총 보유 자산</p>
@@ -118,9 +124,11 @@ const MainPage: React.FC = () => {
               >
                 {myStockData.map((element) => (
                   <PortfolioCard
+                    classname="bg-primary"
                     key={element.name}
                     name={element.name}
                     stock={element.holdingStock}
+                    navigate={() => navigateHandler(element.id)}
                   />
                 ))}
               </Slider>
