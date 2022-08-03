@@ -16,7 +16,7 @@ const SearchPage: React.FC = () => {
       <SearchBar />
       <div>
         <List data={['코드', '주식명', '종가', '등락률']} />
-        {searchValue &&
+        {!searchValue ? null : searchValue && searchValue.length > 0 ? (
           searchValue.map((e) => (
             <List
               key={e.itmsNm}
@@ -27,7 +27,10 @@ const SearchPage: React.FC = () => {
                 `${Number(e.fltRt).toLocaleString()} %`,
               ]}
             />
-          ))}
+          ))
+        ) : (
+          <List data={['검색결과가 없습니다.']} />
+        )}
       </div>
     </div>
   );
