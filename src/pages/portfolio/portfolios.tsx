@@ -1,6 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Box from '../../components/box/Box';
+import Button from '../../components/button/Button';
 import PortfolioCard from '../../components/portfolio/portfolioCard';
 import useProfit from '../../hooks/useProfit';
 import usePurchasePrice from '../../hooks/usePurchasePrice';
@@ -91,6 +94,9 @@ const Portfolios = () => {
               />
             ))}
           </div>
+          <Button>
+            <FontAwesomeIcon icon={faPlus} size="lg" />
+          </Button>
         </div>
       </div>
     </div>
