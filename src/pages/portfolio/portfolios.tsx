@@ -31,9 +31,9 @@ const Portfolios = () => {
   return (
     <div>
       <div className="grid grid-cols-1 gap-[20px]">
-        <div>
-          <Box classname="w-[100%] h-[250px] rounded-xl sm:p-[30px] p-[25px] flex justify-between">
-            <div className="w-[40%]">
+        <div className="m-auto sm:w-[600px] w-[100%]">
+          <Box classname=" sm:h-[250px] h-[350px] rounded-xl sm:p-[30px] p-[25px] flex justify-between sm:flex-row flex-col">
+            <div className="sm:w-[50%] w-full">
               <div>
                 <p className="text-lg">총 보유 자산</p>
                 <p className="sm:text-xxl text-[32px] font-bold">
@@ -69,16 +69,16 @@ const Portfolios = () => {
                 </p>
               </div>
             </div>
-            <ul className="w-[30%] list-disc">
+            <ul className="sm:w-[30%] w-full">
               {myStockData.map((portfolio) => (
                 <li key={portfolio.name} className="p-[5px]">
-                  {portfolio.name}
+                  - {portfolio.name}
                 </li>
               ))}
             </ul>
           </Box>
         </div>
-        <div>
+        <div className="m-auto sm:w-[600px] w-[100%]">
           <p className="py-[10px] text-md">내 포트폴리오</p>
           <div>
             {myStockData.map((element) => (
