@@ -10,6 +10,7 @@ import usePurchasePrice from '../../hooks/usePurchasePrice';
 import useReturnOfRate from '../../hooks/useReturnOfRate';
 import useTotalPrice from '../../hooks/useTotalPrice';
 import { myStockState, stockState } from '../../recoils/stock';
+import List from '../../components/box/List';
 
 const Portfolios = () => {
   // api 주식 데이터
@@ -84,17 +85,21 @@ const Portfolios = () => {
         <div className="m-auto sm:w-[600px] w-[100%]">
           <p className="py-[10px] text-md">내 포트폴리오</p>
           <div>
-            {myStockData.map((element) => (
-              <PortfolioCard
-                classname="bg-secondary first:rounded-t-xl last:rounded-b-xl last:border-none border-b-2 border-primary p-[20px]"
-                key={element.name}
-                name={element.name}
-                stock={element.holdingStock}
-                navigate={() => navigateHandler(element.id)}
-              />
-            ))}
+            {myStockData.length > 0 ? (
+              myStockData.map((element) => (
+                <PortfolioCard
+                  classname="bg-secondary first:rounded-t-xl last:rounded-b-xl last:border-none border-b-2 border-primary sm:p-[20px] p-[15px]"
+                  key={element.name}
+                  name={element.name}
+                  stock={element.holdingStock}
+                  navigate={() => navigateHandler(element.id)}
+                />
+              ))
+            ) : (
+              <List data={['포트폴리오를 추가해보세요!']} />
+            )}
           </div>
-          <Button>
+          <Button classname="">
             <FontAwesomeIcon icon={faPlus} size="lg" />
           </Button>
         </div>

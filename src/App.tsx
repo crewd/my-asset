@@ -60,7 +60,7 @@ function App() {
   const myStockCodes: string[] = [];
 
   if (myData) {
-    myData.map((portfolio) => {
+    myData.sort().map((portfolio) => {
       portfolio.holdingStock.map((stock) => myStockCodes.push(stock.code));
       // 나중에 제거 예정
       if (portfolioStore.allStock) {

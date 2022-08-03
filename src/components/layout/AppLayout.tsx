@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faX } from '@fortawesome/free-solid-svg-icons';
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   const [isOpened, setIsOpened] = useState(false);
+
+  const navigate = useNavigate();
+
+  const navigateHandler = (path: string) => {
+    navigate(`/${path}`);
+  };
 
   const menuToggle = () => {
     setIsOpened(!isOpened);
@@ -31,21 +37,33 @@ function AppLayout({ children }: { children: React.ReactNode }) {
               <FontAwesomeIcon icon={faBars} size="2x" />
             )}
           </div>
-          <ul
+          <div
             className={`sm:flex ${
               isOpened ? 'flex' : 'hidden'
             } sm:flex-row text-center flex-col sm:justify-end items-center w-[100%] sm:w-fit`}
           >
-            <li className="mx-[10px] px-[10px] sm:w-auto w-[100%]">
-              <Link to="/search">종목 검색</Link>
-            </li>
-            <li className="mx-[10px] px-[10px] sm:w-auto w-[100%]">
-              <Link to="/favorites">관심종목</Link>
-            </li>
-            <li className="mx-[10px] px-[10px] sm:w-auto w-[100%]">
-              <Link to="/portfolio">포트폴리오</Link>
-            </li>
-          </ul>
+            <button
+              className="mx-[10px] px-[10px] sm:w-auto w-[100%] sm:hover:bg-inherit hover:bg-secondary"
+              type="button"
+              onClick={() => navigateHandler('search')}
+            >
+              종목 검색
+            </button>
+            <button
+              className="mx-[10px] px-[10px] sm:w-auto w-[100%] sm:hover:bg-inherit hover:bg-secondary"
+              type="button"
+              onClick={() => navigateHandler('favorites')}
+            >
+              관심종목
+            </button>
+            <button
+              className="mx-[10px] px-[10px] sm:w-auto w-[100%] sm:hover:bg-inherit hover:bg-secondary"
+              type="button"
+              onClick={() => navigateHandler('portfolio')}
+            >
+              포트폴리오
+            </button>
+          </div>
         </nav>
       </header>
       <div className="max-w-[1024px] w-[100%] m-auto pt-[40px] lg:px-0 px-[20px]">
