@@ -1,6 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Box from '../../components/box/Box';
+import Button from '../../components/button/Button';
 import PortfolioCard from '../../components/portfolio/portfolioCard';
 import useProfit from '../../hooks/useProfit';
 import usePurchasePrice from '../../hooks/usePurchasePrice';
@@ -31,9 +34,9 @@ const Portfolios = () => {
   return (
     <div>
       <div className="grid grid-cols-1 gap-[20px]">
-        <div>
-          <Box classname="w-[100%] h-[250px] rounded-xl sm:p-[30px] p-[25px] flex justify-between">
-            <div className="w-[40%]">
+        <div className="m-auto sm:w-[600px] w-[100%]">
+          <Box classname=" h-[250px] rounded-xl sm:p-[30px] p-[25px] flex justify-between sm:flex-row flex-col">
+            <div className="w-full">
               <div>
                 <p className="text-lg">총 보유 자산</p>
                 <p className="sm:text-xxl text-[32px] font-bold">
@@ -69,21 +72,21 @@ const Portfolios = () => {
                 </p>
               </div>
             </div>
-            <ul className="w-[30%] list-disc">
+            {/* <ul className="sm:w-[30%] w-full">
               {myStockData.map((portfolio) => (
                 <li key={portfolio.name} className="p-[5px]">
-                  {portfolio.name}
+                  - {portfolio.name}
                 </li>
               ))}
-            </ul>
+            </ul> */}
           </Box>
         </div>
-        <div>
+        <div className="m-auto sm:w-[600px] w-[100%]">
           <p className="py-[10px] text-md">내 포트폴리오</p>
           <div>
             {myStockData.map((element) => (
               <PortfolioCard
-                classname="bg-secondary first:rounded-t-xl last:rounded-b-xl last:border-none border-b-2 border-primary"
+                classname="bg-secondary first:rounded-t-xl last:rounded-b-xl last:border-none border-b-2 border-primary p-[20px]"
                 key={element.name}
                 name={element.name}
                 stock={element.holdingStock}
@@ -91,6 +94,9 @@ const Portfolios = () => {
               />
             ))}
           </div>
+          <Button>
+            <FontAwesomeIcon icon={faPlus} size="lg" />
+          </Button>
         </div>
       </div>
     </div>

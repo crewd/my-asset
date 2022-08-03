@@ -22,7 +22,7 @@ function PortfolioCard({
 
   const [returnOfRate] = useReturnOfRate(purchasePrice, totalPrice);
 
-  const styles = `flex justify-between sm:p-[15px] p-[10px] cursor-pointer ${classname}`;
+  const styles = `flex justify-between cursor-pointer ${classname}`;
 
   useEffect(() => {
     if (!stockData || !stock) {
