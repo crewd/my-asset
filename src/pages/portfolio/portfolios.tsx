@@ -32,8 +32,8 @@ const Portfolios = () => {
     <div>
       <div className="grid grid-cols-1 gap-[20px]">
         <div className="m-auto sm:w-[600px] w-[100%]">
-          <Box classname=" sm:h-[250px] h-[350px] rounded-xl sm:p-[30px] p-[25px] flex justify-between sm:flex-row flex-col">
-            <div className="sm:w-[50%] w-full">
+          <Box classname=" h-[250px] rounded-xl sm:p-[30px] p-[25px] flex justify-between sm:flex-row flex-col">
+            <div className="w-full">
               <div>
                 <p className="text-lg">총 보유 자산</p>
                 <p className="sm:text-xxl text-[32px] font-bold">
@@ -69,13 +69,13 @@ const Portfolios = () => {
                 </p>
               </div>
             </div>
-            <ul className="sm:w-[30%] w-full">
+            {/* <ul className="sm:w-[30%] w-full">
               {myStockData.map((portfolio) => (
                 <li key={portfolio.name} className="p-[5px]">
                   - {portfolio.name}
                 </li>
               ))}
-            </ul>
+            </ul> */}
           </Box>
         </div>
         <div className="m-auto sm:w-[600px] w-[100%]">
@@ -83,7 +83,7 @@ const Portfolios = () => {
           <div>
             {myStockData.map((element) => (
               <PortfolioCard
-                classname="bg-secondary first:rounded-t-xl last:rounded-b-xl last:border-none border-b-2 border-primary"
+                classname="bg-secondary first:rounded-t-xl last:rounded-b-xl last:border-none border-b-2 border-primary p-[20px]"
                 key={element.name}
                 name={element.name}
                 stock={element.holdingStock}

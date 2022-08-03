@@ -124,7 +124,7 @@ const MainPage: React.FC = () => {
               >
                 {myStockData.map((element) => (
                   <PortfolioCard
-                    classname="bg-primary"
+                    classname="bg-primary sm:p-[15px] p-[10px]"
                     key={element.name}
                     name={element.name}
                     stock={element.holdingStock}
