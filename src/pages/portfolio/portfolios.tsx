@@ -88,7 +88,7 @@ const Portfolios = () => {
             {myStockData.length > 0 ? (
               myStockData.map((element) => (
                 <PortfolioCard
-                  classname="bg-secondary first:rounded-t-xl last:rounded-b-xl last:border-none border-b-2 border-primary p-[20px]"
+                  classname="bg-secondary first:rounded-t-xl last:rounded-b-xl last:border-none border-b-2 border-primary sm:p-[20px] p-[15px]"
                   key={element.name}
                   name={element.name}
                   stock={element.holdingStock}

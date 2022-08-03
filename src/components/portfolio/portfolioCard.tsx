@@ -56,7 +56,7 @@ function PortfolioCard({
   return (
     <div className={styles} onClick={navigate} role="presentation">
       <p>{name}</p>
-      <p className="text-regular leading-[27px]">
+      <p className="text-regular text-center leading-[27px] ml-1">
         ₩ {totalPrice} (
         <span
           className={`${
