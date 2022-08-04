@@ -11,6 +11,7 @@ import useReturnOfRate from '../../hooks/useReturnOfRate';
 import useTotalPrice from '../../hooks/useTotalPrice';
 import { myStockState, stockState } from '../../recoils/stock';
 import List from '../../components/box/List';
+import MyResponsivePie from '../../components/MyResponsivePie';
 
 const Portfolios = () => {
   // api 주식 데이터
@@ -72,6 +73,9 @@ const Portfolios = () => {
                   {profit ? profit.toLocaleString() : 0}원
                 </p>
               </div>
+            </div>
+            <div className="w-full text-black">
+              <MyResponsivePie />
             </div>
             {/* <ul className="sm:w-[30%] w-full">
               {myStockData.map((portfolio) => (
