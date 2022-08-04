@@ -9,7 +9,7 @@ import FavoritesPage from './pages/favorites/FavoritesPage';
 import { stockCodeSearch } from './api';
 import { myStockState, stockState } from './recoils/stock';
 import { MyStock } from './types/myStock';
-import Portfolios from './pages/portfolio/portfolios';
+import Portfolios from './pages/portfolio/portfolio';
 import { stockStore } from './util/stock';
 
 const myData: MyStock[] = [
