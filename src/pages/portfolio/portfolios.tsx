@@ -11,7 +11,7 @@ import useReturnOfRate from '../../hooks/useReturnOfRate';
 import useTotalPrice from '../../hooks/useTotalPrice';
 import { myStockState, stockState } from '../../recoils/stock';
 import List from '../../components/box/List';
-import MyResponsivePie from '../../components/MyResponsivePie';
+import MyResponsivePie from '../../components/portfolio/MyResponsivePie';
 
 const Portfolios = () => {
   // api 주식 데이터
