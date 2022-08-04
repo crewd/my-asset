@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { Stock } from '../types/apiType';
-import { MyStock } from '../types/myStock';
+import { ChartDataType, MyStock } from '../types/myStock';
 
 export const stockState = atom<Stock[]>({
   key: 'stockState',
@@ -9,5 +9,10 @@ export const stockState = atom<Stock[]>({
 
 export const myStockState = atom<MyStock[]>({
   key: 'myStockState',
+  default: [],
+});
+
+export const chartDataState = atom<ChartDataType[]>({
+  key: 'chartDataState',
   default: [],
 });
