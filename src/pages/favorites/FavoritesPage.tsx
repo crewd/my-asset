@@ -2,8 +2,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import Button from '../../components/button/Button';
 import List from '../../components/box/List';
+import useTitle from '../../hooks/useTitle';
 
 function FavoritesPage() {
+  useTitle('관심 종목');
+
   return (
     <div>
       <h2 className="mb-[32px] text-xl font-semibold">

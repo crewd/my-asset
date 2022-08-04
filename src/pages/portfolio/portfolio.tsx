@@ -13,8 +13,11 @@ import useTotalPrice from '../../hooks/useTotalPrice';
 import { chartDataState, myStockState, stockState } from '../../recoils/stock';
 import List from '../../components/box/List';
 import MyResponsivePie from '../../components/portfolio/MyResponsivePie';
+import useTitle from '../../hooks/useTitle';
 
 const Portfolios = () => {
+  useTitle('포트폴리오');
+
   // api 주식 데이터
   const stockData = useRecoilValue(stockState);
   // 보유 주식

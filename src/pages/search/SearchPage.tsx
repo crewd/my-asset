@@ -3,8 +3,11 @@ import { useEffect } from 'react';
 import List from '../../components/box/List';
 import SearchBar from '../../components/search/SearchBar';
 import { searchValueState as valueAtom } from '../../recoils/search';
+import useTitle from '../../hooks/useTitle';
 
 const SearchPage: React.FC = () => {
+  useTitle('종목검색');
+
   const [searchValue, setSearchValue] = useRecoilState(valueAtom);
 
   useEffect(() => {
