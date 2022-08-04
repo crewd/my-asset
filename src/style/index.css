@@ -8,6 +8,7 @@
     @apply text-white;
     @apply font-sans;
     @apply text-regular;
+    @apply overflow-y-scroll;
     -webkit-tap-highlight-color : transparent;
   }
 }
