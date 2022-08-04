@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect } from 'react';
 import Box from '../../components/box/Box';
 import Button from '../../components/button/Button';
 import PortfolioCard from '../../components/portfolio/portfolioCard';
@@ -9,15 +10,17 @@ import useProfit from '../../hooks/useProfit';
 import usePurchasePrice from '../../hooks/usePurchasePrice';
 import useReturnOfRate from '../../hooks/useReturnOfRate';
 import useTotalPrice from '../../hooks/useTotalPrice';
-import { myStockState, stockState } from '../../recoils/stock';
+import { chartDataState, myStockState, stockState } from '../../recoils/stock';
 import List from '../../components/box/List';
-import MyResponsivePie from '../../components/MyResponsivePie';
+import MyResponsivePie from '../../components/portfolio/MyResponsivePie';
 
 const Portfolios = () => {
   // api 주식 데이터
   const stockData = useRecoilValue(stockState);
   // 보유 주식
   const myStockData = useRecoilValue(myStockState);
+
+  const [chartData, setChartData] = useRecoilState(chartDataState);
 
   const navigate = useNavigate();
 
@@ -33,10 +36,14 @@ const Portfolios = () => {
     navigate(`/portfolio/${id}`);
   };
 
+  useEffect(() => {
+    setChartData([]);
+  }, []);
+
   return (
     <div>
       <div className="grid grid-cols-1 gap-[20px]">
-        <div className="m-auto sm:w-[600px] w-[100%]">
+        <div className="m-auto sm:w-[600px] w-full">
           <Box classname=" h-[250px] rounded-xl sm:p-[30px] p-[25px] flex justify-between sm:flex-row flex-col">
             <div className="w-full">
               <div>
@@ -74,25 +81,20 @@ const Portfolios = () => {
                 </p>
               </div>
             </div>
-            <div className="w-full text-black">
-              <MyResponsivePie />
-            </div>
-            {/* <ul className="sm:w-[30%] w-full">
-              {myStockData.map((portfolio) => (
-                <li key={portfolio.name} className="p-[5px]">
-                  - {portfolio.name}
-                </li>
-              ))}
-            </ul> */}
           </Box>
         </div>
         <div className="m-auto sm:w-[600px] w-[100%]">
           <p className="py-[10px] text-md">내 포트폴리오</p>
           <div>
+            <Box classname="m-auto sm:w-[600px] w-full h-[300px] p-[20px] rounded-t-lg border-b-2 border-primary text-black">
+              <div className="sm:w-full w-[200px] h-full m-auto">
+                {chartData.length > 0 && <MyResponsivePie data={chartData} />}
+              </div>
+            </Box>
             {myStockData.length > 0 ? (
               myStockData.map((element) => (
                 <PortfolioCard
-                  classname="bg-secondary first:rounded-t-xl last:rounded-b-xl last:border-none border-b-2 border-primary sm:p-[20px] p-[15px]"
+                  classname="bg-secondary last:rounded-b-xl last:border-none border-b-2 border-primary sm:p-[20px] p-[15px]"
                   key={element.name}
                   name={element.name}
                   stock={element.holdingStock}

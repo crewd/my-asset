@@ -10,3 +10,9 @@ export type MyStock = {
   name: string;
   holdingStock: Stock[];
 };
+
+export type ChartDataType = {
+  id: string;
+  lable: string;
+  value: number;
+};

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useReturnOfRate from '../../hooks/useReturnOfRate';
-import { stockState } from '../../recoils/stock';
+import { chartDataState, stockState } from '../../recoils/stock';
 import { Stock } from '../../types/myStock';
 
 function PortfolioCard({
@@ -19,6 +19,7 @@ function PortfolioCard({
   const [purchasePrice, setPurchasePrice] = useState(0);
 
   const stockData = useRecoilValue(stockState);
+  const setChartData = useSetRecoilState(chartDataState);
 
   const [returnOfRate] = useReturnOfRate(purchasePrice, totalPrice);
 
@@ -52,6 +53,16 @@ function PortfolioCard({
     });
     setPurchasePrice(purchasePriceSum);
   }, [totalPrice]);
+
+  useEffect(() => {
+    if (!purchasePrice) {
+      return;
+    }
+    setChartData((chartData) => [
+      ...chartData,
+      { id: name, lable: name, value: totalPrice },
+    ]);
+  }, [purchasePrice]);
 
   return (
     <div className={styles} onClick={navigate} role="presentation">
