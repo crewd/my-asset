@@ -40,7 +40,7 @@ function PortfolioCard({
       return;
     });
     setTotalPrice(priceSum);
-  });
+  }, [stockData, stock]);
 
   useEffect(() => {
     if (!totalPrice) {
