@@ -20,8 +20,11 @@ import useTotalPrice from '../hooks/useTotalPrice';
 import { myStockState, stockState } from '../recoils/stock';
 import { Stock } from '../types/apiType';
 import { getStockTrdVol } from '../api';
+import useTitle from '../hooks/useTitle';
 
 const MainPage: React.FC = () => {
+  useTitle('마이에셋');
+
   // api 주식 데이터
   const stockData = useRecoilValue(stockState);
   // 보유 주식
