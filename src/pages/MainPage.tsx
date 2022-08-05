@@ -119,6 +119,7 @@ const MainPage: React.FC = () => {
               <Slider
                 className="w-full"
                 infinite
+                dots
                 arrows={false}
                 autoplay
                 speed={500}
