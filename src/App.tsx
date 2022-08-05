@@ -11,6 +11,7 @@ import { myStockState, stockState } from './recoils/stock';
 import { MyStock } from './types/myStock';
 import Portfolios from './pages/portfolio/portfolio';
 import { stockStore } from './util/stock';
+import StockPage from './pages/stock/StockPage';
 
 const myData: MyStock[] = [
   {
@@ -122,6 +123,10 @@ function App() {
           <Route path="/portfolio" element={<Portfolios />} />
           <Route path="/portfolio/:id" />
           <Route path="/search" element={<SearchPage />} />
+          <Route
+            path="/stock/:srtnCd"
+            element={<StockPage srtnCd="005930" />}
+          />
         </Routes>
       </AppLayout>
     </BrowserRouter>
