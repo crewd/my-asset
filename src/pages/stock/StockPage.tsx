@@ -42,7 +42,9 @@ const StockPage = ({ srtnCd }: { srtnCd?: string | number }) => {
                     Number(data.vs) > 0 ? 'text-plus' : 'text-minus'
                   }`}
                 >
-                  <span className="mx-1 sm:text-md">{data.clpr}</span>
+                  <span className="mx-1 sm:text-md">
+                    {Number(data.clpr).toLocaleString()}
+                  </span>
                   <span className="mx-1 text-sm">
                     {Number(data.vs) > 0 ? (
                       <FontAwesomeIcon icon={faCaretUp} />
