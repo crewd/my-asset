@@ -1,8 +1,15 @@
-import Box from './Box';
-
-function List({ data }: { data: (string | number)[] }) {
+function List({
+  data,
+  nav,
+}: {
+  data: (string | number)[];
+  nav?: React.MouseEventHandler;
+}) {
   return (
-    <Box classname="flex justify-between sm:p-[15px] p-[10px] first:rounded-t-xl last:rounded-b-xl last:border-none border-b-2 border-primary text-center text-sm sm:text-regular">
+    <div
+      className="bg-secondary shadow-xl flex justify-between sm:p-[15px] p-[10px] first:rounded-t-xl last:rounded-b-xl last:border-none border-b-2 border-primary text-center text-sm sm:text-regular cursor-pointer first:cursor-auto"
+      onClick={nav}
+    >
       {data.map((value) => {
         const style = `w-full ${
           value.toString().indexOf('%') < 0
@@ -19,8 +26,12 @@ function List({ data }: { data: (string | number)[] }) {
           </p>
         );
       })}
-    </Box>
+    </div>
   );
 }
+
+List.defaultProps = {
+  nav: () => {},
+};
 
 export default List;
