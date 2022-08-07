@@ -135,7 +135,7 @@ const PortfolioDetail = () => {
                 </p>
               </div>
             </Box>
-            <Box classname="p-[20px] rounded-xl">
+            <Box classname="h-[250px] p-[20px] rounded-xl">
               {chartData && <MyResponsivePie data={chartData} />}
             </Box>
           </div>
