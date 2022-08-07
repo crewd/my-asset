@@ -5,15 +5,30 @@ import {
   faCaretUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import Box from '../../components/box/Box';
 import { Stock } from '../../types/apiType';
 import { stockCodeSearch } from '../../api';
 import MyResponsiveLine from '../../components/detail/MyResponsiveLine';
+import useTitle from '../../hooks/useTitle';
 
-const StockPage = ({ srtnCd }: { srtnCd?: string | number }) => {
-  const { data } = useQuery<Stock>(['getData', srtnCd], () =>
+const StockPage = () => {
+  const { srtnCd } = useParams();
+  const { setTitle } = useTitle();
+  const { data, status } = useQuery<Stock>(['getData', srtnCd], () =>
     stockCodeSearch(srtnCd),
   );
+
+  useEffect(() => {
+    setTitle(
+      status === 'loading'
+        ? '상세'
+        : status === 'success'
+        ? `상세-${data.itmsNm}`
+        : 'error',
+    );
+  }, [status]);
 
   return (
     <>
@@ -132,7 +147,7 @@ const StockPage = ({ srtnCd }: { srtnCd?: string | number }) => {
 };
 
 StockPage.defaultProps = {
-  srtnCd: '005930',
+  srtnCd: '',
 };
 
 export default StockPage;

@@ -124,10 +124,7 @@ function App() {
           <Route path="/portfolio" element={<Portfolios />} />
           <Route path="/portfolio/:id" element={<PortfolioDetail />} />
           <Route path="/search" element={<SearchPage />} />
-          <Route
-            path="/stock/:srtnCd"
-            element={<StockPage srtnCd="005930" />}
-          />
+          <Route path="/stock/:srtnCd" element={<StockPage />} />
         </Routes>
       </AppLayout>
     </BrowserRouter>
