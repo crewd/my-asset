@@ -1,5 +1,6 @@
 import { useRecoilState } from 'recoil';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import List from '../../components/box/List';
 import SearchBar from '../../components/search/SearchBar';
 import { searchValueState as valueAtom } from '../../recoils/search';
@@ -7,6 +8,7 @@ import useTitle from '../../hooks/useTitle';
 
 const SearchPage: React.FC = () => {
   useTitle('종목검색');
+  const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useRecoilState(valueAtom);
 
@@ -23,6 +25,7 @@ const SearchPage: React.FC = () => {
           searchValue.map((e) => (
             <List
               key={e.itmsNm}
+              nav={() => navigate(`/stock/${e.srtnCd}`)}
               data={[
                 e.srtnCd,
                 e.itmsNm,

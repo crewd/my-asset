@@ -187,6 +187,7 @@ const MainPage: React.FC = () => {
             bestTrdVol.map((e) => (
               <List
                 key={e.itmsNm}
+                nav={() => navigate(`/stock/${e.srtnCd}`)}
                 data={[
                   e.srtnCd,
                   e.itmsNm,
