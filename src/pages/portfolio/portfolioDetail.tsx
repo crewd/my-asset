@@ -148,7 +148,7 @@ const PortfolioDetail = () => {
               {chartData && <MyResponsivePie data={chartData} />}
             </Box>
           </div>
-          <div className="grid md:grid-cols-2 grid-cols-1 gap-x-[20px]">
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-[20px]">
             <h2 className="mt-[20px] md:col-span-2 col-span-1 text-xl font-bold">
               보유 종목
             </h2>

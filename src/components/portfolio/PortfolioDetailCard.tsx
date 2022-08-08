@@ -41,7 +41,7 @@ const PortfolioDetailCard = ({
 
   return (
     <Link to={`/stock/${stock.code}`}>
-      <Box classname="rounded-xl my-[20px]">
+      <Box classname="rounded-xl">
         <div className="flex justify-between border-b-2 border-primary p-[20px] text-md">
           <p>{stock.stockName}</p>
           <p>보유수량: {stock.count}</p>
