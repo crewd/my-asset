@@ -8,12 +8,14 @@ const serviceKey =
 
 const calcDate = () => {
   const today = new Date();
-  const weekAgo = new Date(today.setDate(today.getDate() - 7))
+  const twoWeeksAgo = new Date(today.setDate(today.getDate() - 14))
     .toLocaleDateString()
     .split(/[ .]/g)
     .filter((f) => f.length !== 0);
 
-  return weekAgo.map((parm) => (parm.length > 1 ? parm : 0 + parm)).join('');
+  return twoWeeksAgo
+    .map((parm) => (parm.length > 1 ? parm : 0 + parm))
+    .join('');
 };
 
 export const getStockData = async (stockName: string) => {
