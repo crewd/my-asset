@@ -140,10 +140,8 @@ const PortfolioDetail = () => {
               {chartData && <MyResponsivePie data={chartData} />}
             </Box>
           </div>
-          <div className="grid md:grid-cols-2 grid-cols-1 gap-[20px]">
-            <h2 className="md:col-span-2 mt-[20px] text-xl font-bold">
-              보유 종목
-            </h2>
+          <div>
+            <h2 className="mt-[20px] text-xl font-bold">보유 종목</h2>
             {portfolio &&
               stockData &&
               stockData.map((stock) =>
