@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import Box from '../../components/box/Box';
 import MyResponsivePie from '../../components/portfolio/MyResponsivePie';
+import PortfolioDetailCard from '../../components/portfolio/PortfolioDetailCard';
 import useProfit from '../../hooks/useProfit';
 import { myStockState, stockState } from '../../recoils/stock';
 import { ChartDataType, MyStock } from '../../types/myStock';
@@ -83,7 +84,7 @@ const PortfolioDetail = () => {
   }, [portfolio]);
 
   useEffect(() => {
-    if (!purchaseTotalPrice || !totalPrice) {
+    if (!purchaseTotalPrice && !totalPrice) {
       return;
     }
     setReturnRate(
@@ -98,7 +99,7 @@ const PortfolioDetail = () => {
           <header className="pb-[20px]">
             <h1 className="text-xl font-bold">{portfolio.name}</h1>
           </header>
-          <div className="grid sm:grid-cols-2 grid-cols-1 gap-[24px]">
+          <div className="grid sm:grid-cols-2 grid-cols-1 gap-[20px]">
             <Box classname="h-[250px] rounded-xl sm:p-[30px] p-[25px] ">
               <div>
                 <p className="text-lg">총 보유 자산</p>
@@ -138,6 +139,25 @@ const PortfolioDetail = () => {
             <Box classname="h-[250px] p-[20px] rounded-xl">
               {chartData && <MyResponsivePie data={chartData} />}
             </Box>
+          </div>
+          <div>
+            <h2 className="mt-[20px] text-xl font-bold">보유 종목</h2>
+            {portfolio &&
+              stockData &&
+              stockData.map((stock) =>
+                portfolio.holdingStock.map((data) => {
+                  if (stock.itmsNm === data.stockName) {
+                    return (
+                      <PortfolioDetailCard
+                        key={data.code}
+                        stock={data}
+                        marketValue={Number(stock.clpr)}
+                      />
+                    );
+                  }
+                  return false;
+                }),
+              )}
           </div>
         </div>
       )}

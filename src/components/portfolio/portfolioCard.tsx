@@ -78,7 +78,7 @@ function PortfolioCard({
               : 'text-white'
           }`}
         >
-          {returnOfRate.toLocaleString()}%
+          {Number(returnOfRate).toFixed(2)}%
         </span>
         )
       </p>
