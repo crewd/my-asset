@@ -54,9 +54,9 @@ const StockPage = () => {
       {latestData &&
         latestData.map((element) => (
           <div key={element.srtnCd}>
-            <div className="flex items-end justify-between mb-3">
-              <div className="flex">
-                <div className="flex items-center mr-2">
+            <div className="sm:flex items-end justify-between mb-3 text-right px-2">
+              <div className="flex justify-between sm:justify-start">
+                <div className="flex items-center sm:mr-2 m-0">
                   <button type="button" className="mr-3 h-[24px]">
                     <FontAwesomeIcon
                       icon={faHeart}
@@ -64,7 +64,7 @@ const StockPage = () => {
                       className="stroke-white stroke-[60px] bg-transparent text-transparent"
                     />
                   </button>
-                  <div>
+                  <div className="text-left">
                     <span className="text-sm">{element.srtnCd}</span>
                     <h2 className="text-md sm:text-xl font-semibold">
                       {element.itmsNm}
@@ -72,7 +72,7 @@ const StockPage = () => {
                   </div>
                 </div>
                 <div
-                  className={`flex items-end flex-col md:flex-row ${
+                  className={`sm:flex items-end ${
                     Number(element.vs) > 0 ? 'text-plus' : 'text-minus'
                   }`}
                 >
@@ -92,7 +92,7 @@ const StockPage = () => {
                   </span>
                 </div>
               </div>
-              <span className="text-sm">
+              <span className="text-sm block mt-[-20px] sm:m-0">
                 {element.basDt.replaceAll(
                   /\B(?=(\d{2})+(?!\d))+(?!\d{6})/g,
                   '/',
@@ -167,7 +167,7 @@ const StockPage = () => {
 
       <div>
         <h2 className="text-md sm:text-lg mb-3">차트</h2>
-        <Box classname="rounded-xl h-[250px] p-[25px] sm:p-[30px] flex overflow-hidden text-white">
+        <Box classname="rounded-xl h-[250px] p-[15px] sm:p-[30px] flex overflow-hidden text-white">
           {chartData && <MyResponsiveLine data={chartData} />}
         </Box>
       </div>
