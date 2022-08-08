@@ -91,7 +91,7 @@ function App() {
   useEffect(() => {
     if (allSuccess) {
       results.map((data) =>
-        setStockData((stockData) => [...stockData, data.data]),
+        setStockData((stockData) => [...stockData, data.data[0]]),
       );
     }
   }, [allSuccess]);

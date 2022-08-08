@@ -24,12 +24,12 @@ export const getStockData = async (stockName: string) => {
   return data.data.response.body.items.item;
 };
 
-export const stockCodeSearch = async (code: number | string) => {
+export const stockCodeSearch = async (code: string) => {
   const data = await axios.get(
     `${baseURL}&likeSrtnCd=${code}&serviceKey=${serviceKey}&beginBasDt=${calcDate()}`,
   );
 
-  return data.data.response.body.items.item[0];
+  return data.data.response.body.items.item;
 };
 
 export const getStockTrdVol = async () => {
