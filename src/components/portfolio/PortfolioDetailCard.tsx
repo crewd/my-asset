@@ -57,7 +57,7 @@ const PortfolioDetailCard = ({
                 : 'text-white'
             }`}
           >
-            {profit.toLocaleString()}원
+            {profit.toLocaleString()} 원
           </p>
         </div>
         <div className="flex justify-between p-[5px]">
@@ -67,24 +67,24 @@ const PortfolioDetailCard = ({
               rate < 0 ? 'text-minus' : rate > 0 ? 'text-plus' : 'text-white'
             }`}
           >
-            {rate.toFixed(2)}%
+            {rate.toFixed(2)} %
           </p>
         </div>
         <div className="flex justify-between p-[5px]">
           <p>현재가 </p>
-          <p>{marketValue.toLocaleString()}원</p>
+          <p>{marketValue.toLocaleString()} 원</p>
         </div>
         <div className="flex justify-between p-[5px]">
           <p>매수금액 </p>
-          <p>{purchasePrice.toLocaleString()}원</p>
+          <p>{purchasePrice.toLocaleString()} 원</p>
         </div>
         <div className="flex justify-between p-[5px]">
           <p>매수평균가 </p>
-          <p> {Number(stock.purchasePrice).toLocaleString()}원</p>
+          <p> {Number(stock.purchasePrice).toLocaleString()} 원</p>
         </div>
         <div className="flex justify-between p-[5px]">
           <p>평가금액 </p>
-          <p>{totalPrice.toLocaleString()}원</p>
+          <p>{totalPrice.toLocaleString()} 원</p>
         </div>
       </div>
     </Box>
