@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import Box from '../../components/box/Box';
 import MyResponsivePie from '../../components/portfolio/MyResponsivePie';
@@ -15,6 +15,8 @@ const PortfolioDetail = () => {
   const [returnRate, setReturnRate] = useState(0);
 
   const [chartData, setChartData] = useState<ChartDataType[]>();
+
+  const navigate = useNavigate();
 
   const myStockData = useRecoilValue(myStockState);
   const stockData = useRecoilValue(stockState);
@@ -97,7 +99,13 @@ const PortfolioDetail = () => {
       {portfolio && (
         <div>
           <header className="pb-[20px]">
-            <h1 className="text-xl font-bold">{portfolio.name}</h1>
+            <button
+              className="text-xl font-bold"
+              type="button"
+              onClick={() => navigate('/portfolio')}
+            >
+              &lt; {portfolio.name}
+            </button>
           </header>
           <div className="grid sm:grid-cols-2 grid-cols-1 gap-[20px]">
             <Box classname="h-[250px] rounded-xl sm:p-[30px] p-[25px] ">
@@ -140,8 +148,10 @@ const PortfolioDetail = () => {
               {chartData && <MyResponsivePie data={chartData} />}
             </Box>
           </div>
-          <div>
-            <h2 className="mt-[20px] text-xl font-bold">보유 종목</h2>
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-[20px]">
+            <h2 className="mt-[20px] md:col-span-2 col-span-1 text-xl font-bold">
+              보유 종목
+            </h2>
             {portfolio &&
               stockData &&
               stockData.map((stock) =>
