@@ -41,18 +41,18 @@ const PortfolioDetailCard = ({
 
   return (
     <Link to={`/stock/${stock.code}`}>
-      <Box classname="rounded-xl my-[20px]">
+      <Box classname="rounded-xl">
         <div className="flex justify-between border-b-2 border-primary p-[20px] text-md">
           <p>{stock.stockName}</p>
           <p>보유수량: {stock.count}</p>
         </div>
 
-        <div className="p-[20px]  grid sm:grid-cols-2 grid-cols-1 sm:gap-[20px]">
+        <div className="p-[20px] grid sm:grid-cols-2 grid-cols-1 sm:gap-[10px]">
           <div>
             <div className="flex justify-between p-[5px]">
               <p>평가손익</p>
               <p
-                className={`ml-[10px] ${
+                className={`${
                   profit < 0
                     ? 'text-minus'
                     : profit > 0
@@ -66,7 +66,7 @@ const PortfolioDetailCard = ({
             <div className="flex justify-between p-[5px]">
               <p>수익률 </p>
               <p
-                className={`ml-[10px] ${
+                className={`${
                   rate < 0
                     ? 'text-minus'
                     : rate > 0
