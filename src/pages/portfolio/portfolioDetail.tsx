@@ -21,6 +21,7 @@ const PortfolioDetail = () => {
   const [returnRate, setReturnRate] = useState(0);
   const [chartData, setChartData] = useState<ChartDataType[]>();
   const [removeConfirm, setRemoveConfirm] = useState(false);
+  const [addView, setAddView] = useState(false);
 
   const navigate = useNavigate();
 
@@ -46,6 +47,10 @@ const PortfolioDetail = () => {
     );
   };
 
+  const closeView = () => {
+    setAddView(false);
+  };
+
   useEffect(() => {
     if (
       portfolio &&
@@ -61,6 +66,7 @@ const PortfolioDetail = () => {
   }, []);
 
   useEffect(() => {
+    setPortfolio(null);
     if (myStockData && stockData) {
       const portfolioData = myStockData?.filter(
         (data) => data.id === Number(id),
@@ -131,7 +137,6 @@ const PortfolioDetail = () => {
     <>
       {portfolio && (
         <div>
-          <SearchModal />
           <header className="pb-[20px] flex">
             <button
               className="text-xl font-bold"
@@ -221,7 +226,7 @@ const PortfolioDetail = () => {
               </Box>
             )}
           </div>
-          <Button classname="">
+          <Button classname="" clickEvent={() => setAddView(true)}>
             <FontAwesomeIcon icon={faPlus} size="lg" />
           </Button>
           {removeConfirm && (
@@ -246,6 +251,13 @@ const PortfolioDetail = () => {
                 </button>
               </div>
             </Modal>
+          )}
+          {addView && portfolio && (
+            <SearchModal
+              pName={portfolio.name}
+              pId={portfolio.id}
+              closeView={closeView}
+            />
           )}
         </div>
       )}
