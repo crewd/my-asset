@@ -1,7 +1,10 @@
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import Box from '../../components/box/Box';
+import Button from '../../components/button/Button';
 import MyResponsivePie from '../../components/portfolio/MyResponsivePie';
 import PortfolioDetailCard from '../../components/portfolio/PortfolioDetailCard';
 import useProfit from '../../hooks/useProfit';
@@ -169,6 +172,9 @@ const PortfolioDetail = () => {
                 }),
               )}
           </div>
+          <Button classname="">
+            <FontAwesomeIcon icon={faPlus} size="lg" />
+          </Button>
         </div>
       )}
     </>
