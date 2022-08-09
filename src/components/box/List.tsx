@@ -1,15 +1,15 @@
 function List({
   data,
+  cssStyle,
   nav,
 }: {
   data: (string | number)[];
+  cssStyle: string;
   nav?: React.MouseEventHandler;
 }) {
+  const styles = `shadow-xl flex justify-between sm:p-[15px] p-[10px] first:rounded-t-xl last:rounded-b-xl last:border-none border-b-2 text-center text-sm sm:text-regular cursor-pointer first:cursor-auto ${cssStyle}`;
   return (
-    <div
-      className="bg-secondary shadow-xl flex justify-between sm:p-[15px] p-[10px] first:rounded-t-xl last:rounded-b-xl last:border-none border-b-2 border-primary text-center text-sm sm:text-regular cursor-pointer first:cursor-auto"
-      onClick={nav}
-    >
+    <div className={styles} onClick={nav}>
       {data.map((value) => {
         const style = `w-full ${
           value.toString().indexOf('%') < 0

@@ -12,6 +12,7 @@ import useProfit from '../../hooks/useProfit';
 import { myStockState, stockState } from '../../recoils/stock';
 import { ChartDataType, MyStock } from '../../types/myStock';
 import { stockStore } from '../../util/stock';
+import SearchModal from '../../components/search/searchModal';
 
 const PortfolioDetail = () => {
   const [portfolio, setPortfolio] = useState<MyStock>();
@@ -130,6 +131,7 @@ const PortfolioDetail = () => {
     <>
       {portfolio && (
         <div>
+          <SearchModal />
           <header className="pb-[20px] flex">
             <button
               className="text-xl font-bold"

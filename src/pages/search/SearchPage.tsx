@@ -16,12 +16,16 @@ const SearchPage: React.FC = () => {
     <div>
       <SearchBar searchWord={searchWord} getData={setSearchValue} />
       <div>
-        <List data={['코드', '주식명', '종가', '등락률']} />
+        <List
+          cssStyle="bg-secondary border-primary"
+          data={['코드', '주식명', '종가', '등락률']}
+        />
         {!searchValue ? null : searchValue && searchValue.length > 0 ? (
           searchValue.map((e) => (
             <List
               key={e.itmsNm}
               nav={() => navigate(`/stock/${e.srtnCd}`)}
+              cssStyle="bg-secondary border-primary"
               data={[
                 e.srtnCd,
                 e.itmsNm,
@@ -31,7 +35,10 @@ const SearchPage: React.FC = () => {
             />
           ))
         ) : (
-          <List data={['검색결과가 없습니다.']} />
+          <List
+            cssStyle="bg-secondary border-primary"
+            data={['검색결과가 없습니다.']}
+          />
         )}
       </div>
     </div>
