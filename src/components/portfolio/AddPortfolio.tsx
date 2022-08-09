@@ -46,14 +46,14 @@ const AddPortfolio = ({ cancel }: { cancel: () => void }) => {
       </div>
       <div className="w-full flex justify-center">
         <button
-          className="bg-secondray w-[100px] h-[50px] mx-[10px] rounded-md border-2 border-primary hover:bg-primary shadow-xl"
+          className="bg-secondray w-[100px] h-[50px] mx-[10px] rounded-md border-2 border-[#3c5069] hover:bg-[#3c5069] shadow-xl"
           type="button"
           onClick={cancel}
         >
           닫기
         </button>
         <button
-          className="bg-secondray w-[100px] h-[50px] mx-[10px] rounded-md border-2 border-primary hover:bg-primary shadow-xl"
+          className="bg-secondray w-[100px] h-[50px] mx-[10px] rounded-md border-2 border-[#3c5069] hover:bg-[#3c5069] shadow-xl"
           type="button"
           onClick={addHandler}
         >
