@@ -32,19 +32,6 @@ const AddPortfolio = ({ cancel }: { cancel: () => void }) => {
     }
   }, [myStockData]);
 
-  useEffect(() => {
-    document.body.style.cssText = `
-    position: fixed; 
-    top: -${window.scrollY}px;
-    overflow-y: scroll;
-    width: 100%;`;
-    return () => {
-      const scrollY = document.body.style.top;
-      document.body.style.cssText = '';
-      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
-    };
-  }, []);
-
   return (
     <ModalPortal>
       <div className="fixed top-0 left-0 bottom-0 right-0 bg-[rgba(0,0,0,0.5)] before:absolute before:top-0 before:left-0 before:bottom-0 before:right-0 before:content-none">
