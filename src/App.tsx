@@ -9,7 +9,7 @@ import FavoritesPage from './pages/favorites/FavoritesPage';
 import { stockCodeSearch } from './api';
 import { myStockState, stockState } from './recoils/stock';
 import { MyStock } from './types/myStock';
-import Portfolios from './pages/portfolio/portfolio';
+import Portfolio from './pages/portfolio/portfolio';
 import { stockStore } from './util/stock';
 import StockPage from './pages/stock/StockPage';
 import PortfolioDetail from './pages/portfolio/portfolioDetail';
@@ -121,7 +121,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
-          <Route path="/portfolio" element={<Portfolios />} />
+          <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/portfolio/:id" element={<PortfolioDetail />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/stock/:srtnCd" element={<StockPage />} />
