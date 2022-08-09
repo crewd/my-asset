@@ -140,7 +140,7 @@ const PortfolioDetail = () => {
             </button>
             <button
               type="button"
-              className="ml-[30px] border-2 border-secondary w-[80px] py-[5px] hover:bg-minus rounded-lg"
+              className="ml-[30px] border-2 border-[#3c5069] w-[80px] py-[5px] hover:bg-minus hover:border-minus rounded-lg"
               onClick={openConfirm}
             >
               삭제
@@ -229,7 +229,7 @@ const PortfolioDetail = () => {
               </p>
               <div className="flex justify-around py-[20px]">
                 <button
-                  className="w-[80px] py-[10px] rounded-lg border-2 border-slate-500 hover:bg-slate-500 shadow-xl"
+                  className="w-[80px] py-[10px] rounded-lg border-2 border-[#3c5069] hover:bg-[#3c5069] shadow-xl"
                   type="button"
                   onClick={closeConfirm}
                 >
