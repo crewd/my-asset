@@ -1,24 +1,20 @@
-import { useRecoilState } from 'recoil';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import List from '../../components/box/List';
 import SearchBar from '../../components/search/SearchBar';
-import { searchValueState as valueAtom } from '../../recoils/search';
 import useTitle from '../../hooks/useTitle';
+import { Stock } from '../../types/apiType';
 
 const SearchPage: React.FC = () => {
   useTitle('종목검색');
+  const [searchValue, setSearchValue] = useState<Stock[]>([]);
+  const { search } = useLocation();
+  const searchWord = decodeURI(search.slice(7));
   const navigate = useNavigate();
-
-  const [searchValue, setSearchValue] = useRecoilState(valueAtom);
-
-  useEffect(() => {
-    setSearchValue(undefined);
-  }, []);
 
   return (
     <div>
-      <SearchBar />
+      <SearchBar searchWord={searchWord} getData={setSearchValue} />
       <div>
         <List data={['코드', '주식명', '종가', '등락률']} />
         {!searchValue ? null : searchValue && searchValue.length > 0 ? (
