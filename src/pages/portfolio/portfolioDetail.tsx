@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import Box from '../../components/box/Box';
 import Button from '../../components/button/Button';
+import Modal from '../../components/layout/modal';
 import MyResponsivePie from '../../components/portfolio/MyResponsivePie';
 import PortfolioDetailCard from '../../components/portfolio/PortfolioDetailCard';
 import useProfit from '../../hooks/useProfit';
@@ -18,6 +19,7 @@ const PortfolioDetail = () => {
   const [purchaseTotalPrice, setPurchaseTotalPrice] = useState(0);
   const [returnRate, setReturnRate] = useState(0);
   const [chartData, setChartData] = useState<ChartDataType[]>();
+  const [removeConfirm, setRemoveConfirm] = useState(false);
 
   const navigate = useNavigate();
 
@@ -27,6 +29,14 @@ const PortfolioDetail = () => {
   const stockData = useRecoilValue(stockState);
   const { id } = useParams();
   const [profit] = useProfit(purchaseTotalPrice, totalPrice);
+
+  const openConfirm = () => {
+    setRemoveConfirm(true);
+  };
+
+  const closeConfirm = () => {
+    setRemoveConfirm(false);
+  };
 
   const removeHandler = () => {
     store.remove(portfolio.name);
@@ -131,7 +141,7 @@ const PortfolioDetail = () => {
             <button
               type="button"
               className="ml-[30px] border-2 border-secondary w-[80px] py-[5px] hover:bg-minus rounded-lg"
-              onClick={removeHandler}
+              onClick={openConfirm}
             >
               삭제
             </button>
@@ -212,6 +222,29 @@ const PortfolioDetail = () => {
           <Button classname="">
             <FontAwesomeIcon icon={faPlus} size="lg" />
           </Button>
+          {removeConfirm && (
+            <Modal cssStyle="min-w-[290px]">
+              <p className="text-md p-[20px] text-center">
+                포트폴리오를 삭제하시겠습니까?
+              </p>
+              <div className="flex justify-around py-[20px]">
+                <button
+                  className="w-[80px] py-[10px] rounded-lg border-2 border-slate-500 hover:bg-slate-500 shadow-xl hover:scale-105"
+                  type="button"
+                  onClick={closeConfirm}
+                >
+                  아니오
+                </button>
+                <button
+                  className="w-[80px] py-[10px] rounded-lg bg-minus hover:scale-105 shadow-xl"
+                  type="button"
+                  onClick={removeHandler}
+                >
+                  삭제
+                </button>
+              </div>
+            </Modal>
+          )}
         </div>
       )}
     </>

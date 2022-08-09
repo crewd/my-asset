@@ -33,7 +33,7 @@ const AddPortfolio = ({ cancel }: { cancel: () => void }) => {
   }, [myStockData]);
 
   return (
-    <Modal>
+    <Modal cssStyle="w-[80%]">
       <div className="my-[20px]">
         <p className="pb-[10px] text-md">포트폴리오 이름</p>
         <input
