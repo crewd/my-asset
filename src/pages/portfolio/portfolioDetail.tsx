@@ -229,14 +229,14 @@ const PortfolioDetail = () => {
               </p>
               <div className="flex justify-around py-[20px]">
                 <button
-                  className="w-[80px] py-[10px] rounded-lg border-2 border-slate-500 hover:bg-slate-500 shadow-xl hover:scale-105"
+                  className="w-[80px] py-[10px] rounded-lg border-2 border-slate-500 hover:bg-slate-500 shadow-xl"
                   type="button"
                   onClick={closeConfirm}
                 >
                   아니오
                 </button>
                 <button
-                  className="w-[80px] py-[10px] rounded-lg bg-minus hover:scale-105 shadow-xl"
+                  className="w-[80px] py-[10px] rounded-lg bg-minus hover:scale-110 shadow-xl"
                   type="button"
                   onClick={removeHandler}
                 >
