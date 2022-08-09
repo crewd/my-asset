@@ -1,20 +1,22 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { useRef, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { useSetRecoilState } from 'recoil';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getStockData } from '../../api';
-import { searchValueState as valueAtom } from '../../recoils/search';
 import { Stock } from '../../types/apiType';
 
-function SearchBar() {
+const SearchBar = ({
+  searchWord,
+  getData,
+}: {
+  searchWord: string;
+  getData: Dispatch<SetStateAction<Stock[]>>;
+}) => {
   const nav = useNavigate();
-  const { search } = useLocation();
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const setSearchValue = useSetRecoilState(valueAtom);
-  const { data, mutate } = useMutation<Stock[]>(['search', search], () =>
-    getStockData(search.slice(7)),
+  const { data, mutate } = useMutation<Stock[]>(['search', searchWord], () =>
+    getStockData(searchWord),
   );
 
   // 최근 업데이트 날짜 찾기
@@ -25,30 +27,20 @@ function SearchBar() {
   const searchValue = data?.filter((f) => f.basDt === latestDate);
 
   useEffect(() => {
-    // 리다이렉트
-    if (search.length < 8 || search.slice(0, 7) !== '?query=') {
-      nav('/search');
+    if (!searchWord) {
       return;
     }
-    if (searchInputRef.current != null) {
-      searchInputRef.current.value = decodeURI(search.slice(7));
-    }
-
+    searchInputRef.current.value = searchWord;
     mutate();
-  }, [search]);
+  }, [searchWord]);
 
   useEffect(() => {
-    if (data) {
-      setSearchValue(searchValue);
-    }
+    getData(searchValue);
   }, [data]);
 
   const searchHandler = () => {
     // 검색어가 없거나 검색어와 쿼리스트링이 같을경우 리턴
-    if (
-      !searchInputRef.current?.value ||
-      encodeURI(searchInputRef.current.value) === search.slice(7)
-    ) {
+    if (!searchInputRef.current?.value) {
       return;
     }
     nav({ search: `query=${searchInputRef.current.value}` });
@@ -74,6 +66,6 @@ function SearchBar() {
       />
     </div>
   );
-}
+};
 
 export default SearchBar;
