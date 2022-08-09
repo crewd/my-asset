@@ -94,7 +94,7 @@ const Portfolio = () => {
               {chartData.length > 0 ? (
                 <MyResponsivePie data={chartData} />
               ) : (
-                <h2 className="text-xl h-full font-bold flex col justify-center items-center">
+                <h2 className="text-xl h-full font-bold text-white flex col justify-center items-center">
                   포트폴리오를 추가해보세요!
                 </h2>
               )}
@@ -114,7 +114,7 @@ const Portfolio = () => {
             <List data={['포트폴리오를 추가해보세요!']} />
           )}
         </div>
-        <Button classname="" clickEvent={() => setModalToggle(true)}>
+        <Button classname="my-[20px]" clickEvent={() => setModalToggle(true)}>
           <FontAwesomeIcon icon={faPlus} size="lg" />
         </Button>
       </div>
