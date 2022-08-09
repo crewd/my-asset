@@ -1,4 +1,4 @@
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -103,13 +103,19 @@ const PortfolioDetail = () => {
     <>
       {portfolio && (
         <div>
-          <header className="pb-[20px]">
+          <header className="pb-[20px] flex">
             <button
               className="text-xl font-bold"
               type="button"
               onClick={() => navigate('/portfolio')}
             >
-              &lt; {portfolio.name}
+              <FontAwesomeIcon icon={faAngleLeft} /> {portfolio.name}
+            </button>
+            <button
+              type="button"
+              className="ml-[30px] border-2 border-secondary w-[80px] py-[5px] hover:bg-minus rounded-lg"
+            >
+              삭제
             </button>
           </header>
           <div className="grid sm:grid-cols-2 grid-cols-1 gap-[20px]">
