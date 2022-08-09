@@ -91,7 +91,13 @@ const Portfolio = () => {
         <div>
           <Box classname="m-auto sm:w-[600px] w-full h-[300px] p-[20px] rounded-t-lg border-b-2 border-primary text-black">
             <div className="sm:w-full w-[200px] h-full m-auto">
-              {chartData.length > 0 && <MyResponsivePie data={chartData} />}
+              {chartData.length > 0 ? (
+                <MyResponsivePie data={chartData} />
+              ) : (
+                <h2 className="text-xl h-full font-bold flex col justify-center items-center">
+                  포트폴리오를 추가해보세요!
+                </h2>
+              )}
             </div>
           </Box>
           {myStockData.length > 0 ? (
