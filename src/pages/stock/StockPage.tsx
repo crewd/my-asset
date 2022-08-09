@@ -167,7 +167,7 @@ const StockPage = () => {
 
       <div>
         <h2 className="text-md sm:text-lg mb-3">차트</h2>
-        <Box classname="rounded-xl h-[350px] p-[25px] sm:p-[30px] flex overflow-hidden text-white">
+        <Box classname="rounded-xl h-[350px] p-[25px] sm:p-[30px] flex text-white">
           {chartData && <MyResponsiveLine data={chartData} />}
         </Box>
       </div>
