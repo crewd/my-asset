@@ -2,9 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Box from '../../components/box/Box';
-import Button from '../../components/button/Button';
 import PortfolioCard from '../../components/portfolio/portfolioCard';
 import useProfit from '../../hooks/useProfit';
 import usePurchasePrice from '../../hooks/usePurchasePrice';
@@ -14,9 +13,13 @@ import { chartDataState, myStockState, stockState } from '../../recoils/stock';
 import List from '../../components/box/List';
 import MyResponsivePie from '../../components/portfolio/MyResponsivePie';
 import useTitle from '../../hooks/useTitle';
+import AddPortfolio from '../../components/portfolio/AddPortfolio';
+import Button from '../../components/button/Button';
 
-const Portfolios = () => {
+const Portfolio = () => {
   useTitle('포트폴리오');
+
+  const [modalToggle, setModalToggle] = useState<boolean>(false);
 
   // api 주식 데이터
   const stockData = useRecoilValue(stockState);
@@ -88,7 +91,13 @@ const Portfolios = () => {
         <div>
           <Box classname="m-auto sm:w-[600px] w-full h-[300px] p-[20px] rounded-t-lg border-b-2 border-primary text-black">
             <div className="sm:w-full w-[200px] h-full m-auto">
-              {chartData.length > 0 && <MyResponsivePie data={chartData} />}
+              {chartData.length > 0 ? (
+                <MyResponsivePie data={chartData} />
+              ) : (
+                <h2 className="text-xl h-full font-bold text-white flex col justify-center items-center">
+                  포트폴리오를 추가해보세요!
+                </h2>
+              )}
             </div>
           </Box>
           {myStockData.length > 0 ? (
@@ -105,12 +114,13 @@ const Portfolios = () => {
             <List data={['포트폴리오를 추가해보세요!']} />
           )}
         </div>
-        <Button classname="">
+        <Button classname="my-[20px]" clickEvent={() => setModalToggle(true)}>
           <FontAwesomeIcon icon={faPlus} size="lg" />
         </Button>
       </div>
+      {modalToggle && <AddPortfolio cancel={() => setModalToggle(false)} />}
     </div>
   );
 };
 
-export default Portfolios;
+export default Portfolio;

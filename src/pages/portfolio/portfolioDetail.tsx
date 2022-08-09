@@ -1,27 +1,59 @@
+import { faPlus, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import Box from '../../components/box/Box';
+import Button from '../../components/button/Button';
+import Modal from '../../components/layout/modal';
 import MyResponsivePie from '../../components/portfolio/MyResponsivePie';
 import PortfolioDetailCard from '../../components/portfolio/PortfolioDetailCard';
 import useProfit from '../../hooks/useProfit';
 import { myStockState, stockState } from '../../recoils/stock';
 import { ChartDataType, MyStock } from '../../types/myStock';
+import { stockStore } from '../../util/stock';
 
 const PortfolioDetail = () => {
   const [portfolio, setPortfolio] = useState<MyStock>();
   const [totalPrice, setTotalPrice] = useState(0);
   const [purchaseTotalPrice, setPurchaseTotalPrice] = useState(0);
   const [returnRate, setReturnRate] = useState(0);
-
   const [chartData, setChartData] = useState<ChartDataType[]>();
+  const [removeConfirm, setRemoveConfirm] = useState(false);
 
   const navigate = useNavigate();
 
-  const myStockData = useRecoilValue(myStockState);
+  const store = stockStore;
+
+  const [myStockData, setMyStockData] = useRecoilState(myStockState);
   const stockData = useRecoilValue(stockState);
   const { id } = useParams();
   const [profit] = useProfit(purchaseTotalPrice, totalPrice);
+
+  const openConfirm = () => {
+    setRemoveConfirm(true);
+  };
+
+  const closeConfirm = () => {
+    setRemoveConfirm(false);
+  };
+
+  const removeHandler = () => {
+    store.remove(portfolio.name);
+    setMyStockData(() =>
+      myStockData.filter((data) => data.name !== portfolio.name),
+    );
+  };
+
+  useEffect(() => {
+    if (
+      portfolio &&
+      myStockData &&
+      !myStockData.find((data) => data.name === portfolio.name)
+    ) {
+      navigate('/portfolio');
+    }
+  }, [myStockData]);
 
   useEffect(() => {
     setChartData([]);
@@ -98,13 +130,20 @@ const PortfolioDetail = () => {
     <>
       {portfolio && (
         <div>
-          <header className="pb-[20px]">
+          <header className="pb-[20px] flex">
             <button
               className="text-xl font-bold"
               type="button"
               onClick={() => navigate('/portfolio')}
             >
-              &lt; {portfolio.name}
+              <FontAwesomeIcon icon={faAngleLeft} /> {portfolio.name}
+            </button>
+            <button
+              type="button"
+              className="ml-[30px] border-2 border-[#3c5069] w-[80px] py-[5px] hover:bg-minus hover:border-minus rounded-lg"
+              onClick={openConfirm}
+            >
+              삭제
             </button>
           </header>
           <div className="grid sm:grid-cols-2 grid-cols-1 gap-[20px]">
@@ -145,7 +184,13 @@ const PortfolioDetail = () => {
               </div>
             </Box>
             <Box classname="h-[250px] p-[20px] rounded-xl">
-              {chartData && <MyResponsivePie data={chartData} />}
+              {chartData.length > 0 ? (
+                <MyResponsivePie data={chartData} />
+              ) : (
+                <h2 className="text-xl h-full font-bold flex col justify-center items-center">
+                  종목을 추가해보세요!
+                </h2>
+              )}
             </Box>
           </div>
           <div className="grid md:grid-cols-2 grid-cols-1 gap-[20px]">
@@ -168,7 +213,38 @@ const PortfolioDetail = () => {
                   return false;
                 }),
               )}
+            {!chartData.length && (
+              <Box classname="col-span-2 p-[20px] rounded-xl text-center text-md">
+                종목을 추가해보세요!
+              </Box>
+            )}
           </div>
+          <Button classname="">
+            <FontAwesomeIcon icon={faPlus} size="lg" />
+          </Button>
+          {removeConfirm && (
+            <Modal cssStyle="min-w-[290px]">
+              <p className="text-md p-[20px] text-center">
+                포트폴리오를 삭제하시겠습니까?
+              </p>
+              <div className="flex justify-around py-[20px]">
+                <button
+                  className="w-[80px] py-[10px] rounded-lg border-2 border-[#3c5069] hover:bg-[#3c5069] shadow-xl"
+                  type="button"
+                  onClick={closeConfirm}
+                >
+                  아니오
+                </button>
+                <button
+                  className="w-[80px] py-[10px] rounded-lg bg-minus hover:scale-110 shadow-xl"
+                  type="button"
+                  onClick={removeHandler}
+                >
+                  삭제
+                </button>
+              </div>
+            </Modal>
+          )}
         </div>
       )}
     </>
