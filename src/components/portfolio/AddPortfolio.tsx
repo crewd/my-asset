@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { myStockState } from '../../recoils/stock';
 import { stockStore } from '../../util/stock';
@@ -8,7 +7,6 @@ import { ModalPortal } from '../layout/modal';
 const AddPortfolio = ({ cancel }: { cancel: () => void }) => {
   const [inputValue, setInputValue] = useState('');
   const store = stockStore;
-  const navigate = useNavigate();
 
   const [myStockData, setMyStockData] = useRecoilState(myStockState);
 
