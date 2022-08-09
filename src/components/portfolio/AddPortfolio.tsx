@@ -30,7 +30,7 @@ const AddPortfolio = ({ cancel }: { cancel: () => void }) => {
 
   useEffect(() => {
     if (myStockData && inputValue) {
-      navigate(`/portfolio/${store.allStock.length}`);
+      cancel();
     }
   }, [myStockData]);
 
