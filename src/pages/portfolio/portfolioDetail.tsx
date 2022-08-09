@@ -2,7 +2,7 @@ import { faPlus, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import Box from '../../components/box/Box';
 import Button from '../../components/button/Button';
 import MyResponsivePie from '../../components/portfolio/MyResponsivePie';
@@ -10,21 +10,40 @@ import PortfolioDetailCard from '../../components/portfolio/PortfolioDetailCard'
 import useProfit from '../../hooks/useProfit';
 import { myStockState, stockState } from '../../recoils/stock';
 import { ChartDataType, MyStock } from '../../types/myStock';
+import { stockStore } from '../../util/stock';
 
 const PortfolioDetail = () => {
   const [portfolio, setPortfolio] = useState<MyStock>();
   const [totalPrice, setTotalPrice] = useState(0);
   const [purchaseTotalPrice, setPurchaseTotalPrice] = useState(0);
   const [returnRate, setReturnRate] = useState(0);
-
   const [chartData, setChartData] = useState<ChartDataType[]>();
 
   const navigate = useNavigate();
 
-  const myStockData = useRecoilValue(myStockState);
+  const store = stockStore;
+
+  const [myStockData, setMyStockData] = useRecoilState(myStockState);
   const stockData = useRecoilValue(stockState);
   const { id } = useParams();
   const [profit] = useProfit(purchaseTotalPrice, totalPrice);
+
+  const removeHandler = () => {
+    store.remove(portfolio.name);
+    setMyStockData(() =>
+      myStockData.filter((data) => data.name !== portfolio.name),
+    );
+  };
+
+  useEffect(() => {
+    if (
+      portfolio &&
+      myStockData &&
+      !myStockData.find((data) => data.name === portfolio.name)
+    ) {
+      navigate('/portfolio');
+    }
+  }, [myStockData]);
 
   useEffect(() => {
     setChartData([]);
@@ -97,8 +116,6 @@ const PortfolioDetail = () => {
     );
   }, [purchaseTotalPrice, totalPrice]);
 
-  console.log(chartData);
-
   return (
     <>
       {portfolio && (
@@ -114,6 +131,7 @@ const PortfolioDetail = () => {
             <button
               type="button"
               className="ml-[30px] border-2 border-secondary w-[80px] py-[5px] hover:bg-minus rounded-lg"
+              onClick={removeHandler}
             >
               삭제
             </button>
