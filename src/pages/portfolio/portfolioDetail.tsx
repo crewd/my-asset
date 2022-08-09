@@ -97,6 +97,8 @@ const PortfolioDetail = () => {
     );
   }, [purchaseTotalPrice, totalPrice]);
 
+  console.log(chartData);
+
   return (
     <>
       {portfolio && (
@@ -148,7 +150,13 @@ const PortfolioDetail = () => {
               </div>
             </Box>
             <Box classname="h-[250px] p-[20px] rounded-xl">
-              {chartData && <MyResponsivePie data={chartData} />}
+              {chartData.length > 0 ? (
+                <MyResponsivePie data={chartData} />
+              ) : (
+                <h2 className="text-xl h-full font-bold flex col justify-center items-center">
+                  종목을 추가해보세요!
+                </h2>
+              )}
             </Box>
           </div>
           <div className="grid md:grid-cols-2 grid-cols-1 gap-[20px]">
@@ -171,6 +179,11 @@ const PortfolioDetail = () => {
                   return false;
                 }),
               )}
+            {!chartData.length && (
+              <Box classname="col-span-2 p-[20px] rounded-xl text-center text-md">
+                종목을 추가해보세요!
+              </Box>
+            )}
           </div>
           <Button classname="">
             <FontAwesomeIcon icon={faPlus} size="lg" />

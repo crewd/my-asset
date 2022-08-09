@@ -1,10 +1,38 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { myStockState } from '../../recoils/stock';
 import { stockStore } from '../../util/stock';
 import { ModalPortal } from '../layout/modal';
 
 const AddPortfolio = ({ cancel }: { cancel: () => void }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [inputValue, setInputValue] = useState('');
   const store = stockStore;
+  const navigate = useNavigate();
+
+  const [myStockData, setMyStockData] = useRecoilState(myStockState);
+
+  const onChangeHandler = (e: React.SyntheticEvent) => {
+    setInputValue((e.target as HTMLInputElement).value);
+  };
+
+  const addHandler = () => {
+    if (!inputValue) {
+      return;
+    }
+    stockStore.set(inputValue, {
+      id: store.allStock.length + 1,
+      name: inputValue,
+      holdingStock: [],
+    });
+    setMyStockData((data) => [...data, JSON.parse(store.get(inputValue))]);
+  };
+
+  useEffect(() => {
+    if (myStockData && inputValue) {
+      navigate(`/portfolio/${store.allStock.length}`);
+    }
+  }, [myStockData]);
 
   useEffect(() => {
     document.body.style.cssText = `
@@ -30,8 +58,7 @@ const AddPortfolio = ({ cancel }: { cancel: () => void }) => {
               type="text"
               maxLength={10}
               placeholder="10자 이하"
-              ref={inputRef}
-              onChange={() => console.log(inputRef.current?.value)}
+              onChange={onChangeHandler}
             />
           </div>
           <div className="w-full flex justify-center">
@@ -45,6 +72,7 @@ const AddPortfolio = ({ cancel }: { cancel: () => void }) => {
             <button
               className="bg-secondray w-[100px] h-[50px] mx-[10px] rounded-md border-2 border-primary hover:bg-primary shadow-xl"
               type="button"
+              onClick={addHandler}
             >
               추가
             </button>
