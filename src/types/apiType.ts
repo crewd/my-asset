@@ -15,3 +15,8 @@ export type Stock = {
   lstgStCnt: string;
   mrktTotAmt: string;
 };
+
+export type PortfolioStock = {
+  name: string;
+  stock: Stock[];
+};

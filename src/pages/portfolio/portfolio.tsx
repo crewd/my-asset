@@ -111,7 +111,10 @@ const Portfolio = () => {
               />
             ))
           ) : (
-            <List data={['포트폴리오를 추가해보세요!']} />
+            <List
+              cssStyle="bg-secondary"
+              data={['포트폴리오를 추가해보세요!']}
+            />
           )}
         </div>
         <Button classname="my-[20px]" clickEvent={() => setModalToggle(true)}>

@@ -182,11 +182,15 @@ const MainPage: React.FC = () => {
           거래량 TOP 10
         </p>
         <div className="mt-[15px]">
-          <List data={['코드', '주식명', '종가', '등락률']} />
+          <List
+            cssStyle="bg-secondary border-primary"
+            data={['코드', '주식명', '종가', '등락률']}
+          />
           {bestTrdVol &&
             bestTrdVol.map((e) => (
               <List
                 key={e.itmsNm}
+                cssStyle="bg-secondary border-primary"
                 nav={() => navigate(`/stock/${e.srtnCd}`)}
                 data={[
                   e.srtnCd,
