@@ -40,6 +40,8 @@ const PortfolioDetail = () => {
   const [updatePrice, setUpdatePrice] = useState(0);
   const [beforeData, setBeforeData] = useState<HoldingStock>();
 
+  const [removeData, setRemoveData] = useState('');
+
   const [myStockCodes, setMycodes] = useState<string[]>([]);
 
   const [stockApiData, setStockApiData] = useState<Stock[]>([]);
@@ -51,9 +53,20 @@ const PortfolioDetail = () => {
   const [myStockData, setMyStockData] = useRecoilState(myStockState);
 
   const openUpdateHandler = (data: HoldingStock) => {
-    setUpdateStock(true);
     setBeforeData(data);
   };
+
+  useEffect(() => {
+    if (beforeData) {
+      setUpdateStock(true);
+    }
+  }, [beforeData]);
+
+  useEffect(() => {
+    if (!updateStock) {
+      setBeforeData(null);
+    }
+  }, [updateStock]);
 
   useEffect(() => {
     if (myStockData && portfolio) {
@@ -123,12 +136,22 @@ const PortfolioDetail = () => {
     setUpdatePrice(Number(onlyNumber));
   };
 
+  const openDelete = (name: string) => {
+    setRemoveData(name);
+  };
+
+  useEffect(() => {
+    if (removeData) {
+      setRemoveStock(true);
+    }
+  }, [removeData]);
+
   const updatePortfolio = (name: string, count: number, price: number) => {
     if (count === 0 || price === 0) {
       return;
     }
-    const newArray: HoldingStock[] = [];
 
+    const newArray: HoldingStock[] = [];
     portfolio.holdingStock.forEach((holding) => {
       if (holding.stockName === name) {
         return newArray.push({
@@ -147,11 +170,28 @@ const PortfolioDetail = () => {
     });
   };
 
+  const deleteStock = () => {
+    const newArray: HoldingStock[] = [];
+    portfolio.holdingStock.forEach((holding) => {
+      if (holding.stockName === removeData) {
+        return;
+      }
+      newArray.push(holding);
+    });
+
+    setPortfolio({
+      id: portfolio.id,
+      name: portfolio.name,
+      holdingStock: newArray,
+    });
+  };
+
   useEffect(() => {
     if (portfolio) {
       store.remove(portfolio.name);
       store.set(portfolio.name, portfolio);
       setUpdateStock(false);
+      setRemoveStock(false);
     }
   }, [portfolio]);
 
@@ -343,7 +383,7 @@ const PortfolioDetail = () => {
                           <button
                             className="w-[80px] bg-minus h-[40px] rounded-md ml-[15px] hover:scale-110"
                             type="button"
-                            onClick={() => setRemoveStock(true)}
+                            onClick={() => openDelete(data.stockName)}
                           >
                             삭제
                           </button>
@@ -389,7 +429,7 @@ const PortfolioDetail = () => {
           {removeStock && (
             <Modal cssStyle="min-w-[290px]">
               <p className="text-md p-[20px] text-center">
-                포트폴리오를 삭제하시겠습니까?
+                종목을 삭제하시겠습니까?
               </p>
               <div className="flex justify-around py-[20px]">
                 <button
@@ -402,6 +442,7 @@ const PortfolioDetail = () => {
                 <button
                   className="w-[80px] py-[10px] rounded-lg bg-minus hover:scale-110 shadow-xl"
                   type="button"
+                  onClick={deleteStock}
                 >
                   삭제
                 </button>
