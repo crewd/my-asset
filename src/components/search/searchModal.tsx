@@ -83,7 +83,7 @@ const SearchModal = ({
         (hStock) => hStock.stockName === searchStockData?.itmsNm,
       );
       if (findData === -1) {
-        store.set(portfolio.name, {
+        return setData({
           id: portfolio.id,
           name: portfolio.name,
           holdingStock: [
@@ -96,8 +96,6 @@ const SearchModal = ({
             },
           ],
         });
-        const parseStock: MyStock = JSON.parse(store.get(portfolio.name));
-        return setData(parseStock);
       }
       return setError(true);
     }
