@@ -94,15 +94,22 @@ const SearchModal = ({
           },
         ],
       });
-      const myStockArray: MyStock[] = [];
-      for (let i = 0; i < store.allStock.length; i++) {
-        const key = store.allStock.key(i);
-        if (!key || !store.get(key)) {
-          return;
-        }
-        myStockArray.push(JSON.parse(store.get(key)));
-      }
-      setMyStockData(myStockArray);
+
+      const newStcokArray: MyStock[] = [];
+      const parseStock: MyStock = JSON.parse(store.get(pName));
+      parseStock.holdingStock.forEach((element) => {
+        myStockData.forEach((stock) => {
+          const stockFind = stock.holdingStock.findIndex(
+            (hStock) =>
+              hStock.stockName === element.stockName &&
+              hStock.code === element.code,
+          );
+          if (stockFind === -1) {
+            newStcokArray.push(parseStock);
+          }
+        });
+      });
+      setMyStockData(newStcokArray);
     }
   };
 

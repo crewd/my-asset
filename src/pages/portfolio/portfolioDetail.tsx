@@ -2,17 +2,20 @@ import { faPlus, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
+import { useQueries } from '@tanstack/react-query';
 import Box from '../../components/box/Box';
 import Button from '../../components/button/Button';
 import Modal from '../../components/layout/modal';
 import MyResponsivePie from '../../components/portfolio/MyResponsivePie';
 import PortfolioDetailCard from '../../components/portfolio/PortfolioDetailCard';
 import useProfit from '../../hooks/useProfit';
-import { myStockState, stockState } from '../../recoils/stock';
+import { myStockState } from '../../recoils/stock';
 import { ChartDataType, MyStock } from '../../types/myStock';
 import { stockStore } from '../../util/stock';
 import SearchModal from '../../components/search/searchModal';
+import { stockCodeSearch } from '../../api';
+import { Stock } from '../../types/apiType';
 
 const PortfolioDetail = () => {
   const [portfolio, setPortfolio] = useState<MyStock>();
@@ -23,12 +26,46 @@ const PortfolioDetail = () => {
   const [removeConfirm, setRemoveConfirm] = useState(false);
   const [addView, setAddView] = useState(false);
 
+  const [stockApiData, setStockApiData] = useState<Stock[]>([]);
+
   const navigate = useNavigate();
 
   const store = stockStore;
 
   const [myStockData, setMyStockData] = useRecoilState(myStockState);
-  const stockData = useRecoilValue(stockState);
+
+  const myStockCodes: string[] = [];
+
+  if (myStockData && portfolio) {
+    myStockData.map((myStock) => {
+      if (myStock.name === portfolio.name) {
+        myStock.holdingStock.map((stock) => myStockCodes.push(stock.code));
+      }
+      return;
+    });
+  }
+
+  const query = myStockCodes.map((code) => ({
+    queryKey: ['code', code],
+    queryFn: () => stockCodeSearch(code),
+  }));
+
+  const results = useQueries({
+    queries: [...query],
+  });
+
+  const allSuccess = results.every((num) => num.isSuccess === true);
+
+  useEffect(() => {
+    if (allSuccess) {
+      results.map((data) =>
+        setStockApiData((sData) => [...sData, data.data[0]]),
+      );
+    }
+  }, [allSuccess]);
+
+  console.log(stockApiData);
+
   const { id } = useParams();
   const [profit] = useProfit(purchaseTotalPrice, totalPrice);
 
@@ -52,12 +89,13 @@ const PortfolioDetail = () => {
   };
 
   useEffect(() => {
-    if (
-      portfolio &&
-      myStockData &&
-      !myStockData.find((data) => data.name === portfolio.name)
-    ) {
-      navigate('/portfolio');
+    if (portfolio && myStockData) {
+      const findPortfolio = myStockData.findIndex(
+        (data) => data.name === portfolio.name && data.id === portfolio.id,
+      );
+      if (findPortfolio === -1) {
+        navigate('/portfolio');
+      }
     }
   }, [myStockData]);
 
@@ -67,7 +105,7 @@ const PortfolioDetail = () => {
 
   useEffect(() => {
     setPortfolio(null);
-    if (myStockData && stockData) {
+    if (myStockData && stockApiData) {
       const portfolioData = myStockData?.filter(
         (data) => data.id === Number(id),
       );
@@ -76,11 +114,11 @@ const PortfolioDetail = () => {
   }, [myStockData]);
 
   useEffect(() => {
-    if (!portfolio || !stockData) {
+    if (!portfolio || !stockApiData) {
       return;
     }
     let priceSum = 0;
-    stockData.map((stock) => {
+    stockApiData.map((stock) => {
       portfolio.holdingStock.map((hStock) => {
         if (hStock.stockName === stock.itmsNm) {
           priceSum += hStock.count * Number(stock.clpr);
@@ -90,14 +128,14 @@ const PortfolioDetail = () => {
       return;
     });
     setTotalPrice(priceSum);
-  }, [portfolio, stockData]);
+  }, [portfolio, stockApiData]);
 
   useEffect(() => {
-    if (!portfolio || !stockData) {
+    if (!portfolio || !stockApiData) {
       return;
     }
     const chartArray: ChartDataType[] = [];
-    stockData.map((data) =>
+    stockApiData.map((data) =>
       portfolio.holdingStock.map((holding) => {
         if (data.itmsNm === holding.stockName) {
           chartArray.push({
@@ -111,7 +149,7 @@ const PortfolioDetail = () => {
       }),
     );
     setChartData(chartArray);
-  }, [portfolio, stockData]);
+  }, [portfolio, stockApiData]);
 
   useEffect(() => {
     if (!portfolio) {
@@ -205,9 +243,9 @@ const PortfolioDetail = () => {
               보유 종목
             </h2>
             {portfolio &&
-              stockData &&
-              stockData.map((stock) =>
-                portfolio.holdingStock.map((data) => {
+              stockApiData &&
+              portfolio.holdingStock.map((data) =>
+                stockApiData.map((stock) => {
                   if (stock.itmsNm === data.stockName) {
                     return (
                       <PortfolioDetailCard
