@@ -46,7 +46,7 @@ const PortfolioDetail = () => {
   }
 
   const query = myStockCodes.map((code) => ({
-    queryKey: ['code', code],
+    queryKey: ['portfolioCode', code],
     queryFn: () => stockCodeSearch(code),
   }));
 
@@ -63,8 +63,6 @@ const PortfolioDetail = () => {
       );
     }
   }, [allSuccess]);
-
-  console.log(stockApiData);
 
   const { id } = useParams();
   const [profit] = useProfit(purchaseTotalPrice, totalPrice);
