@@ -2,31 +2,114 @@ import { faPlus, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
+import { useQueries } from '@tanstack/react-query';
 import Box from '../../components/box/Box';
 import Button from '../../components/button/Button';
 import Modal from '../../components/layout/modal';
 import MyResponsivePie from '../../components/portfolio/MyResponsivePie';
 import PortfolioDetailCard from '../../components/portfolio/PortfolioDetailCard';
 import useProfit from '../../hooks/useProfit';
-import { myStockState, stockState } from '../../recoils/stock';
-import { ChartDataType, MyStock } from '../../types/myStock';
+import { myStockState } from '../../recoils/stock';
+import {
+  ChartDataType,
+  MyStock,
+  Stock as HoldingStock,
+} from '../../types/myStock';
 import { stockStore } from '../../util/stock';
+import SearchModal from '../../components/search/searchModal';
+import { stockCodeSearch } from '../../api';
+import { Stock } from '../../types/apiType';
 
 const PortfolioDetail = () => {
-  const [portfolio, setPortfolio] = useState<MyStock>();
+  const [portfolio, setPortfolio] = useState<MyStock>(null);
+
   const [totalPrice, setTotalPrice] = useState(0);
   const [purchaseTotalPrice, setPurchaseTotalPrice] = useState(0);
   const [returnRate, setReturnRate] = useState(0);
+
   const [chartData, setChartData] = useState<ChartDataType[]>();
+
   const [removeConfirm, setRemoveConfirm] = useState(false);
+  const [removeStock, setRemoveStock] = useState(false);
+
+  const [addView, setAddView] = useState(false);
+  const [updateStock, setUpdateStock] = useState(false);
+  const [openButton, setOpenButton] = useState(-1);
+
+  const [stockCount, setStockCount] = useState(0);
+  const [updatePrice, setUpdatePrice] = useState(0);
+  const [beforeData, setBeforeData] = useState<HoldingStock>();
+
+  const [removeData, setRemoveData] = useState('');
+
+  const [myStockCodes, setMycodes] = useState<string[]>([]);
+
+  const [stockApiData, setStockApiData] = useState<Stock[]>([]);
 
   const navigate = useNavigate();
 
   const store = stockStore;
 
   const [myStockData, setMyStockData] = useRecoilState(myStockState);
-  const stockData = useRecoilValue(stockState);
+
+  const openUpdateHandler = (data: HoldingStock) => {
+    setBeforeData(data);
+  };
+
+  const openButtonHandler = (index: number) => {
+    if (openButton >= 0) {
+      return setOpenButton(-1);
+    }
+    return setOpenButton(index);
+  };
+
+  useEffect(() => {
+    if (beforeData) {
+      setUpdateStock(true);
+      setStockCount(beforeData.count);
+      setUpdatePrice(Number(beforeData.purchasePrice));
+    }
+  }, [beforeData]);
+
+  useEffect(() => {
+    if (!updateStock) {
+      setBeforeData(null);
+    }
+  }, [updateStock]);
+
+  useEffect(() => {
+    if (myStockData && portfolio) {
+      myStockData.map((myStock) => {
+        if (myStock.name === portfolio.name) {
+          myStock.holdingStock.map((stock) =>
+            setMycodes((code) => [...code, stock.code]),
+          );
+        }
+        return;
+      });
+    }
+  }, [portfolio, myStockData]);
+
+  const query = myStockCodes.map((code) => ({
+    queryKey: ['portfolioCode', code],
+    queryFn: () => stockCodeSearch(code),
+  }));
+
+  const results = useQueries({
+    queries: [...query],
+  });
+
+  const allSuccess = results.every((num) => num.isSuccess === true);
+
+  useEffect(() => {
+    if (allSuccess) {
+      results.map((data) =>
+        setStockApiData((sData) => [...sData, data.data[0]]),
+      );
+    }
+  }, [allSuccess]);
+
   const { id } = useParams();
   const [profit] = useProfit(purchaseTotalPrice, totalPrice);
 
@@ -45,13 +128,98 @@ const PortfolioDetail = () => {
     );
   };
 
+  const closeView = () => {
+    setAddView(false);
+  };
+
+  const countHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    // value의 값이 숫자가 아닐경우 빈문자열로 replace 해버림.
+    const onlyNumber = value.replace(/[^0-9]/g, '');
+    setStockCount(Number(onlyNumber));
+  };
+
+  const priceHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    // value의 값이 숫자가 아닐경우 빈문자열로 replace 해버림.
+    const onlyNumber = value.replace(/[^0-9]/g, '');
+    setUpdatePrice(Number(onlyNumber));
+  };
+
+  const openDelete = (name: string) => {
+    setRemoveData(name);
+  };
+
   useEffect(() => {
-    if (
-      portfolio &&
-      myStockData &&
-      !myStockData.find((data) => data.name === portfolio.name)
-    ) {
-      navigate('/portfolio');
+    if (removeData) {
+      setRemoveStock(true);
+    }
+  }, [removeData]);
+
+  const updatePortfolio = (name: string, count: number, price: number) => {
+    if (count === 0 || price === 0) {
+      return;
+    }
+
+    const newArray: HoldingStock[] = [];
+    portfolio.holdingStock.forEach((holding) => {
+      if (holding.stockName === name) {
+        return newArray.push({
+          stockName: holding.stockName,
+          code: holding.code,
+          count,
+          purchasePrice: price,
+        });
+      }
+      return newArray.push(holding);
+    });
+    setPortfolio({
+      id: portfolio.id,
+      name: portfolio.name,
+      holdingStock: newArray,
+    });
+  };
+
+  const deleteStock = () => {
+    const newArray: HoldingStock[] = [];
+    portfolio.holdingStock.forEach((holding) => {
+      if (holding.stockName === removeData) {
+        return;
+      }
+      newArray.push(holding);
+    });
+
+    setPortfolio({
+      id: portfolio.id,
+      name: portfolio.name,
+      holdingStock: newArray,
+    });
+  };
+
+  useEffect(() => {
+    if (portfolio) {
+      store.remove(portfolio.name);
+      store.set(portfolio.name, portfolio);
+      setUpdateStock(false);
+      setRemoveStock(false);
+    }
+  }, [portfolio]);
+
+  useEffect(() => {
+    if (!updateStock) {
+      setStockCount(0);
+      setUpdatePrice(0);
+    }
+  }, [updateStock]);
+
+  useEffect(() => {
+    if (portfolio && myStockData) {
+      const findPortfolio = myStockData.findIndex(
+        (data) => data.name === portfolio.name && data.id === portfolio.id,
+      );
+      if (findPortfolio === -1) {
+        navigate('/portfolio');
+      }
     }
   }, [myStockData]);
 
@@ -60,8 +228,8 @@ const PortfolioDetail = () => {
   }, []);
 
   useEffect(() => {
-    if (myStockData && stockData) {
-      const portfolioData = myStockData?.filter(
+    if (myStockData && id) {
+      const portfolioData = myStockData.filter(
         (data) => data.id === Number(id),
       );
       setPortfolio(portfolioData[0]);
@@ -69,12 +237,15 @@ const PortfolioDetail = () => {
   }, [myStockData]);
 
   useEffect(() => {
-    if (!portfolio || !stockData) {
+    if (!portfolio) {
+      return;
+    }
+    if (!stockApiData) {
       return;
     }
     let priceSum = 0;
-    stockData.map((stock) => {
-      portfolio.holdingStock.map((hStock) => {
+    portfolio.holdingStock.map((hStock) => {
+      stockApiData.map((stock) => {
         if (hStock.stockName === stock.itmsNm) {
           priceSum += hStock.count * Number(stock.clpr);
         }
@@ -83,14 +254,17 @@ const PortfolioDetail = () => {
       return;
     });
     setTotalPrice(priceSum);
-  }, [portfolio, stockData]);
+  }, [portfolio, stockApiData]);
 
   useEffect(() => {
-    if (!portfolio || !stockData) {
+    if (!portfolio) {
+      return;
+    }
+    if (!stockApiData) {
       return;
     }
     const chartArray: ChartDataType[] = [];
-    stockData.map((data) =>
+    stockApiData.map((data) =>
       portfolio.holdingStock.map((holding) => {
         if (data.itmsNm === holding.stockName) {
           chartArray.push({
@@ -104,7 +278,7 @@ const PortfolioDetail = () => {
       }),
     );
     setChartData(chartArray);
-  }, [portfolio, stockData]);
+  }, [portfolio, stockApiData]);
 
   useEffect(() => {
     if (!portfolio) {
@@ -198,16 +372,36 @@ const PortfolioDetail = () => {
               보유 종목
             </h2>
             {portfolio &&
-              stockData &&
-              stockData.map((stock) =>
+              stockApiData &&
+              stockApiData.map((stock, index) =>
                 portfolio.holdingStock.map((data) => {
                   if (stock.itmsNm === data.stockName) {
                     return (
-                      <PortfolioDetailCard
-                        key={data.code}
-                        stock={data}
-                        marketValue={Number(stock.clpr)}
-                      />
+                      <div key={data.code}>
+                        <PortfolioDetailCard
+                          stock={data}
+                          marketValue={Number(stock.clpr)}
+                          open={() => openButtonHandler(index)}
+                        />
+                        {openButton === index && (
+                          <div className="flex justify-start my-[10px]">
+                            <button
+                              className="w-[80px] bg-secondary h-[40px] rounded-md hover:bg-[#3c5069]"
+                              type="button"
+                              onClick={() => openUpdateHandler(data)}
+                            >
+                              수정
+                            </button>
+                            <button
+                              className="w-[80px] bg-minus h-[40px] rounded-md ml-[15px] hover:scale-110"
+                              type="button"
+                              onClick={() => openDelete(data.stockName)}
+                            >
+                              삭제
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     );
                   }
                   return false;
@@ -219,7 +413,7 @@ const PortfolioDetail = () => {
               </Box>
             )}
           </div>
-          <Button classname="">
+          <Button classname="m-[20px]" clickEvent={() => setAddView(true)}>
             <FontAwesomeIcon icon={faPlus} size="lg" />
           </Button>
           {removeConfirm && (
@@ -241,6 +435,82 @@ const PortfolioDetail = () => {
                   onClick={removeHandler}
                 >
                   삭제
+                </button>
+              </div>
+            </Modal>
+          )}
+          {removeStock && (
+            <Modal cssStyle="min-w-[290px]">
+              <p className="text-md p-[20px] text-center">
+                종목을 삭제하시겠습니까?
+              </p>
+              <div className="flex justify-around py-[20px]">
+                <button
+                  className="w-[80px] py-[10px] rounded-lg border-2 border-[#3c5069] hover:bg-[#3c5069] shadow-xl"
+                  type="button"
+                  onClick={() => setRemoveStock(false)}
+                >
+                  아니오
+                </button>
+                <button
+                  className="w-[80px] py-[10px] rounded-lg bg-minus hover:scale-110 shadow-xl"
+                  type="button"
+                  onClick={deleteStock}
+                >
+                  삭제
+                </button>
+              </div>
+            </Modal>
+          )}
+          {addView && portfolio && (
+            <SearchModal
+              portfolio={portfolio}
+              setData={setPortfolio}
+              closeView={closeView}
+            />
+          )}
+          {updateStock && beforeData && (
+            <Modal cssStyle="w-[80%]">
+              <div>
+                <div className="mb-[15px]">
+                  <p className="py-[10px]">수량</p>
+                  <input
+                    className="w-full rounded-lg p-[15px] bg-primary outline-none"
+                    type="number"
+                    value={stockCount}
+                    onChange={countHandler}
+                    placeholder="숫자만 입력해주세요"
+                  />
+                </div>
+                <div className="mb-[15px]">
+                  <p className="py-[10px]">평균단가</p>
+                  <input
+                    className="w-full rounded-lg p-[15px] bg-primary outline-none"
+                    type="number"
+                    value={updatePrice}
+                    onChange={priceHandler}
+                    placeholder="숫자만 입력해주세요"
+                  />
+                </div>
+                <button
+                  className="bg-primary w-full h-[45px] rounded-lg mt-[20px] hover:bg-plus"
+                  type="button"
+                  onClick={() =>
+                    updatePortfolio(
+                      beforeData.stockName,
+                      stockCount,
+                      updatePrice,
+                    )
+                  }
+                >
+                  변경
+                </button>
+                <button
+                  className="bg-primary w-full h-[45px] rounded-lg mt-[20px] hover:bg-minus"
+                  type="button"
+                  onClick={() => setUpdateStock(false)}
+                >
+                  취소
                 </button>
               </div>
             </Modal>

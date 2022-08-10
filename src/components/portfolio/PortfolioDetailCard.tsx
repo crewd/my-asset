@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Stock } from '../../types/myStock';
 import Box from '../box/Box';
 
 const PortfolioDetailCard = ({
   stock,
   marketValue,
+  open,
 }: {
   stock: Stock;
   marketValue: number;
+  open: () => void;
 }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [purchasePrice, setPurchasePrice] = useState(0);
@@ -40,7 +41,7 @@ const PortfolioDetailCard = ({
   }, [totalPrice, purchasePrice]);
 
   return (
-    <Link to={`/stock/${stock.code}`}>
+    <div className="w-full cursor-pointer" onClick={open}>
       <Box classname="rounded-xl">
         <div className="flex justify-between border-b-2 border-primary p-[20px] text-md">
           <p>{stock.stockName}</p>
@@ -98,7 +99,7 @@ const PortfolioDetailCard = ({
           </div>
         </div>
       </Box>
-    </Link>
+    </div>
   );
 };
 

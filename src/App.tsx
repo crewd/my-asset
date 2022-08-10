@@ -61,11 +61,7 @@ function App() {
       }
       myStockArray.push(JSON.parse(portfolioStore.get(key)));
     }
-    setMyStockData(
-      myStockArray.filter(
-        (name, index) => myStockArray.indexOf(name) === index,
-      ),
-    );
+    setMyStockData(myStockArray);
   }, [portfolioStore.allStock]);
 
   return (
