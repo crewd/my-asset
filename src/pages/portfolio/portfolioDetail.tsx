@@ -35,6 +35,7 @@ const PortfolioDetail = () => {
 
   const [addView, setAddView] = useState(false);
   const [updateStock, setUpdateStock] = useState(false);
+  const [openButton, setOpenButton] = useState(-1);
 
   const [stockCount, setStockCount] = useState(0);
   const [updatePrice, setUpdatePrice] = useState(0);
@@ -56,9 +57,18 @@ const PortfolioDetail = () => {
     setBeforeData(data);
   };
 
+  const openButtonHandler = (index: number) => {
+    if (openButton >= 0) {
+      return setOpenButton(-1);
+    }
+    return setOpenButton(index);
+  };
+
   useEffect(() => {
     if (beforeData) {
       setUpdateStock(true);
+      setStockCount(beforeData.count);
+      setUpdatePrice(Number(beforeData.purchasePrice));
     }
   }, [beforeData]);
 
@@ -363,7 +373,7 @@ const PortfolioDetail = () => {
             </h2>
             {portfolio &&
               stockApiData &&
-              stockApiData.map((stock) =>
+              stockApiData.map((stock, index) =>
                 portfolio.holdingStock.map((data) => {
                   if (stock.itmsNm === data.stockName) {
                     return (
@@ -371,23 +381,26 @@ const PortfolioDetail = () => {
                         <PortfolioDetailCard
                           stock={data}
                           marketValue={Number(stock.clpr)}
+                          open={() => openButtonHandler(index)}
                         />
-                        <div className="flex justify-start my-[10px]">
-                          <button
-                            className="w-[80px] bg-secondary h-[40px] rounded-md hover:bg-[#3c5069]"
-                            type="button"
-                            onClick={() => openUpdateHandler(data)}
-                          >
-                            업데이트
-                          </button>
-                          <button
-                            className="w-[80px] bg-minus h-[40px] rounded-md ml-[15px] hover:scale-110"
-                            type="button"
-                            onClick={() => openDelete(data.stockName)}
-                          >
-                            삭제
-                          </button>
-                        </div>
+                        {openButton === index && (
+                          <div className="flex justify-start my-[10px]">
+                            <button
+                              className="w-[80px] bg-secondary h-[40px] rounded-md hover:bg-[#3c5069]"
+                              type="button"
+                              onClick={() => openUpdateHandler(data)}
+                            >
+                              수정
+                            </button>
+                            <button
+                              className="w-[80px] bg-minus h-[40px] rounded-md ml-[15px] hover:scale-110"
+                              type="button"
+                              onClick={() => openDelete(data.stockName)}
+                            >
+                              삭제
+                            </button>
+                          </div>
+                        )}
                       </div>
                     );
                   }
@@ -400,7 +413,7 @@ const PortfolioDetail = () => {
               </Box>
             )}
           </div>
-          <Button classname="" clickEvent={() => setAddView(true)}>
+          <Button classname="m-[20px]" clickEvent={() => setAddView(true)}>
             <FontAwesomeIcon icon={faPlus} size="lg" />
           </Button>
           {removeConfirm && (
@@ -464,6 +477,7 @@ const PortfolioDetail = () => {
                   <input
                     className="w-full rounded-lg p-[15px] bg-primary outline-none"
                     type="number"
+                    value={stockCount}
                     onChange={countHandler}
                     placeholder="숫자만 입력해주세요"
                   />
@@ -473,6 +487,7 @@ const PortfolioDetail = () => {
                   <input
                     className="w-full rounded-lg p-[15px] bg-primary outline-none"
                     type="number"
+                    value={updatePrice}
                     onChange={priceHandler}
                     placeholder="숫자만 입력해주세요"
                   />
