@@ -1,6 +1,6 @@
 import { faPlus, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { useQueries } from '@tanstack/react-query';
@@ -26,6 +26,8 @@ const PortfolioDetail = () => {
   const [removeConfirm, setRemoveConfirm] = useState(false);
   const [addView, setAddView] = useState(false);
 
+  const [myStockCodes, setMycodes] = useState<string[]>([]);
+
   const [stockApiData, setStockApiData] = useState<Stock[]>([]);
 
   const navigate = useNavigate();
@@ -34,16 +36,18 @@ const PortfolioDetail = () => {
 
   const [myStockData, setMyStockData] = useRecoilState(myStockState);
 
-  const myStockCodes: string[] = [];
-
-  if (myStockData && portfolio) {
-    myStockData.map((myStock) => {
-      if (myStock.name === portfolio.name) {
-        myStock.holdingStock.map((stock) => myStockCodes.push(stock.code));
-      }
-      return;
-    });
-  }
+  useEffect(() => {
+    if (myStockData && portfolio) {
+      myStockData.map((myStock) => {
+        if (myStock.name === portfolio.name) {
+          myStock.holdingStock.map((stock) =>
+            setMycodes((code) => [...code, stock.code]),
+          );
+        }
+        return;
+      });
+    }
+  }, [portfolio, myStockData]);
 
   const query = myStockCodes.map((code) => ({
     queryKey: ['portfolioCode', code],
@@ -55,6 +59,10 @@ const PortfolioDetail = () => {
   });
 
   const allSuccess = results.every((num) => num.isSuccess === true);
+
+  const refetchAll = useCallback(() => {
+    results.forEach((result) => result.refetch());
+  }, [results]);
 
   useEffect(() => {
     if (allSuccess) {
@@ -99,12 +107,12 @@ const PortfolioDetail = () => {
 
   useEffect(() => {
     setChartData([]);
+    setStockApiData([]);
   }, []);
 
   useEffect(() => {
-    setPortfolio(null);
-    if (myStockData && stockApiData) {
-      const portfolioData = myStockData?.filter(
+    if (myStockData) {
+      const portfolioData = myStockData.filter(
         (data) => data.id === Number(id),
       );
       setPortfolio(portfolioData[0]);
@@ -116,8 +124,8 @@ const PortfolioDetail = () => {
       return;
     }
     let priceSum = 0;
-    stockApiData.map((stock) => {
-      portfolio.holdingStock.map((hStock) => {
+    portfolio.holdingStock.map((hStock) => {
+      stockApiData.map((stock) => {
         if (hStock.stockName === stock.itmsNm) {
           priceSum += hStock.count * Number(stock.clpr);
         }
@@ -168,6 +176,8 @@ const PortfolioDetail = () => {
       ((totalPrice - purchaseTotalPrice) / purchaseTotalPrice) * 100,
     );
   }, [purchaseTotalPrice, totalPrice]);
+
+  console.log(portfolio);
 
   return (
     <>
@@ -242,8 +252,8 @@ const PortfolioDetail = () => {
             </h2>
             {portfolio &&
               stockApiData &&
-              portfolio.holdingStock.map((data) =>
-                stockApiData.map((stock) => {
+              stockApiData.map((stock) =>
+                portfolio.holdingStock.map((data) => {
                   if (stock.itmsNm === data.stockName) {
                     return (
                       <PortfolioDetailCard
@@ -290,9 +300,10 @@ const PortfolioDetail = () => {
           )}
           {addView && portfolio && (
             <SearchModal
-              pName={portfolio.name}
-              pId={portfolio.id}
+              portfolio={portfolio}
+              setData={setPortfolio}
               closeView={closeView}
+              refetch={refetchAll}
             />
           )}
         </div>

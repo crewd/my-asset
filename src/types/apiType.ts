@@ -18,5 +18,5 @@ export type Stock = {
 
 export type PortfolioStock = {
   name: string;
-  stock: Stcok[];
+  stock: Stock[];
 };

@@ -54,7 +54,6 @@ function App() {
       return;
     }
     const myStockArray: MyStock[] = [];
-    const stockArray: MyStock[] = [];
     for (let i = 0; i < portfolioStore.allStock.length; i++) {
       const key = portfolioStore.allStock.key(i);
       if (!key || !portfolioStore.get(key)) {
@@ -62,17 +61,7 @@ function App() {
       }
       myStockArray.push(JSON.parse(portfolioStore.get(key)));
     }
-    myStockArray.forEach((element) => {
-      const { id } = element;
-      const { name } = element;
-      const ExistenceStatus = myStockData.findIndex(
-        (i) => i.id === id && i.name === name,
-      );
-      if (ExistenceStatus === -1) {
-        stockArray.push(element);
-      }
-    });
-    setMyStockData(stockArray);
+    setMyStockData(myStockArray);
   }, [portfolioStore.allStock]);
 
   return (

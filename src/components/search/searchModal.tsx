@@ -1,7 +1,7 @@
 import { faMagnifyingGlass, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMutation } from '@tanstack/react-query';
-import { useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { getStockData } from '../../api';
 import { myStockState } from '../../recoils/stock';
@@ -13,16 +13,18 @@ import List from '../box/List';
 import Modal from '../layout/modal';
 
 const SearchModal = ({
-  pName,
-  pId,
+  portfolio,
   closeView,
+  setData,
+  refetch,
 }: {
-  pName: string;
-  pId: number;
+  portfolio: MyStock;
+  setData: Dispatch<SetStateAction<MyStock>>;
+  refetch: () => void;
   closeView: () => void;
 }) => {
   const store = stockStore;
-  const getPortfolio = JSON.parse(store.get(pName));
+  const getPortfolio: MyStock = JSON.parse(store.get(portfolio.name));
 
   const [searchResult, setSearchResult] = useState<Stock[]>([]);
   const [view, setView] = useState(0);
@@ -33,8 +35,6 @@ const SearchModal = ({
   const [checked, setChecked] = useState(false);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
-
-  const [myStockData, setMyStockData] = useRecoilState(myStockState);
 
   const { data, mutate } = useMutation<Stock[]>(
     ['search', searchInputRef],
@@ -81,43 +81,36 @@ const SearchModal = ({
 
   const addItem = () => {
     if (searchStockData && stockCount && stockPrice) {
-      store.set(pName, {
-        id: pId,
-        name: pName,
-        holdingStock: [
-          ...getPortfolio.holdingStock,
-          {
-            stockName: searchStockData.itmsNm,
-            code: searchStockData.srtnCd,
-            count: stockCount,
-            purchasePrice: stockPrice.toString(),
-          },
-        ],
-      });
-
-      const newStcokArray: MyStock[] = [];
-      const parseStock: MyStock = JSON.parse(store.get(pName));
-      parseStock.holdingStock.forEach((element) => {
-        myStockData.forEach((stock) => {
-          const stockFind = stock.holdingStock.findIndex(
-            (hStock) =>
-              hStock.stockName === element.stockName &&
-              hStock.code === element.code,
-          );
-          if (stockFind === -1) {
-            newStcokArray.push(parseStock);
-          }
+      const findData = getPortfolio.holdingStock.findIndex(
+        (hStock) => hStock.stockName === searchStockData?.itmsNm,
+      );
+      if (findData === -1) {
+        store.set(portfolio.name, {
+          id: portfolio.id,
+          name: portfolio.name,
+          holdingStock: [
+            ...getPortfolio.holdingStock,
+            {
+              stockName: searchStockData.itmsNm,
+              code: searchStockData.srtnCd,
+              count: stockCount,
+              purchasePrice: stockPrice.toString(),
+            },
+          ],
         });
-      });
-      setMyStockData(newStcokArray);
+        const parseStock: MyStock = JSON.parse(store.get(portfolio.name));
+        return setData(parseStock);
+      }
+      return setData(portfolio);
     }
   };
 
   useEffect(() => {
     if (searchStockData && stockCount && stockPrice) {
       closeView();
+      window.location.reload();
     }
-  }, [myStockData]);
+  }, [portfolio]);
 
   useEffect(() => {
     if (checked && searchStockData) {
