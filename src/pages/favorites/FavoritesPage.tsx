@@ -18,9 +18,18 @@ function FavoritesPage() {
         관심종목
       </h2>
       <div>
-        <List data={['종목코드', '주식명', '종가', '등락률']} />
-        <List data={['005930', '삼성전자dndndn', '1,600,500', '-40.66%']} />
-        <List data={['005930', '삼성전자', '60,500 ', '-0.66%']} />
+        <List
+          cssStyle="bg-secondary border-primary"
+          data={['종목코드', '주식명', '종가', '등락률']}
+        />
+        <List
+          cssStyle="bg-secondary border-primary"
+          data={['005930', '삼성전자dndndn', '1,600,500', '-40.66%']}
+        />
+        <List
+          cssStyle="bg-secondary border-primary"
+          data={['005930', '삼성전자', '60,500 ', '-0.66%']}
+        />
       </div>
       <Button>검색</Button>
     </div>
