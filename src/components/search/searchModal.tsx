@@ -2,9 +2,7 @@ import { faMagnifyingGlass, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMutation } from '@tanstack/react-query';
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
-import { useRecoilState } from 'recoil';
 import { getStockData } from '../../api';
-import { myStockState } from '../../recoils/stock';
 import { Stock } from '../../types/apiType';
 import { MyStock } from '../../types/myStock';
 import { stockStore } from '../../util/stock';
@@ -16,11 +14,9 @@ const SearchModal = ({
   portfolio,
   closeView,
   setData,
-  refetch,
 }: {
   portfolio: MyStock;
   setData: Dispatch<SetStateAction<MyStock>>;
-  refetch: () => void;
   closeView: () => void;
 }) => {
   const store = stockStore;
@@ -28,6 +24,8 @@ const SearchModal = ({
 
   const [searchResult, setSearchResult] = useState<Stock[]>([]);
   const [view, setView] = useState(0);
+
+  const [error, setError] = useState(false);
 
   const [searchStockData, setSearchStockData] = useState<Stock>();
   const [stockCount, setStockCount] = useState<number>();
@@ -101,9 +99,16 @@ const SearchModal = ({
         const parseStock: MyStock = JSON.parse(store.get(portfolio.name));
         return setData(parseStock);
       }
-      return setData(portfolio);
+      return setError(true);
     }
+    return false;
   };
+
+  useEffect(() => {
+    if (!searchStockData) {
+      setError(false);
+    }
+  }, [searchStockData]);
 
   useEffect(() => {
     if (searchStockData && stockCount && stockPrice) {
@@ -193,7 +198,14 @@ const SearchModal = ({
       {view > 0 && (
         <div className="p-[20px]">
           <div className="mb-[10px]">
-            <p className="py-[10px] text-md">주식명</p>
+            <div className="flex">
+              <p className="py-[10px] text-md">주식명</p>
+              {error && (
+                <p className="py-[10px] ml-[30px] text-regular text-minus">
+                  * 이미 보유한 주식입니다
+                </p>
+              )}
+            </div>
             <div className="w-full rounded-lg p-[15px] bg-primary">
               {searchStockData.itmsNm}
             </div>

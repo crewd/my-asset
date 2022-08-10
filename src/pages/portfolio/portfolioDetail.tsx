@@ -1,6 +1,6 @@
 import { faPlus, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { useQueries } from '@tanstack/react-query';
@@ -18,7 +18,7 @@ import { stockCodeSearch } from '../../api';
 import { Stock } from '../../types/apiType';
 
 const PortfolioDetail = () => {
-  const [portfolio, setPortfolio] = useState<MyStock>();
+  const [portfolio, setPortfolio] = useState<MyStock>(null);
   const [totalPrice, setTotalPrice] = useState(0);
   const [purchaseTotalPrice, setPurchaseTotalPrice] = useState(0);
   const [returnRate, setReturnRate] = useState(0);
@@ -59,10 +59,6 @@ const PortfolioDetail = () => {
   });
 
   const allSuccess = results.every((num) => num.isSuccess === true);
-
-  const refetchAll = useCallback(() => {
-    results.forEach((result) => result.refetch());
-  }, [results]);
 
   useEffect(() => {
     if (allSuccess) {
@@ -107,11 +103,10 @@ const PortfolioDetail = () => {
 
   useEffect(() => {
     setChartData([]);
-    setStockApiData([]);
   }, []);
 
   useEffect(() => {
-    if (myStockData) {
+    if (myStockData && id) {
       const portfolioData = myStockData.filter(
         (data) => data.id === Number(id),
       );
@@ -120,7 +115,10 @@ const PortfolioDetail = () => {
   }, [myStockData]);
 
   useEffect(() => {
-    if (!portfolio || !stockApiData) {
+    if (!portfolio) {
+      return;
+    }
+    if (!stockApiData) {
       return;
     }
     let priceSum = 0;
@@ -137,7 +135,10 @@ const PortfolioDetail = () => {
   }, [portfolio, stockApiData]);
 
   useEffect(() => {
-    if (!portfolio || !stockApiData) {
+    if (!portfolio) {
+      return;
+    }
+    if (!stockApiData) {
       return;
     }
     const chartArray: ChartDataType[] = [];
@@ -176,8 +177,6 @@ const PortfolioDetail = () => {
       ((totalPrice - purchaseTotalPrice) / purchaseTotalPrice) * 100,
     );
   }, [purchaseTotalPrice, totalPrice]);
-
-  console.log(portfolio);
 
   return (
     <>
@@ -303,7 +302,6 @@ const PortfolioDetail = () => {
               portfolio={portfolio}
               setData={setPortfolio}
               closeView={closeView}
-              refetch={refetchAll}
             />
           )}
         </div>
