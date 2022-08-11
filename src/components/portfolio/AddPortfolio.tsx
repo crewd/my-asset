@@ -41,6 +41,7 @@ const AddPortfolio = ({ cancel }: { cancel: () => void }) => {
           type="text"
           maxLength={10}
           placeholder="10자 이하"
+          autoFocus
           onChange={onChangeHandler}
         />
       </div>

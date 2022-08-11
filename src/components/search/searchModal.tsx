@@ -163,6 +163,7 @@ const SearchModal = ({
               className="bg-primary px-[10px] outline-none w-full"
               type="text"
               placeholder="주식 검색"
+              autoFocus
               ref={searchInputRef}
               onKeyUp={searchEnterKeyHandler}
             />
@@ -229,6 +230,7 @@ const SearchModal = ({
               className="w-full rounded-lg p-[15px] bg-primary outline-none"
               type="text"
               value={stockCount || ''}
+              autoFocus
               onChange={countHandler}
               pattern="[0-9]+"
               placeholder="숫자만 입력해주세요"

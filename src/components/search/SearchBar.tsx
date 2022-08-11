@@ -61,6 +61,7 @@ const SearchBar = ({
         ref={searchInputRef}
         type="text"
         placeholder="검색"
+        autoFocus
         onKeyUp={searchEnterKeyHandler}
         className="ml-[10px] w-full bg-transparent focus:outline-none"
       />
