@@ -58,12 +58,14 @@ function App() {
       return;
     }
     const myStockArray: MyStock[] = [];
-    for (let i = 1; i < portfolioStore.allStock.length; i++) {
+    for (let i = 0; i < portfolioStore.allStock.length; i++) {
       const key = portfolioStore.allStock.key(i);
       if (!key || !portfolioStore.get(key)) {
         return;
       }
-      myStockArray.push(JSON.parse(portfolioStore.get(key)));
+      if (key !== 'favoriteStocks') {
+        myStockArray.push(JSON.parse(portfolioStore.get(key)));
+      }
     }
     setMyStockData(myStockArray);
   }, [portfolioStore.allStock]);
