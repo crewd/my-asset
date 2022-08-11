@@ -123,8 +123,8 @@ const PortfolioDetail = () => {
 
   const removeHandler = () => {
     store.remove(portfolio.name);
-    setMyStockData(() =>
-      myStockData.filter((data) => data.name !== portfolio.name),
+    setMyStockData((sdata) =>
+      sdata.filter((data) => data.name !== portfolio.name),
     );
   };
 
