@@ -146,6 +146,14 @@ const SearchModal = ({
     }
   }, [view]);
 
+  useEffect(() => {
+    if (!searchStockData) {
+      setStockCount(0);
+      setStockPrice(0);
+      setChecked(false);
+    }
+  }, [searchStockData]);
+
   return (
     <Modal cssStyle="w-[80%]">
       {view === 0 && (
