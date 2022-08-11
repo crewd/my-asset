@@ -413,7 +413,7 @@ const PortfolioDetail = () => {
               </Box>
             )}
           </div>
-          <Button classname="m-[20px]" clickEvent={() => setAddView(true)}>
+          <Button classname="my-[20px]" clickEvent={() => setAddView(true)}>
             <FontAwesomeIcon icon={faPlus} size="lg" />
           </Button>
           {removeConfirm && (
