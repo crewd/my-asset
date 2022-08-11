@@ -3,6 +3,7 @@ import {
   faHeart,
   faCaretDown,
   faCaretUp,
+  faMinus,
 } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
@@ -73,7 +74,11 @@ const StockPage = () => {
                 </div>
                 <div
                   className={`sm:flex items-end ${
-                    Number(element.vs) > 0 ? 'text-plus' : 'text-minus'
+                    Number(element.vs) > 0
+                      ? 'text-plus'
+                      : Number(element.vs) < 0
+                      ? 'text-minus'
+                      : null
                   }`}
                 >
                   <span className="mx-1 sm:text-md">
@@ -82,9 +87,12 @@ const StockPage = () => {
                   <span className="mx-1 text-sm">
                     {Number(element.vs) > 0 ? (
                       <FontAwesomeIcon icon={faCaretUp} />
-                    ) : (
+                    ) : Number(element.vs) < 0 ? (
                       <FontAwesomeIcon icon={faCaretDown} />
+                    ) : (
+                      <FontAwesomeIcon icon={faMinus} size="sm" />
                     )}
+                    &nbsp;
                     {Number(element.vs).toLocaleString()}
                   </span>
                   <span className="mx-1 text-sm">
