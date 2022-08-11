@@ -141,6 +141,7 @@ const MainPage: React.FC = () => {
                 <button
                   className="bg-slate-500 w-[70px] h-[70px] rounded-full shadow-lg"
                   type="button"
+                  onClick={() => navigate('/portfolio')}
                 >
                   <FontAwesomeIcon
                     className="text-secondary shadow-inner"
