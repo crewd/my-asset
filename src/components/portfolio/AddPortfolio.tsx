@@ -53,7 +53,7 @@ const AddPortfolio = ({ cancel }: { cancel: () => void }) => {
           닫기
         </button>
         <button
-          className="bg-secondray w-[100px] h-[50px] mx-[10px] rounded-md border-2 border-[#3c5069] hover:bg-[#3c5069] shadow-xl"
+          className="bg-secondray w-[100px] h-[50px] mx-[10px] rounded-md border-2 border-[#3c5069] hover:bg-plus shadow-xl"
           type="button"
           onClick={addHandler}
         >
