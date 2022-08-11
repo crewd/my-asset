@@ -3,11 +3,11 @@
 <img src="https://img.shields.io/badge/react-61DAFB?style=flat&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/typescript-3178C6?style=flat&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/react qeury-FF4154?style=flat&logo=reactquery&logoColor=black"> <img src="https://img.shields.io/badge/tailwind css-06B6D4?style=flat&logo=tailwindcss&logoColor=white"> <img src="https://img.shields.io/badge/netlify-00C7B7?style=flat&logo=netlify&logoColor=black">
 
 ## 🤝**Team**
-- ## Member
+- **Member**
   - [류창천](https://github.com/crewd)
   - [장지원](https://github.com/charade6)
 
-- ## Tool
+- **Tool**
   - [Notion](https://hungry-legal-86b.notion.site/3509228a7bb249bc94fe81608b1cc78b)
   - [GitHub](https://github.com/crewd/my-asset)
   - Slack
