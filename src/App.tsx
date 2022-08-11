@@ -18,9 +18,11 @@ function App() {
   const setStockData = useSetRecoilState(stockState);
   const [myStockData, setMyStockData] = useRecoilState(myStockState);
 
-  if (localStorage.favoriteStocks === undefined) {
-    localStorage.setItem('favoriteStocks', JSON.stringify([]));
-  }
+  useEffect(() => {
+    if (localStorage.favoriteStocks === undefined) {
+      localStorage.setItem('favoriteStocks', JSON.stringify([]));
+    }
+  }, []);
 
   const portfolioStore = stockStore;
 
