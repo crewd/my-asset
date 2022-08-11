@@ -3,6 +3,7 @@ import {
   faHeart,
   faCaretDown,
   faCaretUp,
+  faMinus,
 } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
@@ -13,6 +14,7 @@ import { stockCodeSearch } from '../../api';
 import MyResponsiveLine from '../../components/detail/MyResponsiveLine';
 import useTitle from '../../hooks/useTitle';
 import { LineChartDataType } from '../../types/chart';
+import { favStockStore } from '../../util/favoriteStock';
 
 const StockPage = () => {
   const { srtnCd } = useParams();
@@ -21,12 +23,24 @@ const StockPage = () => {
     stockCodeSearch(srtnCd),
   );
   const [chartData, setChartData] = useState<LineChartDataType[]>();
+  const [addBtn, setBtnStyle] = useState<boolean>(false);
+  const store = favStockStore;
 
   const latestDate = Math.max(
     ...(data?.map((e) => Number(e.basDt)) || []),
   ).toString();
 
   const latestData = data?.filter((date) => date.basDt === latestDate);
+
+  const HandleChangeFav = () => {
+    if (store.get().includes(latestData[0].srtnCd)) {
+      setBtnStyle(false);
+      store.set(store.get().filter((e: string) => e !== latestData[0].srtnCd));
+    } else {
+      setBtnStyle(true);
+      store.set([...new Set(store.get() as string), latestData[0].srtnCd]);
+    }
+  };
 
   useEffect(() => {
     if (status === 'loading') {
@@ -49,6 +63,15 @@ const StockPage = () => {
     }
   }, [status]);
 
+  useEffect(() => {
+    if (!latestData) {
+      return;
+    }
+    if (store.get().includes(latestData[0].srtnCd)) {
+      setBtnStyle(true);
+    }
+  }, [latestData]);
+
   return (
     <div className="m-auto w-[100%] sm:w-[600px]">
       {latestData &&
@@ -57,11 +80,19 @@ const StockPage = () => {
             <div className="sm:flex items-end justify-between mb-3 text-right px-2">
               <div className="flex justify-between sm:justify-start">
                 <div className="flex items-center sm:mr-2 m-0">
-                  <button type="button" className="mr-3 h-[24px]">
+                  <button
+                    type="button"
+                    className="mr-3 h-[24px] text-xl"
+                    onClick={HandleChangeFav}
+                  >
                     <FontAwesomeIcon
                       icon={faHeart}
                       size="lg"
-                      className="stroke-white stroke-[60px] bg-transparent text-transparent"
+                      className={
+                        addBtn
+                          ? `text-red-500 transition duration-500`
+                          : `stroke-white stroke-[60px] text-transparent transition duration-500`
+                      }
                     />
                   </button>
                   <div className="text-left">
@@ -73,7 +104,11 @@ const StockPage = () => {
                 </div>
                 <div
                   className={`sm:flex items-end ${
-                    Number(element.vs) > 0 ? 'text-plus' : 'text-minus'
+                    Number(element.vs) > 0
+                      ? 'text-plus'
+                      : Number(element.vs) < 0
+                      ? 'text-minus'
+                      : null
                   }`}
                 >
                   <span className="mx-1 sm:text-md">
@@ -82,9 +117,12 @@ const StockPage = () => {
                   <span className="mx-1 text-sm">
                     {Number(element.vs) > 0 ? (
                       <FontAwesomeIcon icon={faCaretUp} />
-                    ) : (
+                    ) : Number(element.vs) < 0 ? (
                       <FontAwesomeIcon icon={faCaretDown} />
+                    ) : (
+                      <FontAwesomeIcon icon={faMinus} size="sm" />
                     )}
+                    &nbsp;
                     {Number(element.vs).toLocaleString()}
                   </span>
                   <span className="mx-1 text-sm">
@@ -167,7 +205,7 @@ const StockPage = () => {
 
       <div>
         <h2 className="text-md sm:text-lg mb-3">차트</h2>
-        <Box classname="rounded-xl h-[350px] p-[25px] sm:p-[30px] flex overflow-hidden text-white">
+        <Box classname="rounded-xl h-[350px] p-[25px] sm:p-[30px] flex text-white">
           {chartData && <MyResponsiveLine data={chartData} />}
         </Box>
       </div>

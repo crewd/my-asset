@@ -18,6 +18,10 @@ function App() {
   const setStockData = useSetRecoilState(stockState);
   const [myStockData, setMyStockData] = useRecoilState(myStockState);
 
+  if (localStorage.favoriteStocks === undefined) {
+    localStorage.setItem('favoriteStocks', JSON.stringify([]));
+  }
+
   const portfolioStore = stockStore;
 
   const myStockCodes: string[] = [];
@@ -50,11 +54,11 @@ function App() {
   }, [allSuccess]);
 
   useEffect(() => {
-    if (!portfolioStore.allStock) {
+    if (portfolioStore.allStock.length < 2) {
       return;
     }
     const myStockArray: MyStock[] = [];
-    for (let i = 0; i < portfolioStore.allStock.length; i++) {
+    for (let i = 1; i < portfolioStore.allStock.length; i++) {
       const key = portfolioStore.allStock.key(i);
       if (!key || !portfolioStore.get(key)) {
         return;

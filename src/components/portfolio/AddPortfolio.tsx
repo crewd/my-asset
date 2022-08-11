@@ -19,7 +19,7 @@ const AddPortfolio = ({ cancel }: { cancel: () => void }) => {
       return;
     }
     stockStore.set(inputValue, {
-      id: store.allStock.length + 1,
+      id: store.allStock.length,
       name: inputValue,
       holdingStock: [],
     });

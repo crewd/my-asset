@@ -6,7 +6,7 @@ import { LineChartDataType } from '../../types/chart';
 const MyResponsiveLine = ({ data }: { data: LineChartDataType[] }) => (
   <ResponsiveLine
     data={data}
-    margin={{ top: 15, right: 25, bottom: 30, left: 40 }}
+    margin={{ top: 15, right: 15, bottom: 30, left: 40 }}
     xScale={{ type: 'point' }}
     yScale={{
       type: 'linear',
