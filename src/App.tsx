@@ -18,9 +18,11 @@ function App() {
   const setStockData = useSetRecoilState(stockState);
   const [myStockData, setMyStockData] = useRecoilState(myStockState);
 
-  if (localStorage.favoriteStocks === undefined) {
-    localStorage.setItem('favoriteStocks', JSON.stringify([]));
-  }
+  // useEffect(() => {
+  //   if (localStorage.favoriteStocks === undefined) {
+  //     localStorage.setItem('favoriteStocks', JSON.stringify([]));
+  //   }
+  // }, []);
 
   const portfolioStore = stockStore;
 
@@ -60,12 +62,15 @@ function App() {
     const myStockArray: MyStock[] = [];
     for (let i = 1; i < portfolioStore.allStock.length; i++) {
       const key = portfolioStore.allStock.key(i);
-      if (!key || !portfolioStore.get(key) || key === 'favoriteStocks') {
+      if (
+        !portfolioStore.get(key) ||
+        portfolioStore.allStock.key(i) === 'favoriteStocks'
+      ) {
         return;
       }
       myStockArray.push(JSON.parse(portfolioStore.get(key)));
     }
-    setMyStockData(myStockArray);
+    setMyStockData(myStockArray.sort());
   }, [portfolioStore.allStock]);
 
   return (
